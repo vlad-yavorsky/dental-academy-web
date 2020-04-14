@@ -69,7 +69,7 @@ public class OfferingService {
         Offering offering = offeringRepository.findByIdIfAvailableForPurchase(id, now)
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.OFFERING_NOT_FOUND, id));
         User user = userService.findByEmail(userEmail);
-        purchaseDataService.create(PurchaseData.of(offering, user, now, now.plusMonths(offering.getTerm()), offering.getPrice()));
+        purchaseDataService.create(PurchaseData.of(offering, user, now, now.plusMonths(offering.getTerm()), offering.getPrice(), offering.getDiscount()));
     }
 
     public void activateOffering(Long id) {

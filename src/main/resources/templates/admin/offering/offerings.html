@@ -35,7 +35,11 @@
                 <tr th:each="offering: ${offerings}">
                     <td th:text="${offering.name}"></td>
                     <td th:text="${offering.type}"></td>
-                    <td th:text="${offering.price}"></td>
+                    <td>
+                        <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
+                        <br/><span th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
+                        <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
+                    </td>
                     <td th:text="${offering.term}"></td>
                     <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></td>

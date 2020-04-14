@@ -135,7 +135,7 @@
         </button>
         <h5 th:text="#{error}"></h5>
         <div th:each="error : ${errors}">
-            <div><span th:text="#{field}"></span> <strong th:text="${error.getField()}"></strong> <span th:text="#{${error.code}}"></span></div>
+            <div><span th:text="#{field}"></span> <strong th:text="${error.field}"></strong> <span th:text="${error.defaultMessage}"></span></div>
         </div>
     </div>
 </div>

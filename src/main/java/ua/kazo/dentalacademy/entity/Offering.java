@@ -35,6 +35,8 @@ public class Offering extends TrackedDateEntity implements Serializable {
 
     private BigDecimal price;
 
+    private Byte discount;
+
     private byte term;
 
     private LocalDateTime activated;

@@ -291,6 +291,9 @@ databaseChangeLog:
                     nullable: false
                   name: term
                   type: TINYINT
+              - column:
+                  name: discount
+                  type: TINYINT
 
         - addUniqueConstraint:
             columnNames: name, type

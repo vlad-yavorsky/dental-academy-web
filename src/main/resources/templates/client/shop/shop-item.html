@@ -50,7 +50,11 @@
                             <li th:each="folder: ${offering.folders}" th:text="${folder.name}"></li>
                         </ul>
                     </td>
-                    <td th:text="${'$' + offering.price}"></td>
+                    <td>
+                        <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
+                        <br/><span th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
+                        <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
+                    </td>
                     <td th:text="${offering.term}"></td>
                     <td>
                         <a th:if="${offering.activated < now}" th:href="@{'/buy/offering/' + ${offering.id}}" class="btn btn-success">Buy</a>

@@ -5,10 +5,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +22,9 @@ public class OfferingUpdateDto {
     private OfferingType type;
     @Positive
     private BigDecimal price;
+    @Min(1)
+    @Max(99)
+    private Byte discount;
     @Positive
     private byte term;
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")

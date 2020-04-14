@@ -19,6 +19,8 @@ public class OfferingFullResponseDto {
     private String description;
     private OfferingType type;
     private BigDecimal price;
+    private Byte discount;
+    private BigDecimal discountPrice;
     private byte term;
     private LocalDateTime activated;
     private LocalDateTime deactivated;
