@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head (title)" th:remove="tag">
+    <title th:text="${title} + ' - ' + #{sitename}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-select/1.13.11/css/bootstrap-select.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/air-datepicker/2.2.3/css/datepicker.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/1.14.3/umd/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap-select/1.13.11/js/bootstrap-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/tinymce/5.0.9/tinymce.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/Sortable/Sortable.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/jquery-sortable/js/jquery-sortable.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/air-datepicker/2.2.3/js/datepicker.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/settings.js}"></script>
+</head>
+<body>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}" th:text="#{sitename}"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" sec:authorize="isAuthenticated()">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/}"><i class="fas fa-book fa-fw"></i>  <span th:text="#{nav.myPrograms}"></span></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/bonuses' ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/bonuses}"><i class="fas fa-gift fa-fw"></i>  <span th:text="#{nav.myBonuses}"></span></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/shop' ? 'active' : ''}">
+                        <a class="nav-link" th:href="@{/shop}"><i class="fas fa-shopping-basket fa-fw"></i> <span th:text="#{nav.shop}"></span></a>
+                    </li>
+
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-shield-alt fa-fw"></i> <span th:text="#{nav.admin}"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"
+                               th:href="@{/admin/programs}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/programs' ? 'active' : ''}">
+                                <i class="fas fa-book fa-fw"></i> <span th:text="#{nav.programs}"></span>
+                            </a>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/program/add}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/program/add' ? 'active' : ''}">
+                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addProgram}"></span>
+                            </a>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/folder/add?category=MODULE}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/folder/add' ? 'active' : ''}">
+                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addModule}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/offerings}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/offerings' ? 'active' : ''}">
+                                <i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{nav.offerings}"></span>
+                            </a>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/offering/add}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/offering/add' ? 'active' : ''}">
+                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/bonuses}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/bonuses' ? 'active' : ''}">
+                                <i class="fas fa-gift fa-fw"></i> <span th:text="#{nav.bonuses}"></span>
+                            </a>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/folder/add?category=BONUS}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/folder/add' ? 'active' : ''}">
+                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{add.bonus}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/users}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/users' ? 'active' : ''}">
+                                <i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               th:href="@{/admin/events}"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/admin/events' ? 'active' : ''}">
+                                <i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <i class="fa fa-user fa-fw"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:classappend="${#httpServletRequest.getRequestURI() == '/profile' ? 'active' : ''}" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
+                            <a class="dropdown-item" th:classappend="${#httpServletRequest.getRequestURI() == '/purchases' ? 'active' : ''}" th:href="@{/purchases}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.purchaseData}"></span></a>
+                            <a class="dropdown-item" th:classappend="${#httpServletRequest.getRequestURI() == '/profile/password' ? 'active' : ''}" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
+                            <form method="post" th:action="@{/logout}">
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-fw"></i> <span th:text="#{nav.logout}"></span></button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+<!--                <form class="form-row mr-2" th:action="@{/administrator/international}" method="get">-->
+<!--                    <div class="col-auto">-->
+<!--                        <label class="sr-only" for="lang" th:text="#{lang.select}"></label>-->
+<!--                        <select id="lang" name="lang" class="custom-select" onchange="this.form.submit()">-->
+<!--                            <option th:text="#{lang.select}"></option>-->
+<!--                            <option value="en" th:text="#{lang.en}"></option>-->
+<!--                            <option value="uk" th:text="#{lang.uk}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </form>-->
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div th:fragment="alert-errors (errors)">
+    <div class="alert alert-danger" th:if="${errors}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 th:text="#{error}"></h5>
+        <div th:each="error : ${errors}">
+            <div><span th:text="#{field}"></span> <strong th:text="${error.getField()}"></strong> <span th:text="#{${error.code}}"></span></div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="alert-success (success)">
+    <div class="alert alert-success" th:if="${success}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span th:text="#{${success}}"></span>
+    </div>
+</div>
+
+<div th:fragment="alert-exception (exception)">
+    <div class="alert alert-danger" th:if="${exception}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <span th:text="${exception}"></span>
+    </div>
+</div>
+
+<footer th:fragment="footer">
+    <div class="bg-dark text-white">
+        <div class="container text-center pt-4 pb-3">
+            <div class="pb-3 text-white"><i class="fab "></i>
+                <a href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube text-white fa-2x ml-4 mr-4"></i></a>
+                <a href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram text-white fa-2x ml-4 mr-4"></i></a>
+<!--                <a href="#"><i class="fab fa-facebook-f text-white fa-2x mr-5"></i></a>-->
+<!--                <a href="#"><i class="fab fa-twitter text-white fa-2x mr-5"></i></a>-->
+<!--                <a href="#"><i class="fab fa-linkedin-in text-white fa-2x mr-5"></i></a>-->
+<!--                <a href="#"><i class="fab fa-telegram-plane text-white fa-2x"></i></a>-->
+            </div>
+            <div th:text="'&copy; 2020 ' + #{sitename}"></div>
+        </div>
+    </div>
+</footer>
+
+<!--<div th:fragment="modal">-->
+<!--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="modalLabel"></h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="modal-body"></div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <form th:action="@{/grounds/remove}" method="post">-->
+<!--                        <input type="hidden" name="id" id="removeFormGroundId" value="">-->
+<!--                        <button type="button" class="btn btn-danger" onclick="this.form.submit()" th:text="#{ground.remove}"></button>-->
+<!--                    </form>-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{ground.cancel}"></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <script type="text/javascript" th:src="@{/js/groundManageButtons.js}"></script>-->
+<!--</div>-->
+
+</body>
+</html>

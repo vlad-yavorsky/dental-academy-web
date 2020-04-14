@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.users})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.users}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{user.created}"></th>
+                    <th th:text="#{user.email}"></th>
+                    <th th:text="#{user.firstName}"></th>
+                    <th th:text="#{user.lastName}"></th>
+                    <th th:text="#{user.mobile}"></th>
+                    <th th:text="#{user.birthday}"></th>
+                    <th th:text="#{user.enabled}"></th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${users}">
+                    <td th:text="${#temporals.format(user.created, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.mobile}"></td>
+                    <td th:text="${user.birthday}"></td>
+                    <td th:text="${user.enabled}"></td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{'/admin/user/edit/' + ${user.id}}" title="Edit User" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{'/admin/user/delete/' + ${user.id}}" title="Deactivate User" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

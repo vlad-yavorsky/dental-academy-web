@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.myPrograms})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.myPrograms}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card text-center" th:if="${programs.isEmpty()}">
+                <div class="card-body">
+                    <h5 class="card-title">You don't have purchases</h5>
+                    <p class="card-text">See list of available programs for purchase</p>
+                    <a th:href="@{/shop}" class="btn btn-primary">Go to shop</a>
+                </div>
+            </div>
+            <div class="card-columns" th:if="${programs.size() > 0}">
+                <div class="card text-center" th:each="program: ${programs}">
+                    <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${program.name}"></h5>
+                        <div class="card-text">
+                            <p th:utext="${program.description}"></p>
+<!--                            <p><strong>Purchased:</strong> <span th:text="${#temporals.format(program.purchased, 'dd.MM.yyyy HH:mm')}"></span></p>-->
+<!--                            <p><strong>Will expire:</strong> <span th:text="${#temporals.format(program.expired, 'dd.MM.yyyy HH:mm')}"></span></p>-->
+<!--                            <p><strong>Progress:</strong> 25% completed</p>-->
+                        </div>
+<!--                        <div class="progress ">-->
+<!--                            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 25%;"></div>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+                        <a th:href="@{'/program/' + ${program.id}}" class="btn btn-primary">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

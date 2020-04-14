@@ -1,0 +1,32 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  jackson:
+    default-property-inclusion: NON_NULL
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/dental-academy}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        jdbc.lob.non_contextual_creation: true
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  thymeleaf:
+    cache: false # enable hot swap for thymeleaf html files
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace

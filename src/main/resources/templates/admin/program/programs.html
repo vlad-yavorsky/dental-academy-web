@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.programs})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.programs}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th style="width: 1%;" th:text="#{program.image}"></th>
+                    <th th:text="#{program.name}"></th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="program: ${programs}">
+                    <td><img class="rounded" style="max-width: 100px;" th:if="${program.image}" th:src="${program.image}"></td>
+                    <td th:text="${program.name}"></td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{'/admin/folder/add?programId=' + ${program.id}}" title="Add Folder" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
+                            <a th:href="@{'/admin/program/edit/' + ${program.id}}" title="Edit Program" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{'/admin/program/delete/' + ${program.id}}" title="Delete Program" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

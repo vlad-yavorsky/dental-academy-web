@@ -1,0 +1,185 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.2
+      author: vyavorskyi
+      changes:
+
+        - insert:
+            tableName: folder_item_type
+            columns:
+              - column:
+                  name: name
+                  value: YOUTUBE
+              - column:
+                  name: description
+                  value: YouTube
+
+        - insert:
+            tableName: folder_item_type
+            columns:
+              - column:
+                  name: name
+                  value: PDF
+              - column:
+                  name: description
+                  value: Pdf File
+
+        - insert:
+            tableName: folder_item_type
+            columns:
+              - column:
+                  name: name
+                  value: LINK
+              - column:
+                  name: description
+                  value: Link to website
+
+        - insert:
+            tableName: folder_category
+            columns:
+              - column:
+                  name: name
+                  value: MODULE
+              - column:
+                  name: description
+                  value: Module
+
+        - insert:
+            tableName: folder_category
+            columns:
+              - column:
+                  name: name
+                  value: QA
+              - column:
+                  name: description
+                  value: Questions and Answers
+
+        - insert:
+            tableName: folder_category
+            columns:
+              - column:
+                  name: name
+                  value: BONUS
+              - column:
+                  name: description
+                  value: Bonus
+
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: USER
+
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  valueComputed: nextval('user_id_seq')
+              - column:
+                  name: email
+                  value: admin@example.com
+              - column:
+                  name: password
+                  value: $2a$10$sbMBi/w7EM1DBEwQDNBjYuob8393PAlmfQ0dMiu7c8rC0MrCdemoi
+              - column:
+                  name: enabled
+                  value: true
+              - column:
+                  name: first_name
+                  value: admin
+              - column:
+                  name: last_name
+                  value: admin
+              - column:
+                  name: mobile
+                  value: +380123456789
+              - column:
+                  name: birthday
+                  value: '1990-01-01'
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM public.user WHERE email = 'admin@example.com')
+              - column:
+                  name: role
+                  value: ADMIN
+
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  valueComputed: nextval('user_id_seq')
+              - column:
+                  name: email
+                  value: user@example.com
+              - column:
+                  name: password
+                  value: $2a$10$PRvsWm9trJR4518BTjLYwOLgLp7y02H3Fr/DTUlEPWvwNz96h4JL6
+              - column:
+                  name: enabled
+                  value: true
+              - column:
+                  name: first_name
+                  value: user
+              - column:
+                  name: last_name
+                  value: user
+              - column:
+                  name: mobile
+                  value: +380123456789
+              - column:
+                  name: birthday
+                  value: '1990-01-01'
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM public.user WHERE email = 'user@example.com')
+              - column:
+                  name: role
+                  value: USER
+
+        - insert:
+            tableName: offering_type
+            columns:
+              - column:
+                  name: name
+                  value: STANDARD
+              - column:
+                  name: description
+                  value: Standard package
+
+        - insert:
+            tableName: offering_type
+            columns:
+              - column:
+                  name: name
+                  value: BUSINESS
+              - column:
+                  name: description
+                  value: Business package
+
+        - insert:
+            tableName: offering_type
+            columns:
+              - column:
+                  name: name
+                  value: VIP
+              - column:
+                  name: description
+                  value: VIP package

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.events})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.events}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{event.image}" style="width: 1%;"></th>
+                    <th th:text="#{event.date}"></th>
+                    <th th:text="#{event.name}"></th>
+<!--                    <th th:text="#{event.description}"></th>-->
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event: ${events}">
+                    <td><img class="rounded" style="max-width: 100px;" th:if="${event.image}" th:src="${event.image}"></td>
+                    <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${event.name}"></td>
+<!--                    <td th:text="${event.description}"></td>-->
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{'/admin/event/edit/' + ${event.id}}" title="Edit Event" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{'/admin/event/delete/' + ${event.id}}" title="Deactivate Event" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

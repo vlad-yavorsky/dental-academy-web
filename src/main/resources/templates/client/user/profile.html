@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.profile})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.profile}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="post" th:action="@{/profile}" th:object="${user}" enctype="multipart/form-data">
+                <input type="hidden" class="form-control" th:field="*{id}"/>
+                <div class="form-group row">
+                    <label for="firstName" class="col-2 col-form-label" th:text="#{user.firstName}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" maxlength="50"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="lastName" class="col-2 col-form-label" th:text="#{user.lastName}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" maxlength="50"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-2 col-form-label" th:text="#{user.email}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="email" th:field="*{email}" maxlength="50"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="mobile" class="col-2 col-form-label" th:text="#{user.mobile}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="mobile" th:field="*{mobile}" maxlength="30"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="birthday" class="col-2 col-form-label" th:text="#{user.birthday}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control air-datepicker" id="birthday" th:field="*{birthday}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> <span th:text="#{save}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{/}"><i class="fas fa-window-close"></i> <span th:text="#{cancel}"></span></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

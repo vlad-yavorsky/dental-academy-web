@@ -1,0 +1,452 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0.0.1
+      author: vyavorskyi
+      changes:
+
+        # sequences
+        - createSequence:
+            sequenceName: user_id_seq
+
+        - createSequence:
+            sequenceName: program_id_seq
+
+        - createSequence:
+            sequenceName: folder_id_seq
+
+        - createSequence:
+            sequenceName: folder_item_id_seq
+
+        - createSequence:
+            sequenceName: offering_id_seq
+
+        - createSequence:
+            sequenceName: event_id_seq
+
+        # tables
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: role_pk
+                  name: name
+                  type: VARCHAR(20)
+
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pk
+                  defaultValueComputed: nextval('user_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: user_email_uindex
+                  name: email
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: password
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: enabled
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: first_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: mobile
+                  type: VARCHAR(30)
+              - column:
+                  name: birthday
+                  type: DATE
+
+        - createTable:
+            tableName: program
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: program_pk
+                  defaultValueComputed: nextval('program_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: program_name_uindex
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  name: description
+                  type: VARCHAR(2000)
+              - column:
+                  name: image
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+
+        - createTable:
+            tableName: folder_item_type
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: folder_item_type_pk
+                  name: name
+                  type: VARCHAR(20)
+              - column:
+                  name: description
+                  type: VARCHAR(250)
+
+        - createTable:
+            tableName: folder_category
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: folder_category_pk
+                  name: name
+                  type: VARCHAR(20)
+              - column:
+                  name: description
+                  type: VARCHAR(250)
+
+        - createTable:
+            tableName: folder
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: folder_pk
+                  defaultValueComputed: nextval('folder_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  name: description
+                  type: VARCHAR(2000)
+              - column:
+                  name: image
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: folder_category_fk
+                    referencedTableName: folder_category
+                    referencedColumnNames: name
+                  name: category
+                  type: VARCHAR(20)
+
+        - createTable:
+            tableName: folder_item
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: folder_item_pk
+                  defaultValueComputed: nextval('folder_item_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: link
+                  type: VARCHAR(250)
+              - column:
+                  name: image
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: folder_item_type_fk
+                    referencedTableName: folder_item_type
+                    referencedColumnNames: name
+                  name: type
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: folder_item_folder_id_fk
+                    referencedTableName: folder
+                    referencedColumnNames: id
+                  name: folder_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  name: ordering
+                  type: INT
+
+        - createTable:
+            tableName: offering_type
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_type_pk
+                  name: name
+                  type: VARCHAR(20)
+              - column:
+                  name: description
+                  type: VARCHAR(250)
+
+        - createTable:
+            tableName: offering
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_pk
+                  defaultValueComputed: nextval('offering_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  name: description
+                  type: VARCHAR(2000)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: offering_offering_type_name_fk
+                    referencedTableName: offering_type
+                    referencedColumnNames: name
+                  name: type
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: activated
+                  type: TIMESTAMP
+              - column:
+                  name: deactivated
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: NUMBER(6,2)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: term
+                  type: TINYINT
+
+        - addUniqueConstraint:
+            columnNames: name, type
+            constraintName: offering_name_type_uindex
+            tableName: offering
+
+        - createTable:
+            tableName: event
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: event_pk
+                  defaultValueComputed: nextval('event_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: event_name_uindex
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  name: description
+                  type: VARCHAR(2000)
+              - column:
+                  name: image
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  name: date
+                  type: TIMESTAMP
+
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_role_pk
+                    foreignKeyName: user_role_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_role_pk
+                    foreignKeyName: user_role_role_name_fk
+                    referencedTableName: role
+                    referencedColumnNames: name
+                  name: role
+                  type: VARCHAR(255)
+
+        - createTable:
+            tableName: purchase_data
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: purchase_data_pk
+                    foreignKeyName: purchase_data_offering_id_fk
+                    referencedTableName: offering
+                    referencedColumnNames: id
+                  name: offering_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: purchase_data_pk
+                    foreignKeyName: purchase_data_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: purchased
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: NUMBER(6,2)
+
+        - createTable:
+            tableName: offering_program
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_program_pk
+                    foreignKeyName: offering_program_offering_id_fk
+                    referencedTableName: offering
+                    referencedColumnNames: id
+                  name: offering_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_program_pk
+                    foreignKeyName: offering_program_program_id_fk
+                    referencedTableName: program
+                    referencedColumnNames: id
+                  name: program_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: offering_folder
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_folder_pk
+                    foreignKeyName: offering_folder_offering_id_fk
+                    referencedTableName: offering
+                    referencedColumnNames: id
+                  name: offering_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: offering_folder_pk
+                    foreignKeyName: offering_folder_folder_id_fk
+                    referencedTableName: folder
+                    referencedColumnNames: id
+                  name: folder_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: program_folder
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: program_folder_pk
+                    foreignKeyName: program_folder_program_id_fk
+                    referencedTableName: program
+                    referencedColumnNames: id
+                  name: program_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: program_folder_pk
+                    foreignKeyName: program_folder_folder_id_fk
+                    referencedTableName: folder
+                    referencedColumnNames: id
+                  name: folder_id
+                  type: BIGINT

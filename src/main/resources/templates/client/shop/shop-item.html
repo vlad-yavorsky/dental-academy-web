@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.buy})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4">
+        <span th:text="#{nav.buy}"></span> <span th:text="${program.name}"></span>
+    </h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <p class="font-weight-bold">Description:</p>
+            <p th:utext="${program.description}"></p>
+            <p class="font-weight-bold">Offerings:</p>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{offering.name}"></th>
+                    <th th:text="#{offering.package}">
+                    <th th:text="Programs">
+                    <th th:text="Bonuses">
+                    <th th:text="#{offering.price}"></th>
+                    <th th:text="#{offering.term}"></th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offering : ${offerings}">
+                    <td th:text="${offering.name}"></td>
+                    <td th:text="${offering.type}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="program: ${offering.programs}" th:text="${program.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:if="${!offering.folders.isEmpty()}">
+                            <li th:each="folder: ${offering.folders}" th:text="${folder.name}"></li>
+                        </ul>
+                    </td>
+                    <td th:text="${'$' + offering.price}"></td>
+                    <td th:text="${offering.term}"></td>
+                    <td>
+                        <a th:if="${offering.activated < now}" th:href="@{'/buy/offering/' + ${offering.id}}" class="btn btn-success">Buy</a>
+                        <span th:unless="${offering.activated < now}" th:text="'Will be active: ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (${program.name})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="${program.name}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <p th:utext="${program.description}"></p>
+
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item" th:if="${isModulesExist}">
+                            <a class="nav-link"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/program/' + program.id + '/modules'} ? 'active' : ''"
+                               th:href="@{'/program/' + ${program.id} + '/modules'}">Modules</a>
+                        </li>
+                        <li class="nav-item" th:if="${isQaExist}">
+                            <a class="nav-link"
+                               th:classappend="${#httpServletRequest.getRequestURI() == '/program/' + program.id + '/qa'} ? 'active' : ''"
+                               th:href="@{'/program/' + ${program.id} + '/qa'}">Q&A</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div th:each="folder,iter: ${program.folders}">
+                        <div class="row">
+                            <div class="col-4 col-md-3 col-lg-2">
+                                <img class="card-img-top" th:if="${folder.image}" th:src="${folder.image}"/>
+                            </div>
+                            <div class="col-8 col-md-9 col-lg-10">
+                                <h4 th:text="${folder.name}"></h4>
+                                <p th:utext="${folder.description}"></p>
+                                <a th:href="@{'/program/' + ${program.id} + '/folder/' + ${folder.id}}" class="btn btn-primary">Learn</a>
+                            </div>
+                        </div>
+                        <hr th:if="${__${iter.index}__ < program.folders.size() - 1}"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

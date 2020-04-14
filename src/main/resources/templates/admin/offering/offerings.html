@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.offerings})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.offerings}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{offering.name}"></th>
+                    <th th:text="#{offering.package}"></th>
+                    <th th:text="#{offering.price}"></th>
+                    <th th:text="#{offering.term}"></th>
+                    <th th:text="#{offering.activated}"></th>
+                    <th th:text="#{offering.deactivated}"></th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="offering: ${offerings}">
+                    <td th:text="${offering.name}"></td>
+                    <td th:text="${offering.type}"></td>
+                    <td th:text="${offering.price}"></td>
+                    <td th:text="${offering.term}"></td>
+                    <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{'/admin/offering/edit/' + ${offering.id}}" class="btn btn-primary" title="Edit"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:if="${offering.deactivated == null or offering.deactivated > now}" th:href="@{'/admin/offering/deactivate/' + ${offering.id}}" class="btn btn-warning" title="Deactivate"><i class="fas fa-stop-circle fa-fw"></i></a>
+                            <a th:unless="${offering.deactivated == null or offering.deactivated > now}" th:href="@{'/admin/offering/activate/' + ${offering.id}}" class="btn btn-success" title="Activate"><i class="fas fa-play-circle fa-fw"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

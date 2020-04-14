@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.editProgram})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.editProgram}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="post" th:object="${program}" th:action="@{'/admin/program/edit/' + ${program.id}}">
+                <h3>Main info</h3>
+
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group row required">
+                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="#{program.name}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control form-control-sm" id="name" th:field="*{name}" maxlength="250" required/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="image" class="col-2 col-form-label col-form-label-sm" th:text="#{program.image}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control form-control-sm" id="image" th:field="*{image}" maxlength="250"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-2 col-form-label col-form-label-sm" th:text="#{program.description}"></label>
+                    <div class="col-10">
+                        <textarea class="form-control form-control-sm" id="description" th:field="*{description}" maxlength="2000"></textarea>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <h3>Folders</h3>
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th style="width: 1%;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="folder: ${folders}">
+                        <td th:text="${folder.name}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{'/admin/folder/edit/' + ${folder.id}}"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{'/admin/folder/add?programId=' + ${program.id} + '&category=MODULE'}"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{add.folder}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <h3>Offerings</h3>
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Term</th>
+                        <th style="width: 1%;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="offering: ${offerings}">
+                        <td th:text="${offering.name}"></td>
+                        <td th:text="${offering.price}"></td>
+                        <td th:text="${offering.term}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{'/admin/offering/edit/' + ${offering.id}}"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{'/admin/offering/add?programId=' + ${program.id}}"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <div class="form-group row">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{save}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{cancel}"></span></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

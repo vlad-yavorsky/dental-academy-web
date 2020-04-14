@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.bonuses})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.bonuses}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{bonus.image}" style="width: 1%;"></th>
+                    <th th:text="#{bonus.name}"></th>
+                    <th style="width: 1%;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bonus: ${bonuses}">
+                    <td><img class="rounded" style="max-width: 100px;" th:if="${bonus.image}" th:src="${bonus.image}"></td>
+                    <td th:text="${bonus.name}"></td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{'/admin/folder/edit/' + ${bonus.id}}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{'/admin/folder/delete/' + ${bonus.id}}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

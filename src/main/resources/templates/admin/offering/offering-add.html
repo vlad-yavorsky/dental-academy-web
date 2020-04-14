@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{fragments :: head (#{nav.addOffering})}"></div>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container mt-4 mb-4">
+    <h2 class="mb-4" th:text="#{nav.addOffering}"></h2>
+</div>
+
+<div class="container mb-4">
+
+    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
+    <div th:replace="~{fragments :: alert-success (${success})}"></div>
+    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <form method="post" th:object="${offering}" th:action="@{'/admin/offering/add'}">
+                <h3>Main info</h3>
+
+                <div class="form-group row required">
+                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="Programs"></label>
+                    <div class="col-10 input-group input-group-sm">
+                        <select class="form-control form-control-sm selectpicker" multiple th:field="*{programs}" required>
+                            <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="Bonuses"></label>
+                    <div class="col-10 input-group input-group-sm">
+                        <select class="form-control form-control-sm selectpicker" multiple th:field="*{folders}">
+                            <option th:each="bonus: ${bonuses}" th:value="${bonus.id}" th:text="${bonus.name}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.name}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control form-control-sm" id="name" th:field="*{name}" maxlength="250" required/>
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label for="category" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.package}"></label>
+                    <div class="col-10">
+                        <select class="form-control form-control-sm" id="category" th:field="*{type}" required>
+                            <option th:each="package: ${packages}" th:value="${package.name()}" th:text="${package.name()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label for="price" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.price}"></label>
+                    <div class="col-10">
+                        <input type="number" class="form-control form-control-sm" id="price" th:field="*{price}" min="0.01" step="0.01" required/>
+                    </div>
+                </div>
+                <div class="form-group row required">
+                    <label for="term" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.term}"></label>
+                    <div class="col-10">
+                        <input type="number" class="form-control form-control-sm" id="term" th:field="*{term}" min="1" required/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="activated" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.activated}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control form-control-sm datetimepicker" id="activated" th:field="*{activated}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="deactivated" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.deactivated}"></label>
+                    <div class="col-10">
+                        <input type="text" class="form-control form-control-sm datetimepicker" id="deactivated" th:field="*{deactivated}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-2 col-form-label col-form-label-sm" th:text="#{offering.description}"></label>
+                    <div class="col-10">
+                        <textarea class="form-control form-control-sm" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{save}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{/admin/offerings}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{cancel}"></span></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

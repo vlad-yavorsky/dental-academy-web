@@ -1,0 +1,11 @@
+.handle {
+    cursor: grab;
+}
+
+.form-group.required {
+    font-weight: bold;
+}
+.form-group.required .col-form-label:after {
+    content: " *";
+    color: red;
+}
