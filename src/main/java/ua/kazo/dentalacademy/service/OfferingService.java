@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.entity.User;
+import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 import ua.kazo.dentalacademy.exception.ApplicationException;
-import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.repository.OfferingRepository;
 
 import java.time.LocalDateTime;
@@ -40,17 +40,19 @@ public class OfferingService {
         return offering;
     }
 
-    public List<Offering> findAllByOfferingIdsIfActiveFetchProgramsAndFolders(Long programId) {
+    public List<Offering> findAllByOfferingIdsIfActiveFetchProgramsAndFolders(List<Long> offeringIds) {
         LocalDateTime now = LocalDateTime.now();
-        List<Long> allByProgramId = offeringRepository.findAllIdsByProgramId(programId);
-        List<Offering> result = offeringRepository.findAllByIdsIfActiveFetchPrograms(allByProgramId, now);
-        offeringRepository.findAllByIdsIfActiveFetchFolders(allByProgramId, now);
-        offeringRepository.findAllByIdsIfActiveFetchUsers(allByProgramId, now); // todo: optimize request
+        List<Offering> result = offeringRepository.findAllByIdsIfActiveFetchPrograms(offeringIds, now);
+        offeringRepository.findAllByIdsIfActiveFetchFolders(offeringIds, now);
         return result;
     }
 
     public List<Offering> findAllByProgramId(Long programId) {
         return offeringRepository.findAllByProgramId(programId);
+    }
+
+    public List<Long> findAllIdsByProgramId(Long programId) {
+        return offeringRepository.findAllIdsByProgramId(programId);
     }
 
     public boolean existsByNameAndType(String name, OfferingType type) {
@@ -67,7 +69,7 @@ public class OfferingService {
 
     public void buy(Long id, String email) {
         if (purchaseDataService.existsByIdOfferingIdAndUserEmail(id, email)) {
-            throw new ApplicationException(ExceptionCode.OFFERING_ALREADY_BOUGHT, id, email);
+            throw new ApplicationException(ExceptionCode.OFFERING_ALREADY_PURCHASED, id, email);
         }
         LocalDateTime now = LocalDateTime.now();
         Offering offering = offeringRepository.findByIdIfAvailableForPurchase(id, now)

@@ -31,6 +31,14 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "order by ph.purchased desc")
     List<PurchaseData> findAllByUserEmailFetchOfferingAndFolders(String email);
 
+    /**
+     * Client side: Buy Offering Process
+     */
     boolean existsByIdOfferingIdAndUserEmail(Long offeringId, String email);
+
+    /**
+     * Client side: Shop Item page
+     */
+    List<PurchaseData> findAllByIdOfferingIdInAndUserEmail(List<Long> offeringIds, String userEmail);
 
 }

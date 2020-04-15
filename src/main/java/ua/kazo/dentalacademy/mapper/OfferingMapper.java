@@ -5,6 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ua.kazo.dentalacademy.dto.offering.*;
 import ua.kazo.dentalacademy.entity.Offering;
+import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.util.MathUtil;
 
 import java.math.BigDecimal;
@@ -32,17 +33,17 @@ public interface OfferingMapper {
     List<PurchaseDataOfferingResponseDto> toPurchaseDataResponseDto(List<Offering> offerings);
 
     @Mapping(target = "discountPrice", source = "offering", qualifiedByName = "calculateDiscountPrice")
-    @Mapping(target = "bought", source = "offering", qualifiedByName = "isOfferingBoughtByUser")
-    ShopItemOfferingResponseDto toShopItemResponseDto(Offering offering, @Context String email);
-    List<ShopItemOfferingResponseDto> toShopItemResponseDto(List<Offering> offerings, @Context String email);
+    @Mapping(target = "purchased", source = "offering", qualifiedByName = "isOfferingPurchasedByUser")
+    ShopItemOfferingResponseDto toShopItemResponseDto(Offering offering, @Context List<PurchaseData> purchasesByUser);
+    List<ShopItemOfferingResponseDto> toShopItemResponseDto(List<Offering> offerings, @Context List<PurchaseData> purchasesByUser);
 
     default BigDecimal calculateDiscountPrice(Offering offering) {
         return MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
     }
 
-    default boolean isOfferingBoughtByUser(Offering offering, @Context String email) {
-        return offering.getPurchaseData().stream()
-                .anyMatch(purchaseData -> purchaseData.getUser().getEmail().equals(email));
+    default boolean isOfferingPurchasedByUser(Offering offering, @Context List<PurchaseData> purchasesByUser) {
+        return purchasesByUser.stream()
+                .anyMatch(purchase -> offering.getId().equals(purchase.getOffering().getId()));
     }
 
 }

@@ -29,4 +29,8 @@ public class PurchaseDataService {
         return purchaseDataRepository.existsByIdOfferingIdAndUserEmail(offeringId, email);
     }
 
+    public List<PurchaseData> findAllByIdOfferingIdInAndUserEmail(List<Long> offeringIds, String email) {
+        return purchaseDataRepository.findAllByIdOfferingIdInAndUserEmail(offeringIds, email);
+    }
+
 }

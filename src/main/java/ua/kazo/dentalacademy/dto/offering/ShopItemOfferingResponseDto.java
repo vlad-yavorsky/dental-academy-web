@@ -26,6 +26,6 @@ public class ShopItemOfferingResponseDto {
     private LocalDateTime deactivated;
     private List<ProgramResponseDto> programs;
     private List<FolderResponseDto> folders;
-    private boolean bought;
+    private boolean purchased;
 
 }

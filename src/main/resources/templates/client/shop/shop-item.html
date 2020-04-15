@@ -57,8 +57,8 @@
                     </td>
                     <td class="text-center" th:text="${offering.term}"></td>
                     <td class="text-center">
-                        <i th:if="${offering.bought}" class="fas fa-check-circle fa-2x text-success" title="Already bought"></i>
-                        <span th:unless="${offering.bought}">
+                        <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" title="Already purchased"></i>
+                        <span th:unless="${offering.purchased}">
                             <a th:if="${offering.activated < now}" th:href="@{'/shop/program/' + ${program.id} + '/buy/' + ${offering.id}}" class="btn btn-success" th:text="#{nav.buy}"></a>
                         </span>
                         <span th:unless="${offering.activated < now}" th:text="'Will be active: ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>

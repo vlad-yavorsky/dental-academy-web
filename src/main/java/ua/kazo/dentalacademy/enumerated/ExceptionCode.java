@@ -16,7 +16,7 @@ public enum ExceptionCode {
     PASSWORDS_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "Passwords do not match"),
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Email {0} already exists"),
     NAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Name {0} already exists"),
-    OFFERING_ALREADY_BOUGHT(HttpStatus.BAD_REQUEST, "Offering {0} already bought by user {1}"),
+    OFFERING_ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "Offering {0} already purchased by user {1}"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User {0} not found"),
     PROGRAM_NOT_FOUND(HttpStatus.NOT_FOUND, "Program {0} not found"),
     OFFERING_NOT_FOUND(HttpStatus.NOT_FOUND, "Offering {0} not found"),

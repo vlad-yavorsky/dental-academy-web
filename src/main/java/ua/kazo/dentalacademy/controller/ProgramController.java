@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.entity.Folder;
+import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.exception.ApplicationException;
@@ -19,13 +20,11 @@ import ua.kazo.dentalacademy.mapper.OfferingMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
 import ua.kazo.dentalacademy.security.Permission;
 import ua.kazo.dentalacademy.security.TargetType;
-import ua.kazo.dentalacademy.service.FolderItemService;
-import ua.kazo.dentalacademy.service.FolderService;
-import ua.kazo.dentalacademy.service.OfferingService;
-import ua.kazo.dentalacademy.service.ProgramService;
+import ua.kazo.dentalacademy.service.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,6 +38,7 @@ public class ProgramController {
     private final FolderItemMapper folderItemMapper;
     private final OfferingMapper offeringMapper;
     private final OfferingService offeringService;
+    private final PurchaseDataService purchaseDataService;
 
     /* ---------------------------------------------- MY PROGRAMS ---------------------------------------------- */
 
@@ -115,8 +115,10 @@ public class ProgramController {
 
     @GetMapping("/shop/program/{programId}")
     public String shopItem(final ModelMap model, @PathVariable final Long programId, final Principal principal) {
+        List<Long> offeringIds = offeringService.findAllIdsByProgramId(programId);
+        List<PurchaseData> purchasesByUser = purchaseDataService.findAllByIdOfferingIdInAndUserEmail(offeringIds, principal.getName());
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
-        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(programId), principal.getName()));
+        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(offeringIds), purchasesByUser));
         model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "client/shop/shop-item";
     }

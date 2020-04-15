@@ -65,16 +65,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     List<Offering> findAllByIdsIfActiveFetchFolders(List<Long> ids, LocalDateTime dateTime);
 
     /**
-     * Client side: Shop Item page
-     */
-    @Query("select distinct o from Offering o " +
-            "left join fetch o.purchaseData pd " +
-            "left join fetch pd.user " +
-            "where o.id in (:ids) and (o.deactivated is null or o.deactivated > :dateTime)")
-    List<Offering> findAllByIdsIfActiveFetchUsers(List<Long> ids, LocalDateTime dateTime);
-
-    /**
-     * Client side: Buy Process
+     * Client side: Buy Offering Process
      */
     @Query("select o from Offering o " +
             "where o.id = :id and o.activated < :dateTime and (o.deactivated is null or o.deactivated > :dateTime)")
