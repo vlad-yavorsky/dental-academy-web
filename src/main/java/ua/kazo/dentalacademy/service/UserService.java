@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +25,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MessageSource messageSource;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -32,7 +34,7 @@ public class UserService implements UserDetailsService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.USER_NOT_FOUND, email));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, email));
     }
 
     public List<User> findAll() {

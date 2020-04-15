@@ -7,19 +7,19 @@ import org.springframework.security.access.expression.method.MethodSecurityExpre
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import ua.kazo.dentalacademy.security.CustomPermissionEvaluator;
-import ua.kazo.dentalacademy.service.ProgramService;
+import ua.kazo.dentalacademy.service.PurchaseDataService;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
-    private final ProgramService programService;
+    private final PurchaseDataService purchaseDataService;
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
-        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator(programService));
+        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator(purchaseDataService));
         return expressionHandler;
     }
 

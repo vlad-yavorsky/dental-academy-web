@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class OfferingService {
     private final UserService userService;
     private final OfferingRepository offeringRepository;
     private final PurchaseDataService purchaseDataService;
+    private final MessageSource messageSource;
 
     public List<Offering> findAll() {
         return offeringRepository.findAll(Sort.by("id"));
@@ -30,12 +32,12 @@ public class OfferingService {
 
     public Offering findById(Long id) {
         return offeringRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.OFFERING_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
     }
 
     public Offering findByIdFetchProgramsAndFolders(Long id) {
         Offering offering = offeringRepository.findByIdFetchPrograms(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.OFFERING_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
         offeringRepository.findByIdFetchFolders(id);
         return offering;
     }
@@ -69,11 +71,11 @@ public class OfferingService {
 
     public void buy(Long id, String email) {
         if (purchaseDataService.existsByIdOfferingIdAndUserEmail(id, email)) {
-            throw new ApplicationException(ExceptionCode.OFFERING_ALREADY_PURCHASED, id, email);
+            throw new ApplicationException(messageSource, ExceptionCode.OFFERING_ALREADY_PURCHASED, id, email);
         }
         LocalDateTime now = LocalDateTime.now();
         Offering offering = offeringRepository.findByIdIfAvailableForPurchase(id, now)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.OFFERING_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
         User user = userService.findByEmail(email);
         purchaseDataService.create(PurchaseData.of(offering, user, now));
     }

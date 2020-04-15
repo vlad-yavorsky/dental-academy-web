@@ -28,12 +28,12 @@
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item" th:if="${isModulesExist}">
                             <a class="nav-link"
-                               th:classappend="${#httpServletRequest.getRequestURI() == '/program/' + programId + '/modules'} ? 'active' : ''"
+                               th:classappend="${#httpServletRequest.requestURI == '/program/' + programId + '/modules'} ? 'active'"
                                th:href="@{'/program/' + ${programId} + '/modules'}">Modules</a>
                         </li>
                         <li class="nav-item" th:if="${isQaExist}">
                             <a class="nav-link"
-                               th:classappend="${#httpServletRequest.getRequestURI() == '/program/' + programId + '/qa'} ? 'active' : ''"
+                               th:classappend="${#httpServletRequest.requestURI == '/program/' + programId + '/qa'} ? 'active'"
                                th:href="@{'/program/' + ${programId} + '/qa'}">Q&A</a>
                         </li>
                     </ul>

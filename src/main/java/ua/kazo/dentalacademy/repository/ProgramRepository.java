@@ -43,26 +43,6 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     Optional<Program> findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category);
 
     /**
-     * Client side: Permission Evaluator
-     */
-    @Query("select (count(p) > 0) from Program p " +
-            "join p.offerings o " +
-            "join o.purchaseData pd " +
-            "where p.id = :id and pd.expired > :dateTime and pd.user.email = :email")
-    boolean isProgramPurchasedAndNotExpired(Long id, String email, LocalDateTime dateTime);
-
-    /**
-     * Client side: Permission Evaluator
-     */
-    @Query("select (count(p) > 0) from Program p " +
-            "join p.offerings o " +
-            "join o.purchaseData pd " +
-            "left join o.folders f1 " +
-            "left join p.folders f2 " +
-            "where (f1.id = :folderId or f2 = :folderId) and pd.expired > :dateTime and pd.user.email = :email")
-    boolean isFolderPurchasedAndNotExpired(Long folderId, String email, LocalDateTime dateTime);
-
-    /**
      * Client side: My Programs page
      */
     @Query("select distinct p from Program p " +

@@ -56,11 +56,11 @@ public class AdminController {
     private void validateProgramName(final Program program, final BindingResult bindingResult, final boolean isAdd) {
         if (isAdd) {
             if (programService.existsByName(program.getName())) {
-                bindingResult.rejectValue("name", "error.NameNotUnique");
+                bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
         } else {
             if (programService.existsByNameAndIdNot(program.getName(), program.getId())) {
-                bindingResult.rejectValue("name", "error.NameNotUnique");
+                bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
         }
     }
@@ -85,7 +85,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadProgramAddPage(programCreateDto, model);
         }
-        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "program.add.success");
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.program.add");
 
         Program savedProgram = programService.save(program);
         return "redirect:/admin/program/edit/" + savedProgram.getId();
@@ -114,7 +114,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadProgramEditPage(programUpdateDto, model);
         }
-        model.addAttribute(ModelMapConstants.SUCCESS, "program.edit.success");
+        model.addAttribute(ModelMapConstants.SUCCESS, "success.program.edit");
 
         Program savedProgram = programService.save(program);
         return loadProgramEditPage(programMapper.toUpdateDto(savedProgram), model);
@@ -133,17 +133,17 @@ public class AdminController {
     private void validateFolderName(final Folder folder, final BindingResult bindingResult, final boolean isAdd) {
         if (isAdd) {
             if (folderService.existsByNameAndPrograms(folder.getName(), folder.getPrograms())) {
-                bindingResult.rejectValue("name", "error.NameNotUnique");
+                bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
 //            if (folderService.existsByNameAndOfferings(folder.getName(), folder.getOfferings())) {
-//                bindingResult.rejectValue("name", "error.NameNotUnique");
+//                bindingResult.rejectValue("name", "validation.NameNotUnique");
 //            }
         } else {
             if (folderService.existsByNameAndProgramsAndIdNot(folder.getName(), folder.getPrograms(), folder.getId())) {
-                bindingResult.rejectValue("name", "error.NameNotUnique");
+                bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
 //            if (folderService.existsByNameAndOfferingsAndIdNot(folder.getName(), folder.getOfferings(), folder.getId())) {
-//                bindingResult.rejectValue("name", "error.NameNotUnique");
+//                bindingResult.rejectValue("name", "validation.NameNotUnique");
 //            }
         }
     }
@@ -178,7 +178,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadFolderAddPage(folderCreateDto, model);
         }
-        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "folder.add.success");
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.folder.add");
 
         folder.getItems().forEach(folderItem -> folderItem.setFolder(folder));
         Folder savedFolder = folderService.save(folder);
@@ -222,7 +222,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadFolderEditPage(folderUpdateDto, model);
         }
-        model.addAttribute(ModelMapConstants.SUCCESS, "folder.edit.success");
+        model.addAttribute(ModelMapConstants.SUCCESS, "success.folder.edit");
 
         Folder savedFolder = folderService.save(folder);
         savedFolder.getItems().sort(Comparator.comparingInt(FolderItem::getOrdering));
@@ -271,18 +271,18 @@ public class AdminController {
 
     private void validateOffering(final Offering offering, final BindingResult bindingResult) {
         if (offering.getActivated() != null && offering.getDeactivated() != null && offering.getActivated().isAfter(offering.getDeactivated())) {
-            bindingResult.rejectValue("deactivated", "error.offering.IncorrectDates");
+            bindingResult.rejectValue("deactivated", "validation.offering.IncorrectDates");
         }
     }
 
     private void validateOfferingNameAndType(final Offering offering, final BindingResult bindingResult, final boolean isAdd) {
         if (isAdd) {
             if (offeringService.existsByNameAndType(offering.getName(), offering.getType())) {
-                bindingResult.rejectValue("name", "error.NameAndTypeNotUnique");
+                bindingResult.rejectValue("name", "validation.offering.NameAndTypeNotUnique");
             }
         } else {
             if (offeringService.existsByNameAndTypeAndIdNot(offering.getName(), offering.getType(), offering.getId())) {
-                bindingResult.rejectValue("name", "error.NameAndTypeNotUnique");
+                bindingResult.rejectValue("name", "validation.offering.NameAndTypeNotUnique");
             }
         }
     }
@@ -315,7 +315,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadOfferingAddPage(offeringCreateDto, model);
         }
-        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "offering.add.success");
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.offering.add");
 
         Offering savedOffering = offeringService.save(offering);
         return "redirect:/admin/offering/edit/" + savedOffering.getId();
@@ -346,7 +346,7 @@ public class AdminController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadOfferingEditPage(offeringUpdateDto, model);
         }
-        model.addAttribute(ModelMapConstants.SUCCESS, "offering.edit.success");
+        model.addAttribute(ModelMapConstants.SUCCESS, "success.offering.edit");
 
         Offering savedOffering = offeringService.save(offering);
         return loadOfferingEditPage(offeringMapper.toUpdateDto(savedOffering), model);

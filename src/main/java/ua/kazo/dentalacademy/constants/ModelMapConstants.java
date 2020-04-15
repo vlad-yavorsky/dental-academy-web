@@ -27,6 +27,7 @@ public class ModelMapConstants {
     public final String CATEGORIES = "categories";
     public final String IS_MODULES_EXIST = "isModulesExist";
     public final String IS_QA_EXIST = "isQaExist";
+    public final String IS_PURCHASED = "isPurchased";
     public final String SELECTED_ITEM = "selectedItem";
     public final String PACKAGES = "packages";
 

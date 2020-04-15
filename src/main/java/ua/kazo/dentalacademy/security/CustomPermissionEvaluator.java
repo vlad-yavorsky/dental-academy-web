@@ -3,14 +3,14 @@ package ua.kazo.dentalacademy.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import ua.kazo.dentalacademy.service.ProgramService;
+import ua.kazo.dentalacademy.service.PurchaseDataService;
 
 import java.io.Serializable;
 
 @RequiredArgsConstructor
 public class CustomPermissionEvaluator implements PermissionEvaluator {
 
-    private final ProgramService programService;
+    private final PurchaseDataService purchaseDataService;
 
     @Override
     public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
@@ -32,9 +32,10 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
     private boolean hasPrivilege(Authentication auth, Serializable targetId, String targetType, Object permission) {
         if (Permission.READ.equals(permission)) {
             if (TargetType.PROGRAM.equals(targetType)) {
-                return programService.accessToProgram((Long) targetId, auth.getName());
-            } else if (TargetType.FOLDER.equals(targetType)) {
-                return programService.accessToFolder((Long) targetId, auth.getName());
+                return purchaseDataService.isProgramPurchasedAndNotExpired((Long) targetId, auth.getName());
+            }
+            if (TargetType.FOLDER.equals(targetType)) {
+                return purchaseDataService.isFolderPurchasedAndNotExpired((Long) targetId, auth.getName());
             }
         }
         return false;

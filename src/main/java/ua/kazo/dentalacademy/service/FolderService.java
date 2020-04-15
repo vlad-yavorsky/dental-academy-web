@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.List;
 public class FolderService {
 
     private final FolderRepository folderRepository;
+    private final MessageSource messageSource;
 
     public List<Folder> findAll() {
         return folderRepository.findAll(Sort.by("id"));
@@ -31,7 +33,7 @@ public class FolderService {
 
     public Folder findById(Long id) {
         return folderRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.FOLDER_ITEM_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
     }
 
     public List<Folder> findAllByCategory(FolderCategory category) {
@@ -44,12 +46,12 @@ public class FolderService {
 
     public Folder findByIdFetchItems(Long id) {
         return folderRepository.findByIdFetchItems(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.FOLDER_NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
     }
 
     public Folder findByIdFetchItemsAndPrograms(Long id) {
         Folder folder = folderRepository.findByIdFetchItems(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.FOLDER_NOT_FOUND));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
         folderRepository.findByIdFetchPrograms(id);
         return folder;
     }

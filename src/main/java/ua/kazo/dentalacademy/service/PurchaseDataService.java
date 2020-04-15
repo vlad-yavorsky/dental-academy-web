@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.repository.PurchaseDataRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -31,6 +32,14 @@ public class PurchaseDataService {
 
     public List<PurchaseData> findAllByIdOfferingIdInAndUserEmail(List<Long> offeringIds, String email) {
         return purchaseDataRepository.findAllByIdOfferingIdInAndUserEmail(offeringIds, email);
+    }
+
+    public boolean isProgramPurchasedAndNotExpired(Long programId, String email) {
+        return purchaseDataRepository.isProgramPurchasedAndNotExpired(programId, LocalDateTime.now(), email);
+    }
+
+    public boolean isFolderPurchasedAndNotExpired(Long folderId, String email) {
+        return purchaseDataRepository.isFolderPurchasedAndNotExpired(folderId, LocalDateTime.now(), email);
     }
 
 }

@@ -134,6 +134,11 @@
             <artifactId>bootstrap-select</artifactId>
             <version>1.13.11</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>flag-icon-css</artifactId>
+            <version>3.4.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -156,14 +161,14 @@
                     <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>update</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ProgramService {
 
     private final ProgramRepository programRepository;
+    private final MessageSource messageSource;
 
     public List<Program> findAll() {
         return programRepository.findAll(Sort.by("id"));
@@ -30,12 +32,12 @@ public class ProgramService {
 
     public Program findById(Long id) {
         return programRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.PROGRAM_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
     public Program findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category) {
         return programRepository.findByIdAndFolderCategoryFetchFolders(id, category)
-                .orElseThrow(() -> new ApplicationException(ExceptionCode.PROGRAM_NOT_FOUND, id));
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
     public boolean existsByIdAndFolderCategory(Long id, FolderCategory category) {
@@ -52,14 +54,6 @@ public class ProgramService {
 
     public Program save(Program program) {
         return programRepository.save(program);
-    }
-
-    public boolean accessToProgram(Long programId, String email) {
-        return programRepository.isProgramPurchasedAndNotExpired(programId, email, LocalDateTime.now());
-    }
-
-    public boolean accessToFolder(Long folderId, String email) {
-        return programRepository.isFolderPurchasedAndNotExpired(folderId, email, LocalDateTime.now());
     }
 
     public List<Program> findAllPurchasedPrograms(String email) {

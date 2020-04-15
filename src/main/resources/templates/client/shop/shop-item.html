@@ -24,7 +24,12 @@
             <p class="font-weight-bold">Description:</p>
             <p th:utext="${program.description}"></p>
             <p class="font-weight-bold">Offerings:</p>
-            <table class="table table-hover">
+            <div class="row mb-2" th:if="${isPurchased}">
+                <div class="col-9 bg-info text-white p-3" ><i class="fas fa-check fa-fw"></i> You already purchased this product</div>
+                <a class="col-3 bg-info text-white p-3 border-left text-center" th:href="@{'/program/' + ${program.id}}">Start Learning</a>
+            </div>
+
+            <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
                     <th th:text="#{offering.name}"></th>
@@ -37,6 +42,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr th:if="${offerings.isEmpty()}">
+                    <td colspan="7" class="text-center">No offerings available for purchase</td>
+                </tr>
                 <tr th:each="offering : ${offerings}">
                     <td th:text="${offering.name}"></td>
                     <td th:text="${offering.type}"></td>
@@ -60,8 +68,8 @@
                         <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" title="Already purchased"></i>
                         <span th:unless="${offering.purchased}">
                             <a th:if="${offering.activated < now}" th:href="@{'/shop/program/' + ${program.id} + '/buy/' + ${offering.id}}" class="btn btn-success" th:text="#{nav.buy}"></a>
+                            <span th:unless="${offering.activated < now}" th:text="'Will be active: ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                         </span>
-                        <span th:unless="${offering.activated < now}" th:text="'Will be active: ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                     </td>
                 </tr>
                 </tbody>

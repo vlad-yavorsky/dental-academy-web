@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,6 +40,7 @@ public class ProgramController {
     private final OfferingMapper offeringMapper;
     private final OfferingService offeringService;
     private final PurchaseDataService purchaseDataService;
+    private final MessageSource messageSource;
 
     /* ---------------------------------------------- MY PROGRAMS ---------------------------------------------- */
 
@@ -57,14 +59,13 @@ public class ProgramController {
 
     @GetMapping("/program/{programId}")
     public RedirectView program(final @PathVariable Long programId) {
-        boolean isModulesExist = programService.existsByIdAndFolderCategory(programId, FolderCategory.MODULE);
-        boolean isQaExist = programService.existsByIdAndFolderCategory(programId, FolderCategory.QA);
-        if (isModulesExist) {
+        if (programService.existsByIdAndFolderCategory(programId, FolderCategory.MODULE)) {
             return new RedirectView("/program/" + programId + "/modules");
-        } else if (isQaExist) {
+        }
+        if (programService.existsByIdAndFolderCategory(programId, FolderCategory.QA)) {
             return new RedirectView("/program/" + programId + "/qa");
         }
-        throw new ApplicationException(ExceptionCode.PROGRAM_NOT_FOUND, programId);
+        throw new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, programId);
     }
 
     private String loadProgramFolders(final Long programId, final FolderCategory category, final ModelMap model) {
@@ -85,7 +86,7 @@ public class ProgramController {
                 folderCategory = FolderCategory.QA;
                 break;
             default:
-                throw new ApplicationException(ExceptionCode.FOLDER_CATEGORY_DOES_NOT_EXIST, category);
+                throw new ApplicationException(messageSource, ExceptionCode.FOLDER_CATEGORY_NOT_EXIST, category);
         }
         return loadProgramFolders(programId, folderCategory, model);
     }
@@ -119,14 +120,17 @@ public class ProgramController {
         List<PurchaseData> purchasesByUser = purchaseDataService.findAllByIdOfferingIdInAndUserEmail(offeringIds, principal.getName());
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
         model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(offeringIds), purchasesByUser));
+        model.addAttribute(ModelMapConstants.IS_PURCHASED, purchaseDataService.isProgramPurchasedAndNotExpired(programId, principal.getName()));
         model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "client/shop/shop-item";
     }
 
+    /* ---------------------------------------------- BUY OFFERING ---------------------------------------------- */
+
     @GetMapping("/shop/program/{programId}/buy/{offeringId}")
     public RedirectView buyOffering(@PathVariable final Long programId, @PathVariable final Long offeringId, final Principal principal, final RedirectAttributes redirectAttributes) {
         offeringService.buy(offeringId, principal.getName());
-        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "program.buy.success");
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.program.purchase");
         return new RedirectView("/shop/program/" + programId);
     }
 

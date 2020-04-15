@@ -33,11 +33,11 @@ public class UserController {
     private void validateUserEmail(final User user, final BindingResult bindingResult, final boolean isRegister) {
         if (isRegister) {
             if (userService.existsByEmail(user.getEmail())) {
-                bindingResult.rejectValue("deactivated", "error.offering.IncorrectDates");
+                bindingResult.rejectValue("deactivated", "validation.offering.IncorrectDates");
             }
         } else {
             if (userService.existsByEmailAndIdNot(user.getEmail(), user.getId())) {
-                bindingResult.rejectValue("deactivated", "error.offering.IncorrectDates");
+                bindingResult.rejectValue("deactivated", "validation.offering.IncorrectDates");
             }
         }
     }
@@ -64,7 +64,7 @@ public class UserController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadRegisterPage(userCreateDto, model);
         }
-        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "user.add.success");
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.user.add");
 
         userService.create(user);
         return "redirect:/login";
@@ -92,7 +92,7 @@ public class UserController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadUpdatePage(userUpdateDto, model);
         }
-        model.addAttribute(ModelMapConstants.SUCCESS, "user.edit.success");
+        model.addAttribute(ModelMapConstants.SUCCESS, "success.user.edit");
 
         User savedUser = userService.update(user, principal.getName());
         return loadUpdatePage(userMapper.toUpdateDto(savedUser), model);
@@ -102,10 +102,10 @@ public class UserController {
 
     private void validateUserPassword(final User userFromDb, final UserPasswordUpdateDto userPasswordUpdateDto, final BindingResult bindingResult) {
         if (!userService.arePasswordsMatches(userPasswordUpdateDto.getOldPassword(), userFromDb.getPassword())) {
-            bindingResult.rejectValue("oldPassword", "error.password.WrongOldPassword");
+            bindingResult.rejectValue("oldPassword", "validation.user.WrongOldPassword");
         }
         if (!userPasswordUpdateDto.getNewPassword().equals(userPasswordUpdateDto.getConfirmNewPassword())) {
-            bindingResult.rejectValue("confirmNewPassword", "error.password.WrongConfirmPassword");
+            bindingResult.rejectValue("confirmNewPassword", "validation.user.WrongConfirmPassword");
         }
     }
 
@@ -128,7 +128,7 @@ public class UserController {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadChangePasswordPage(model);
         }
-        model.addAttribute(ModelMapConstants.SUCCESS, "password.edit.success");
+        model.addAttribute(ModelMapConstants.SUCCESS, "success.user.password.edit");
 
         userService.updatePassword(userFromDb, userPasswordUpdateDto.getNewPassword());
         return loadChangePasswordPage(model);

@@ -26,7 +26,7 @@ public class ControllerExceptionHandler {
         String referer = request.getHeader("Referer");
         if (referer != null) {
             modelAndView.setViewName("redirect:" + referer); // todo: status do not work with redirect
-            redirectAttributes.addFlashAttribute(ModelMapConstants.EXCEPTION, e);
+            redirectAttributes.addFlashAttribute(ModelMapConstants.EXCEPTION, e.getMessage());
         } else {
             if (e instanceof ApplicationException) {
                 modelAndView.setStatus(((ApplicationException) e).getExceptionCode().getStatus());
@@ -36,7 +36,7 @@ public class ControllerExceptionHandler {
                 modelAndView.setStatus(HttpStatus.NOT_FOUND);
             }
             modelAndView.setViewName(ERROR_PAGE);
-            modelAndView.addObject("message", e);
+            modelAndView.addObject("message", e.getMessage());
         }
         return modelAndView;
     }
