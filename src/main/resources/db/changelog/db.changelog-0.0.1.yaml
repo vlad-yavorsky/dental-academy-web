@@ -398,6 +398,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  name: expired
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
                   name: price
                   type: NUMBER(6,2)
 
