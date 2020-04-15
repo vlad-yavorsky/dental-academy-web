@@ -73,7 +73,7 @@
                     </thead>
                     <tbody class="sortable">
                     <tr th:each="item,iter: ${folder.items}">
-                        <td style="text-align: center;">
+                        <td class="text-center">
                             <input type="hidden" th:field="*{items[__${iter.index}__].ordering}" class="database-ordering"/>
                             <i class="fas fa-arrows-alt handle"></i>
                         </td>

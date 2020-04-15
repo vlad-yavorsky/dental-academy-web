@@ -25,4 +25,8 @@ public class PurchaseDataService {
         purchaseDataRepository.save(purchaseData);
     }
 
+    public boolean existsByIdOfferingIdAndUserEmail(Long offeringId, String email) {
+        return purchaseDataRepository.existsByIdOfferingIdAndUserEmail(offeringId, email);
+    }
+
 }

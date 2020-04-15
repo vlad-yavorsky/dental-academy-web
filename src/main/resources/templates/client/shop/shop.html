@@ -32,8 +32,7 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${program.name}"></h5>
                         <p class="card-text" th:utext="${program.description}"></p>
-<!--                        <a th:href="@{'/program/' + ${program.id}}" class="btn btn-primary" th:if="${program.bought}">Continue</a>-->
-                        <a th:href="@{'/buy/program/' + ${program.id}}" class="btn btn-success">Watch Details</a>
+                        <a th:href="@{'/shop/program/' + ${program.id}}" class="btn btn-success">Watch Details</a>
                     </div>
                 </div>
             </div>

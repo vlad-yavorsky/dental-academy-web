@@ -2,7 +2,8 @@ package ua.kazo.dentalacademy.dto.purchase;
 
 import lombok.Getter;
 import lombok.Setter;
-import ua.kazo.dentalacademy.dto.offering.OfferingFullResponseDto;
+import ua.kazo.dentalacademy.dto.offering.PurchaseDataOfferingResponseDto;
+import ua.kazo.dentalacademy.enumerated.OfferingType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,9 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 public class PurchaseDataResponseDto {
 
-    private OfferingFullResponseDto offering;
+    private String name;
+    private OfferingType type;
+    private BigDecimal price;
     private LocalDateTime purchased;
     private LocalDateTime expired;
-    private BigDecimal price;
+    private PurchaseDataOfferingResponseDto offering;
 
 }

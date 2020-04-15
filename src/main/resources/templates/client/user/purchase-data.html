@@ -32,6 +32,7 @@
                     <th style="width: 150px;">Purchased</th>
                     <th style="width: 150px;">Expired</th>
                     <th>Offering Name</th>
+                    <th>Package</th>
                     <th>Programs</th>
                     <th>Bonuses</th>
                     <th>Price</th>
@@ -41,7 +42,8 @@
                 <tr th:each="purchase: ${purchases}">
                     <td th:text="${#temporals.format(purchase.purchased, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${#temporals.format(purchase.expired, 'dd.MM.yyyy HH:mm')}"></td>
-                    <td th:text="${purchase.offering.name}"></td>
+                    <td th:text="${purchase.name}"></td>
+                    <td th:text="${purchase.type}"></td>
                     <td>
                         <ul>
                             <li th:each="program: ${purchase.offering.programs}" th:text="${program.name}"></li>

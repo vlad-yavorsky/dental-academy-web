@@ -45,6 +45,7 @@ public class OfferingService {
         List<Long> allByProgramId = offeringRepository.findAllIdsByProgramId(programId);
         List<Offering> result = offeringRepository.findAllByIdsIfActiveFetchPrograms(allByProgramId, now);
         offeringRepository.findAllByIdsIfActiveFetchFolders(allByProgramId, now);
+        offeringRepository.findAllByIdsIfActiveFetchUsers(allByProgramId, now); // todo: optimize request
         return result;
     }
 
@@ -64,12 +65,15 @@ public class OfferingService {
         return offeringRepository.save(offering);
     }
 
-    public void buy(Long id, String userEmail) {
+    public void buy(Long id, String email) {
+        if (purchaseDataService.existsByIdOfferingIdAndUserEmail(id, email)) {
+            throw new ApplicationException(ExceptionCode.OFFERING_ALREADY_BOUGHT, id, email);
+        }
         LocalDateTime now = LocalDateTime.now();
         Offering offering = offeringRepository.findByIdIfAvailableForPurchase(id, now)
                 .orElseThrow(() -> new ApplicationException(ExceptionCode.OFFERING_NOT_FOUND, id));
-        User user = userService.findByEmail(userEmail);
-        purchaseDataService.create(PurchaseData.of(offering, user, now, now.plusMonths(offering.getTerm()), offering.getPrice(), offering.getDiscount()));
+        User user = userService.findByEmail(email);
+        purchaseDataService.create(PurchaseData.of(offering, user, now));
     }
 
     public void activateOffering(Long id) {

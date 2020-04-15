@@ -1,8 +1,10 @@
 package ua.kazo.dentalacademy.mapper;
 
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
-import ua.kazo.dentalacademy.dto.program.*;
+import ua.kazo.dentalacademy.dto.program.ProgramCreateDto;
+import ua.kazo.dentalacademy.dto.program.ProgramFoldersResponseDto;
+import ua.kazo.dentalacademy.dto.program.ProgramResponseDto;
+import ua.kazo.dentalacademy.dto.program.ProgramUpdateDto;
 import ua.kazo.dentalacademy.entity.Program;
 
 import java.util.List;
@@ -18,16 +20,6 @@ public interface ProgramMapper {
     ProgramResponseDto toResponseDto(Program program);
     List<ProgramResponseDto> toResponseDto(List<Program> programs);
 
-//    @Mapping(source = "offerings", target = "bought", qualifiedByName = "isBought")
-    ProgramShopResponseDto toShopResponseDto(Program offerings, @Context String userEmail);
-    List<ProgramShopResponseDto> toShopResponseDto(List<Program> program, @Context String userEmail);
-
     ProgramUpdateDto toUpdateDto(Program program);
-
-//    default boolean isBought(List<Offering> offerings, @Context String userEmail) {
-//        return offerings.stream()
-//                .anyMatch(offering -> offering.getPurchaseData().stream()
-//                        .anyMatch(purchaseData -> purchaseData.getUser().getEmail().equals(userEmail)));
-//    }
 
 }

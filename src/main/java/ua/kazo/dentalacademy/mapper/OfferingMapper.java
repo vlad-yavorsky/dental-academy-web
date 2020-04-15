@@ -1,11 +1,9 @@
 package ua.kazo.dentalacademy.mapper;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ua.kazo.dentalacademy.dto.offering.OfferingCreateDto;
-import ua.kazo.dentalacademy.dto.offering.OfferingFullResponseDto;
-import ua.kazo.dentalacademy.dto.offering.OfferingResponseDto;
-import ua.kazo.dentalacademy.dto.offering.OfferingUpdateDto;
+import ua.kazo.dentalacademy.dto.offering.*;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.util.MathUtil;
 
@@ -30,12 +28,21 @@ public interface OfferingMapper {
     OfferingResponseDto toResponseDto(Offering offering);
     List<OfferingResponseDto> toResponseDto(List<Offering> offerings);
 
+    PurchaseDataOfferingResponseDto toPurchaseDataResponseDto(Offering offering);
+    List<PurchaseDataOfferingResponseDto> toPurchaseDataResponseDto(List<Offering> offerings);
+
     @Mapping(target = "discountPrice", source = "offering", qualifiedByName = "calculateDiscountPrice")
-    OfferingFullResponseDto toFullResponseDto(Offering offering);
-    List<OfferingFullResponseDto> toFullResponseDto(List<Offering> offerings);
+    @Mapping(target = "bought", source = "offering", qualifiedByName = "isOfferingBoughtByUser")
+    ShopItemOfferingResponseDto toShopItemResponseDto(Offering offering, @Context String email);
+    List<ShopItemOfferingResponseDto> toShopItemResponseDto(List<Offering> offerings, @Context String email);
 
     default BigDecimal calculateDiscountPrice(Offering offering) {
         return MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
+    }
+
+    default boolean isOfferingBoughtByUser(Offering offering, @Context String email) {
+        return offering.getPurchaseData().stream()
+                .anyMatch(purchaseData -> purchaseData.getUser().getEmail().equals(email));
     }
 
 }

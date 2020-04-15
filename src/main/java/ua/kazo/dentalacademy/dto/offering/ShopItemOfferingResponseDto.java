@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OfferingFullResponseDto {
+public class ShopItemOfferingResponseDto {
 
     private Long id;
     private String name;
@@ -26,5 +26,6 @@ public class OfferingFullResponseDto {
     private LocalDateTime deactivated;
     private List<ProgramResponseDto> programs;
     private List<FolderResponseDto> folders;
+    private boolean bought;
 
 }

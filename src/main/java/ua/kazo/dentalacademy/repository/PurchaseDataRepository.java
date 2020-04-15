@@ -18,7 +18,7 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "left join fetch ph.offering o " +
             "left join fetch o.programs " +
             "where ph.user.email = :email " +
-            "order by ph.expired desc")
+            "order by ph.purchased desc")
     List<PurchaseData> findAllByUserEmailFetchOfferingAndPrograms(String email);
 
     /**
@@ -28,7 +28,9 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "left join fetch ph.offering o " +
             "left join fetch o.folders " +
             "where ph.user.email = :email " +
-            "order by ph.expired desc")
+            "order by ph.purchased desc")
     List<PurchaseData> findAllByUserEmailFetchOfferingAndFolders(String email);
+
+    boolean existsByIdOfferingIdAndUserEmail(Long offeringId, String email);
 
 }

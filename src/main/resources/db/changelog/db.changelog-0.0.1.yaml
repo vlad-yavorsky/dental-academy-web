@@ -379,6 +379,19 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: purchase_data_offering_type_name_fk
+                    referencedTableName: offering_type
+                    referencedColumnNames: name
+                  name: type
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
                   name: purchased
                   type: TIMESTAMP

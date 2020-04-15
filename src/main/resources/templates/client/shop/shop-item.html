@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <div th:replace="~{fragments :: head (#{nav.buy})}"></div>
+    <div th:replace="~{fragments :: head (${program.name})}"></div>
 </head>
 <body>
 
@@ -50,14 +50,17 @@
                             <li th:each="folder: ${offering.folders}" th:text="${folder.name}"></li>
                         </ul>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
                         <br/><span th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
                         <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
                     </td>
-                    <td th:text="${offering.term}"></td>
-                    <td>
-                        <a th:if="${offering.activated < now}" th:href="@{'/buy/offering/' + ${offering.id}}" class="btn btn-success">Buy</a>
+                    <td class="text-center" th:text="${offering.term}"></td>
+                    <td class="text-center">
+                        <i th:if="${offering.bought}" class="fas fa-check-circle fa-2x text-success" title="Already bought"></i>
+                        <span th:unless="${offering.bought}">
+                            <a th:if="${offering.activated < now}" th:href="@{'/shop/program/' + ${program.id} + '/buy/' + ${offering.id}}" class="btn btn-success" th:text="#{nav.buy}"></a>
+                        </span>
                         <span th:unless="${offering.activated < now}" th:text="'Will be active: ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                     </td>
                 </tr>

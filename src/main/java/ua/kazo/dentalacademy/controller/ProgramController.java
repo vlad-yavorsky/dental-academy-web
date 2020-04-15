@@ -106,26 +106,26 @@ public class ProgramController {
     /* ---------------------------------------------- SHOP ---------------------------------------------- */
 
     @GetMapping("/shop")
-    public String shop(final ModelMap model, final Principal principal) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toShopResponseDto(programService.findAllWithOfferings(), principal.getName()));
+    public String shop(final ModelMap model) {
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithOfferings()));
         return "client/shop/shop";
     }
 
-    /* ---------------------------------------------- BUY PROGRAM ---------------------------------------------- */
+    /* ---------------------------------------------- SHOP ITEM ---------------------------------------------- */
 
-    @GetMapping("/buy/program/{programId}")
-    public String buyProgram(final ModelMap model, @PathVariable final Long programId) {
+    @GetMapping("/shop/program/{programId}")
+    public String shopItem(final ModelMap model, @PathVariable final Long programId, final Principal principal) {
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
-        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toFullResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(programId)));
+        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(programId), principal.getName()));
         model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "client/shop/shop-item";
     }
 
-    @GetMapping("/buy/offering/{offeringId}")
-    public RedirectView buyProgramProcess(@PathVariable final Long offeringId, final Principal principal, final RedirectAttributes redirectAttributes) {
+    @GetMapping("/shop/program/{programId}/buy/{offeringId}")
+    public RedirectView buyOffering(@PathVariable final Long programId, @PathVariable final Long offeringId, final Principal principal, final RedirectAttributes redirectAttributes) {
         offeringService.buy(offeringId, principal.getName());
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "program.buy.success");
-        return new RedirectView("/");
+        return new RedirectView("/shop/program/" + programId);
     }
 
     /* ---------------------------------------------- MY BONUSES ---------------------------------------------- */

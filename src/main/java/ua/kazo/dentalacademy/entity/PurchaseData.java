@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ua.kazo.dentalacademy.enumerated.OfferingType;
 import ua.kazo.dentalacademy.util.MathUtil;
 
 import javax.persistence.*;
@@ -28,23 +29,30 @@ public class PurchaseData implements Serializable {
     @MapsId("userId")
     private User user;
 
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private OfferingType type;
+
+    private BigDecimal price;
+
     private LocalDateTime purchased;
 
     private LocalDateTime expired;
 
-    private BigDecimal price;
-
-    private PurchaseData(Offering offering, User user, LocalDateTime purchased, LocalDateTime expired, BigDecimal price, Byte discount) {
+    private PurchaseData(Offering offering, User user, LocalDateTime dateTime) {
         this.id = new PurchaseDataId(offering.getId(), user.getId());
         this.offering = offering;
         this.user = user;
-        this.purchased = purchased;
-        this.expired = expired;
-        this.price = MathUtil.calculateDiscountPrice(price, discount);
+        this.purchased = dateTime;
+        this.expired = dateTime.plusMonths(offering.getTerm());
+        this.price = MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
+        this.name = offering.getName();
+        this.type = offering.getType();
     }
 
-    public static PurchaseData of(Offering offering, User user, LocalDateTime purchased, LocalDateTime expired, BigDecimal price, Byte discount) {
-        return new PurchaseData(offering, user, purchased, expired, price, discount);
+    public static PurchaseData of(Offering offering, User user, LocalDateTime dateTime) {
+        return new PurchaseData(offering, user, dateTime);
     }
 
 }
