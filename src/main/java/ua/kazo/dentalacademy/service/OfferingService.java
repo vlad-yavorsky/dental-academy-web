@@ -66,6 +66,9 @@ public class OfferingService {
     }
 
     public Offering save(Offering offering) {
+        if (offering.getActivated() == null) {
+            offering.setActivated(LocalDateTime.now());
+        }
         return offeringRepository.save(offering);
     }
 
