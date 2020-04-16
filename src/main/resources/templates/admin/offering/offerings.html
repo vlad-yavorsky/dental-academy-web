@@ -28,13 +28,13 @@
                     <th th:text="#{offering.term}"></th>
                     <th th:text="#{offering.activated}"></th>
                     <th th:text="#{offering.deactivated}"></th>
-                    <th style="width: 1%;">Actions</th>
+                    <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="offering: ${offerings}">
                     <td th:text="${offering.name}"></td>
-                    <td th:text="${offering.type}"></td>
+                    <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
                     <td>
                         <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
                         <br/><span th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
@@ -45,9 +45,9 @@
                     <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{'/admin/offering/edit/' + ${offering.id}}" class="btn btn-primary" title="Edit"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:if="${offering.deactivated == null or offering.deactivated > now}" th:href="@{'/admin/offering/deactivate/' + ${offering.id}}" class="btn btn-warning" title="Deactivate"><i class="fas fa-stop-circle fa-fw"></i></a>
-                            <a th:unless="${offering.deactivated == null or offering.deactivated > now}" th:href="@{'/admin/offering/activate/' + ${offering.id}}" class="btn btn-success" title="Activate"><i class="fas fa-play-circle fa-fw"></i></a>
+                            <a th:href="@{/admin/offering/edit/__${offering.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:if="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/deactivate/__${offering.id}__}" class="btn btn-warning" th:title="#{button.deactivate}"><i class="fas fa-stop-circle fa-fw"></i></a>
+                            <a th:unless="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/activate/__${offering.id}__}" class="btn btn-success" th:title="#{button.activate}"><i class="fas fa-play-circle fa-fw"></i></a>
                         </div>
                     </td>
                 </tr>

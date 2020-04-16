@@ -28,12 +28,12 @@
                         <li class="nav-item" th:if="${isModulesExist}">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/program/' + program.id + '/modules'} ? 'active'"
-                               th:href="@{'/program/' + ${program.id} + '/modules'}">Modules</a>
+                               th:href="@{/program/__${program.id}__/modules}" th:text="#{modules}"></a>
                         </li>
                         <li class="nav-item" th:if="${isQaExist}">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/program/' + program.id + '/qa'} ? 'active'"
-                               th:href="@{'/program/' + ${program.id} + '/qa'}">Q&A</a>
+                               th:href="@{/program/__${program.id}__/qa}">Q&A</a>
                         </li>
                     </ul>
                 </div>
@@ -46,7 +46,7 @@
                             <div class="col-8 col-md-9 col-lg-10">
                                 <h4 th:text="${folder.name}"></h4>
                                 <p th:utext="${folder.description}"></p>
-                                <a th:href="@{'/program/' + ${program.id} + '/folder/' + ${folder.id}}" class="btn btn-primary">Learn</a>
+                                <a th:href="@{/program/__${program.id}__/folder/__${folder.id}__}" class="btn btn-primary" th:text="#{button.learn}"></a>
                             </div>
                         </div>
                         <hr th:if="${__${iter.index}__ < program.folders.size() - 1}"/>

@@ -42,10 +42,10 @@ public class OfferingService {
         return offering;
     }
 
-    public List<Offering> findAllByOfferingIdsIfActiveFetchProgramsAndFolders(List<Long> offeringIds) {
+    public List<Offering> findAllByIdsAndNotDeactivatedFetchProgramsAndFolders(List<Long> offeringIds) {
         LocalDateTime now = LocalDateTime.now();
-        List<Offering> result = offeringRepository.findAllByIdsIfActiveFetchPrograms(offeringIds, now);
-        offeringRepository.findAllByIdsIfActiveFetchFolders(offeringIds, now);
+        List<Offering> result = offeringRepository.findAllByIdsAndNotDeactivatedFetchPrograms(offeringIds, now);
+        offeringRepository.findAllByIdsAndNotDeactivatedFetchFolders(offeringIds, now);
         return result;
     }
 
@@ -77,7 +77,7 @@ public class OfferingService {
             throw new ApplicationException(messageSource, ExceptionCode.OFFERING_ALREADY_PURCHASED, id, email);
         }
         LocalDateTime now = LocalDateTime.now();
-        Offering offering = offeringRepository.findByIdIfAvailableForPurchase(id, now)
+        Offering offering = offeringRepository.findByIdAndActive(id, now)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
         User user = userService.findByEmail(email);
         purchaseDataService.create(PurchaseData.of(offering, user, now));

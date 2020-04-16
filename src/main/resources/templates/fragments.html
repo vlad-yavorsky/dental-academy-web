@@ -60,7 +60,7 @@
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addProgram}"></span>
                             </a>
                             <a class="dropdown-item"
-                               th:href="@{/admin/folder/add?category=MODULE}"
+                               th:href="@{/admin/folder/add(category='MODULE')}"
                                th:classappend="${#httpServletRequest.requestURI == '/admin/folder/add'} ? 'active'">
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addModule}"></span>
                             </a>
@@ -82,9 +82,9 @@
                                 <i class="fas fa-gift fa-fw"></i> <span th:text="#{nav.bonuses}"></span>
                             </a>
                             <a class="dropdown-item"
-                               th:href="@{/admin/folder/add?category=BONUS}"
+                               th:href="@{/admin/folder/add(category='BONUS')}"
                                th:classappend="${#httpServletRequest.requestURI == '/admin/folder/add'} ? 'active'">
-                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{add.bonus}"></span>
+                                <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddBonus}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
@@ -108,7 +108,8 @@
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:each="theme : ${T(ua.kazo.dentalacademy.enumerated.BootswatchTheme).values()}"
-                               th:href="@{__${#httpServletRequest.requestURI}__?theme=__${theme.name().toLowerCase()}__}"
+                               th:classappend="${#strings.equals(#themes.code('stylesheet'), theme.name().toLowerCase())} ? 'active'"
+                               th:href="@{__${#httpServletRequest.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
                                th:text="${theme.name().toLowerCase()}"></a>
                         </div>
                     </li>
@@ -119,8 +120,11 @@
                             <i class="fas fa-flag fa-fw"></i>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=en}"><span class="flag-icon flag-icon-us"></span> <span th:text="#{lang.en}"></span></a>
-                            <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=uk}"><span class="flag-icon flag-icon-ua"></span> <span th:text="#{lang.uk}"></span></a>
+                            <a class="dropdown-item" th:each="lang : ${T(ua.kazo.dentalacademy.enumerated.Languages).values()}"
+                               th:classappend="${#strings.equals(#locale, lang.getLanguage())} ? 'active'"
+                               th:href="@{__${#httpServletRequest.requestURI}__(lang=__${lang.getLanguage()}__)}">
+                                <span th:class="${'flag-icon flag-icon-' + lang.getCountry()}"></span> <span th:text="#{${'lang.' + lang.getLanguage()}}"></span>
+                            </a>
                         </div>
                     </li>
                 </ul>
@@ -178,12 +182,12 @@
     <div class="bg-dark text-white">
         <div class="container text-center pt-4 pb-3">
             <div class="pb-3 text-white"><i class="fab "></i>
-                <a href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube text-white fa-2x ml-4 mr-4"></i></a>
-                <a href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram text-white fa-2x ml-4 mr-4"></i></a>
-<!--                <a href="#"><i class="fab fa-facebook-f text-white fa-2x mr-5"></i></a>-->
-<!--                <a href="#"><i class="fab fa-twitter text-white fa-2x mr-5"></i></a>-->
-<!--                <a href="#"><i class="fab fa-linkedin-in text-white fa-2x mr-5"></i></a>-->
-<!--                <a href="#"><i class="fab fa-telegram-plane text-white fa-2x"></i></a>-->
+                <a target="_blank" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube text-white fa-2x ml-4 mr-4"></i></a>
+                <a target="_blank" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram text-white fa-2x ml-4 mr-4"></i></a>
+<!--                <a target="_blank" href="#"><i class="fab fa-facebook-f text-white fa-2x mr-5"></i></a>-->
+<!--                <a target="_blank" href="#"><i class="fab fa-twitter text-white fa-2x mr-5"></i></a>-->
+<!--                <a target="_blank" href="#"><i class="fab fa-linkedin-in text-white fa-2x mr-5"></i></a>-->
+<!--                <a target="_blank" href="#"><i class="fab fa-telegram-plane text-white fa-2x"></i></a>-->
             </div>
             <div th:text="'&copy; 2020 ' + #{sitename}"></div>
         </div>
@@ -202,16 +206,16 @@
 <!--                </div>-->
 <!--                <div class="modal-body"></div>-->
 <!--                <div class="modal-footer">-->
-<!--                    <form th:action="@{/grounds/remove}" method="post">-->
-<!--                        <input type="hidden" name="id" id="removeFormGroundId" value="">-->
-<!--                        <button type="button" class="btn btn-danger" onclick="this.form.submit()" th:text="#{ground.remove}"></button>-->
+<!--                    <form th:action="@{/entity/remove}" method="post">-->
+<!--                        <input type="hidden" name="id" id="removeFormEntityId" value="">-->
+<!--                        <button type="button" class="btn btn-danger" onclick="this.form.submit()" th:text="#{entity.remove}"></button>-->
 <!--                    </form>-->
-<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{ground.cancel}"></button>-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{button.cancel}"></button>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-<!--    <script type="text/javascript" th:src="@{/js/groundManageButtons.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/js/entityManageButtons.js}"></script>-->
 <!--</div>-->
 
 </body>

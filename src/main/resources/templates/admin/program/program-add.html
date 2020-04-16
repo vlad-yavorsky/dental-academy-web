@@ -20,31 +20,31 @@
     <div class="row">
         <div class="col-12">
             <form method="post" th:object="${program}" th:action="@{/admin/program/add}">
-                <h3>Main info</h3>
+                <h4 th:text="#{header.MainInfo}"></h4>
 
                 <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="#{program.name}"></label>
+                    <label for="name" class="col-2 col-form-label" th:text="#{program.name}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control form-control-sm" id="name" th:field="*{name}" maxlength="250" required/>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="image" class="col-2 col-form-label col-form-label-sm" th:text="#{program.image}"></label>
+                    <label for="image" class="col-2 col-form-label" th:text="#{program.image}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control form-control-sm" id="image" th:field="*{image}" maxlength="250"/>
+                        <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-2 col-form-label col-form-label-sm" th:text="#{program.description}"></label>
+                    <label for="description" class="col-2 col-form-label" th:text="#{program.description}"></label>
                     <div class="col-10">
-                        <textarea class="form-control form-control-sm" id="description" th:field="*{description}" maxlength="2000"></textarea>
+                        <textarea class="form-control" id="description" th:field="*{description}" maxlength="2000"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{add}"></span></button>
-                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{cancel}"></span></a>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.add}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>

@@ -5,10 +5,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.entity.Program;
-import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
+import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.ProgramRepository;
 
 import java.time.LocalDateTime;
@@ -26,8 +26,8 @@ public class ProgramService {
         return programRepository.findAll(Sort.by("id"));
     }
 
-    public List<Program> findAllWithOfferings() {
-        return programRepository.findAllWithActiveOfferings(LocalDateTime.now());
+    public List<Program> findAllByNotDeactivatedOfferings() {
+        return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now());
     }
 
     public Program findById(Long id) {

@@ -21,9 +21,9 @@
         <div class="col-12">
             <div class="card text-center" th:if="${bonuses.isEmpty()}">
                 <div class="card-body">
-                    <h5 class="card-title">You do not have bonuses</h5>
-                    <p class="card-text">Earn new bonuses by purchasing 'Business' and 'VIP' packages in shop</p>
-                    <a th:href="@{/shop}" class="btn btn-primary">Go to shop</a>
+                    <h5 class="card-title" th:text="#{info.NoneBonuses.Header}"></h5>
+                    <p class="card-text" th:text="#{info.NoneBonuses.Description}"></p>
+                    <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
                 </div>
             </div>
             <div class="card-columns" th:if="${bonuses.size() > 0}">
@@ -34,7 +34,7 @@
                         <div class="card-text">
                             <p th:utext="${bonus.description}"></p>
                         </div>
-                        <a th:href="@{'/bonus/' + ${bonus.id}}" class="btn btn-primary">Continue</a>
+                        <a th:href="@{/bonus/__${bonus.id}__}" class="btn btn-primary" th:text="#{button.continue}"></a>
                     </div>
                 </div>
             </div>

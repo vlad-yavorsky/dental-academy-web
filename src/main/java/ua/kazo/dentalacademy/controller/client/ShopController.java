@@ -33,7 +33,7 @@ public class ShopController {
 
     @GetMapping("/shop")
     public String shop(final ModelMap model) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithOfferings()));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotDeactivatedOfferings()));
         return "client/shop/shop";
     }
 
@@ -44,7 +44,7 @@ public class ShopController {
         List<Long> offeringIds = offeringService.findAllIdsByProgramId(programId);
         List<PurchaseData> purchasesByUser = purchaseDataService.findAllByIdOfferingIdInAndUserEmail(offeringIds, principal.getName());
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
-        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByOfferingIdsIfActiveFetchProgramsAndFolders(offeringIds), purchasesByUser));
+        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toShopItemResponseDto(offeringService.findAllByIdsAndNotDeactivatedFetchProgramsAndFolders(offeringIds), purchasesByUser));
         model.addAttribute(ModelMapConstants.IS_PURCHASED, purchaseDataService.isProgramPurchasedAndNotExpired(programId, principal.getName()));
         model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "client/shop/shop-item";

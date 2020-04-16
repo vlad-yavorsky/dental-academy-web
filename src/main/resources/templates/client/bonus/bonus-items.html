@@ -28,17 +28,17 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/videos'} ? 'active'"
-                               th:href="@{'/bonus/' + ${bonus.id} + '/videos'}">Videos</a>
+                               th:href="@{/bonus/__${bonus.id}__/videos}">Videos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/links'} ? 'active'"
-                               th:href="@{'/bonus/' + ${bonus.id} + '/links'}">Links</a>
+                               th:href="@{/bonus/__${bonus.id}__/links}">Links</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/files'} ? 'active'"
-                               th:href="@{'/bonus/' + ${bonus.id} + '/files'}">Files</a>
+                               th:href="@{/bonus/__${bonus.id}__/files}">Files</a>
                         </li>
                     </ul>
                 </div>
@@ -48,15 +48,16 @@
                             <div class="list-group">
                                 <a class="list-group-item list-group-item-action"
                                    th:each="bonusItem: ${bonus.items}"
-                                   th:href="@{'/bonus/' + ${bonus.id} + '/item/' + ${bonusItem.id}}"
+                                   th:href="@{/bonus/__${bonus.id}__/item/__${bonusItem.id}__}"
                                    th:text="${bonusItem.name}"
-                                   th:classappend="${selectedItem.id == bonusItem.id} ? 'active' : ''">Learn</a>
+                                   th:classappend="${selectedItem.id == bonusItem.id} ? 'active'"></a>
                             </div>
                         </div>
                         <div class="col-12 col-md-12 col-lg-9">
-                            <iframe th:if="${#strings.equals(selectedItem.type, 'YOUTUBE')}" style="width: 100%; min-height: 600px;" th:src="${selectedItem.link}"
-                                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen></iframe>
+                            <iframe th:if="${#strings.equals(selectedItem.type, 'YOUTUBE')}"
+                                    th:src="${selectedItem.link}" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    style="width: 100%; min-height: 600px;" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>

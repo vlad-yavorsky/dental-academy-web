@@ -24,7 +24,7 @@
                 <tr>
                     <th style="width: 1%;" th:text="#{program.image}"></th>
                     <th th:text="#{program.name}"></th>
-                    <th style="width: 1%;">Actions</th>
+                    <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,9 +33,9 @@
                     <td th:text="${program.name}"></td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{'/admin/folder/add?programId=' + ${program.id}}" title="Add Folder" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
-                            <a th:href="@{'/admin/program/edit/' + ${program.id}}" title="Edit Program" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:href="@{'/admin/program/delete/' + ${program.id}}" title="Delete Program" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
+                            <a th:href="@{/admin/folder/add(programId=__${program.id}__)}" th:title="#{button.AddFolder}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
+                            <a th:href="@{/admin/program/edit/__${program.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{/admin/program/delete/__${program.id}__}" th:title="#{button.delete}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
                         </div>
                     </td>
                 </tr>

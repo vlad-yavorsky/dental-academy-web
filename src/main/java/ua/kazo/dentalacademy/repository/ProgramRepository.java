@@ -21,9 +21,9 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
      */
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
-            "where (o.deactivated is null or o.deactivated > :dateTime) " +
+            "where (o.deactivated is null or :dateTime < o.deactivated) " +
             "order by p.id desc")
-    List<Program> findAllWithActiveOfferings(LocalDateTime dateTime);
+    List<Program> findAllByNotDeactivatedOfferings(LocalDateTime dateTime);
 
     /**
      * Client side: Program Modules/QA page

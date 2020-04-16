@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <div th:replace="~{fragments :: head (#{nav.shop})}"></div>
 </head>
@@ -21,9 +21,13 @@
         <div class="col-12">
             <div class="card text-center" th:if="${programs.isEmpty()}">
                 <div class="card-body">
-                    <h5 class="card-title">Shop is empty</h5>
-                    <p class="card-text">If you administrator of this website, add new programs for purchase</p>
-                    <a th:href="@{/shop}" class="btn btn-primary">Add programs</a>
+                    <h5 class="card-title" th:text="#{info.ShopIsEmpty}"></h5>
+                    <span sec:authorize="hasAuthority('ADMIN')">
+                        <p class="card-text" th:text="#{info.AddProgramsToShop}"></p>
+                        <a th:href="@{/shop}" class="btn btn-primary" th:text="#{nav.addProgram}"></a>
+                        <a th:href="@{/shop}" class="btn btn-primary" th:text="#{nav.addOffering}"></a>
+                    </span>
+                    <p sec:authorize="hasAuthority('USER')" class="card-text" th:text="#{info.WaitUntilShopFills}"></p>
                 </div>
             </div>
             <div class="card-columns">
@@ -32,7 +36,7 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${program.name}"></h5>
                         <p class="card-text" th:utext="${program.description}"></p>
-                        <a th:href="@{'/shop/program/' + ${program.id}}" class="btn btn-success">Watch Details</a>
+                        <a th:href="@{/shop/program/__${program.id}__}" class="btn btn-success" th:text="#{button.WatchDetails}"></a>
                     </div>
                 </div>
             </div>

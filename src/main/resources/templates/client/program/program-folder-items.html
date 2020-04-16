@@ -29,12 +29,12 @@
                         <li class="nav-item" th:if="${isModulesExist}">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/program/' + programId + '/modules'} ? 'active'"
-                               th:href="@{'/program/' + ${programId} + '/modules'}">Modules</a>
+                               th:href="@{/program/__${programId}__/modules}" th:text="#{modules}"></a>
                         </li>
                         <li class="nav-item" th:if="${isQaExist}">
                             <a class="nav-link"
                                th:classappend="${#httpServletRequest.requestURI == '/program/' + programId + '/qa'} ? 'active'"
-                               th:href="@{'/program/' + ${programId} + '/qa'}">Q&A</a>
+                               th:href="@{/program/__${programId}__/qa}" th:text="#{qa}"></a>
                         </li>
                     </ul>
                 </div>
@@ -44,15 +44,16 @@
                             <div class="list-group">
                                 <a class="list-group-item list-group-item-action"
                                    th:each="folderItem: ${folder.items}"
-                                   th:href="@{'/program/' + ${program.id} + '/folder/' + ${folder.id} + '/item/' + ${folderItem.id}}"
+                                   th:href="@{/program/__${program.id}__/folder/__${folder.id}__/item/__${folderItem.id}__}"
                                    th:text="${folderItem.name}"
-                                   th:classappend="${selectedItem.id == folderItem.id} ? 'active' : ''">Learn</a>
+                                   th:classappend="${selectedItem.id == folderItem.id} ? 'active'"></a>
                             </div>
                         </div>
                         <div class="col-12 col-md-12 col-lg-9">
-                            <iframe th:if="${#strings.equals(selectedItem.type, 'YOUTUBE')}" style="width: 100%; min-height: 600px;" th:src="${selectedItem.link}"
-                                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen></iframe>
+                            <iframe th:if="${#strings.equals(selectedItem.type, 'YOUTUBE')}"
+                                    th:src="${selectedItem.link}" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    style="width: 100%; min-height: 600px;" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>

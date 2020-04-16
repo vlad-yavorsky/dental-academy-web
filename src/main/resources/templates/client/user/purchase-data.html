@@ -21,21 +21,21 @@
         <div class="col-12">
             <div class="card text-center" th:if="${purchases.isEmpty()}">
                 <div class="card-body">
-                    <h5 class="card-title">You don't have purchases</h5>
-                    <p class="card-text">See list of available programs for purchase</p>
-                    <a th:href="@{/shop}" class="btn btn-primary">Go to shop</a>
+                    <h5 class="card-title" th:text="#{info.NonePurchases.Header}"></h5>
+                    <p class="card-text" th:text="#{info.NonePurchases.Description}"></p>
+                    <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
                 </div>
             </div>
             <table class="table table-striped" th:if="${purchases.size() > 0}">
                 <thead class="thead-dark">
                 <tr>
-                    <th style="width: 150px;">Purchased</th>
-                    <th style="width: 150px;">Expired</th>
-                    <th>Offering Name</th>
-                    <th>Package</th>
-                    <th>Programs</th>
-                    <th>Bonuses</th>
-                    <th>Price</th>
+                    <th style="width: 150px;" th:text="#{purchaseData.purchased}"></th>
+                    <th style="width: 150px;" th:text="#{purchaseData.expired}"></th>
+                    <th th:text="#{purchaseData.offeringName}"></th>
+                    <th th:text="#{purchaseData.package}"></th>
+                    <th th:text="#{programs}">
+                    <th th:text="#{bonuses}">
+                    <th th:text="#{purchaseData.price}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,7 +43,7 @@
                     <td th:text="${#temporals.format(purchase.purchased, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${#temporals.format(purchase.expired, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${purchase.name}"></td>
-                    <td th:text="${purchase.type}"></td>
+                    <td th:text="#{${purchase.type.toString().toLowerCase()}}"></td>
                     <td>
                         <ul>
                             <li th:each="program: ${purchase.offering.programs}" th:text="${program.name}"></li>

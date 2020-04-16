@@ -29,7 +29,7 @@
                     <th th:text="#{user.mobile}"></th>
                     <th th:text="#{user.birthday}"></th>
                     <th th:text="#{user.enabled}"></th>
-                    <th style="width: 1%;">Actions</th>
+                    <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,8 @@
                     <td th:text="${user.enabled}"></td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{'/admin/user/edit/' + ${user.id}}" title="Edit User" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:href="@{'/admin/user/delete/' + ${user.id}}" title="Deactivate User" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
+                            <a th:href="@{/admin/user/edit/__${user.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{/admin/user/delete/__${user.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
                         </div>
                     </td>
                 </tr>

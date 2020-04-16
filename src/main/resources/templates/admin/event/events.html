@@ -26,7 +26,7 @@
                     <th th:text="#{event.date}"></th>
                     <th th:text="#{event.name}"></th>
 <!--                    <th th:text="#{event.description}"></th>-->
-                    <th style="width: 1%;">Actions</th>
+                    <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,8 +37,8 @@
 <!--                    <td th:text="${event.description}"></td>-->
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{'/admin/event/edit/' + ${event.id}}" title="Edit Event" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:href="@{'/admin/event/delete/' + ${event.id}}" title="Deactivate Event" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
+                            <a th:href="@{/admin/event/edit/__${event.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{/admin/event/delete/__${event.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
                         </div>
                     </td>
                 </tr>

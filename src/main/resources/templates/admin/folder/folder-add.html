@@ -20,55 +20,55 @@
 
     <div class="row">
         <div class="col-12">
-            <form method="post" th:object="${folder}" th:action="@{'/admin/folder/add'}">
-                <h3>Main info</h3>
+            <form method="post" th:object="${folder}" th:action="@{/admin/folder/add}">
+                <h4 th:text="#{header.MainInfo}"></h4>
 
                 <div class="form-group row required">
-                    <label for="category" class="col-2 col-form-label col-form-label-sm" th:text="#{folder.category}"></label>
+                    <label for="category" class="col-2 col-form-label" th:text="#{folder.category}"></label>
                     <div class="col-10">
-                        <select class="form-control form-control-sm" id="category" th:field="*{category}" required>
+                        <select class="form-control" id="category" th:field="*{category}" required>
                             <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.FolderCategory).values()}"
-                                    th:value="${category.name()}" th:text="${category.name()}"></option>
+                                    th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="Program"></label>
-                    <div class="col-10 input-group input-group-sm">
-                        <select class="form-control form-control-sm selectpicker" multiple th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
+                    <label for="name" class="col-2 col-form-label" th:text="Program"></label>
+                    <div class="col-10 input-group">
+                        <select class="form-control selectpicker" multiple th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
                             <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="col-2 col-form-label col-form-label-sm" th:text="#{folder.name}"></label>
+                    <label for="name" class="col-2 col-form-label" th:text="#{folder.name}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control form-control-sm" id="name" th:field="*{name}" maxlength="250" required/>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="image" class="col-2 col-form-label col-form-label-sm" th:text="#{folder.image}"></label>
+                    <label for="image" class="col-2 col-form-label" th:text="#{folder.image}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control form-control-sm" id="image" th:field="*{image}" maxlength="250"/>
+                        <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-2 col-form-label col-form-label-sm" th:text="#{folder.description}"></label>
+                    <label for="description" class="col-2 col-form-label" th:text="#{folder.description}"></label>
                     <div class="col-10">
-                        <textarea class="form-control form-control-sm" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                        <textarea class="form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
                     </div>
                 </div>
 
-                <h3>Items</h3>
-                <table class="table table-sm" id="items">
+                <h4 th:text="#{folder.items}"></h4>
+                <table class="table" id="items">
                     <thead class="thead-light">
                     <tr>
-                        <th scope="col" style="width: 1%;">Sort</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Link</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Type</th>
-                        <th scope="col" style="width: 1%;"></th>
+                        <th th:text="#{folder.item.sorting}" style="width: 1%;"></th>
+                        <th th:text="#{folder.item.name}"></th>
+                        <th th:text="#{folder.item.link}"></th>
+                        <th th:text="#{folder.item.image}"></th>
+                        <th th:text="#{folder.item.type}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
                     </tr>
                     </thead>
                     <tbody class="sortable">
@@ -78,19 +78,19 @@
                             <i class="fas fa-arrows-alt handle"></i>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" th:field="*{items[__${iter.index}__].name}" maxlength="250" required/>
+                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].name}" maxlength="250" required/>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" th:field="*{items[__${iter.index}__].link}" maxlength="250" required/>
+                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].link}" maxlength="250" required/>
                         </td>
                         <td>
-                            <input type="text" class="form-control form-control-sm" th:field="*{items[__${iter.index}__].image}" maxlength="250"/>
+                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].image}" maxlength="250"/>
                         </td>
                         <td>
-                            <div class="input-group input-group-sm">
+                            <div class="input-group">
                                 <select class="custom-select" th:field="*{items[__${iter.index}__].type}" required>
                                     <option th:each="type: ${T(ua.kazo.dentalacademy.enumerated.FolderItemType).values()}"
-                                            th:value="${type.name()}" th:text="${type.name()}"></option>
+                                            th:value="${type.name()}" th:text="#{${type.name().toLowerCase()}}"></option>
                                 </select>
                             </div>
                         </td>
@@ -102,7 +102,7 @@
                     <tfoot>
                     <tr>
                         <td colspan="6" style="text-align: right;">
-                            <button type="submit" name="addRow" class="btn btn-success" formnovalidate><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{add.item}"></span></button>
+                            <button type="submit" name="addRow" class="btn btn-success" formnovalidate><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddItem}"></span></button>
                         </td>
                     </tr>
                     </tfoot>
@@ -110,8 +110,8 @@
 
                 <div class="form-group row">
                     <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{save}"></span></button>
-                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{cancel}"></span></a>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
+                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>

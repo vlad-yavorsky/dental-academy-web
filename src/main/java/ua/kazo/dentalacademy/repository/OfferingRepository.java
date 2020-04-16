@@ -53,22 +53,22 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
      */
     @Query("select distinct o from Offering o " +
             "left join fetch o.programs p " +
-            "where o.id in (:ids) and (o.deactivated is null or o.deactivated > :dateTime)")
-    List<Offering> findAllByIdsIfActiveFetchPrograms(List<Long> ids, LocalDateTime dateTime);
+            "where o.id in (:ids) and (o.deactivated is null or :dateTime < o.deactivated)")
+    List<Offering> findAllByIdsAndNotDeactivatedFetchPrograms(List<Long> ids, LocalDateTime dateTime);
 
     /**
      * Client side: Shop Item page
      */
     @Query("select distinct o from Offering o " +
             "left join fetch o.folders f " +
-            "where o.id in (:ids) and (o.deactivated is null or o.deactivated > :dateTime)")
-    List<Offering> findAllByIdsIfActiveFetchFolders(List<Long> ids, LocalDateTime dateTime);
+            "where o.id in (:ids) and (o.deactivated is null or :dateTime < o.deactivated)")
+    List<Offering> findAllByIdsAndNotDeactivatedFetchFolders(List<Long> ids, LocalDateTime dateTime);
 
     /**
      * Client side: Buy Offering Process
      */
     @Query("select o from Offering o " +
-            "where o.id = :id and o.activated < :dateTime and (o.deactivated is null or o.deactivated > :dateTime)")
-    Optional<Offering> findByIdIfAvailableForPurchase(Long id, LocalDateTime dateTime);
+            "where o.id = :id and o.activated < :dateTime and (o.deactivated is null or :dateTime < o.deactivated)")
+    Optional<Offering> findByIdAndActive(Long id, LocalDateTime dateTime);
 
 }
