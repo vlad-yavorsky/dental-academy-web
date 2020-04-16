@@ -4,6 +4,8 @@
     <title th:text="${title} + ' - ' + #{sitename}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:if="${!#strings.equals(#themes.code('stylesheet'), 'default')}"
+          th:href="@{/webjars/bootswatch/4.4.1/dist/__${#themes.code('stylesheet')}__/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-select/1.13.11/css/bootstrap-select.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/5.12.0/css/all.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/flag-icon-css/3.4.6/css/flag-icon.css}"/>
@@ -102,6 +104,18 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <i class="fas fa-palette fa-fw"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:each="theme : ${T(ua.kazo.dentalacademy.enumerated.BootswatchTheme).values()}"
+                               th:href="@{__${#httpServletRequest.requestURI}__?theme=__${theme.name().toLowerCase()}__}"
+                               th:text="${theme.name().toLowerCase()}"></a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="fas fa-flag fa-fw"></i>
                         </a>
                         <div class="dropdown-menu">
@@ -110,7 +124,6 @@
                         </div>
                     </li>
                 </ul>
-
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">

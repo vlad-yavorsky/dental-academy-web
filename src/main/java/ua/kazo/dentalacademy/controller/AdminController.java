@@ -151,8 +151,6 @@ public class AdminController {
     private String loadFolderAddPage(final FolderCreateDto folderCreateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.FOLDER, folderCreateDto);
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
-        model.addAttribute(ModelMapConstants.TYPES, FolderItemType.values());
-        model.addAttribute(ModelMapConstants.CATEGORIES, FolderCategory.values());
         return "admin/folder/folder-add";
     }
 
@@ -203,8 +201,6 @@ public class AdminController {
     private String loadFolderEditPage(final FolderUpdateDto folderUpdateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.FOLDER, folderUpdateDto);
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
-        model.addAttribute(ModelMapConstants.TYPES, FolderItemType.values());
-        model.addAttribute(ModelMapConstants.CATEGORIES, FolderCategory.values());
         return "admin/folder/folder-edit";
     }
 
@@ -291,7 +287,6 @@ public class AdminController {
         model.addAttribute(ModelMapConstants.OFFERING, offeringCreateDto);
         model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
-        model.addAttribute(ModelMapConstants.PACKAGES, OfferingType.values());
         return "admin/offering/offering-add";
     }
 
@@ -327,7 +322,6 @@ public class AdminController {
         model.addAttribute(ModelMapConstants.OFFERING, offeringUpdateDto);
         model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
-        model.addAttribute(ModelMapConstants.PACKAGES, OfferingType.values());
         return "admin/offering/offering-edit";
     }
 

@@ -24,6 +24,7 @@
         <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
         <jquery.version>3.4.1</jquery.version>
         <bootstrap.version>4.4.1</bootstrap.version>
+        <bootswatch.version>4.4.1</bootswatch.version>
         <font.awesome.version>5.12.0</font.awesome.version>
         <liquibase.version>3.8.7</liquibase.version>
     </properties>
@@ -113,6 +114,11 @@
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>${bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootswatch</artifactId>
+            <version>${bootswatch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
