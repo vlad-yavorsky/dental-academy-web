@@ -23,7 +23,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
-        cookieLocaleResolver.setDefaultLocale(Locale.UK);
+        cookieLocaleResolver.setDefaultLocale(new Locale("uk", "UA"));
         return cookieLocaleResolver;
     }
 

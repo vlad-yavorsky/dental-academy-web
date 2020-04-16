@@ -1,4 +1,4 @@
-package ua.kazo.dentalacademy.controller;
+package ua.kazo.dentalacademy.controller.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
-import ua.kazo.dentalacademy.controller.UserController;
+import ua.kazo.dentalacademy.controller.admin.AdminUserController;
+import ua.kazo.dentalacademy.controller.client.UserController;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@ControllerAdvice(basePackageClasses = UserController.class)
+@ControllerAdvice(basePackageClasses = {UserController.class, AdminUserController.class})
 public class ControllerExceptionHandler {
 
     private static final String ERROR_PAGE = "/error";
