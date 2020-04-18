@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (#{nav.editOffering})}"></div>
+    <title th:replace="~{fragments :: head (#{nav.editOffering})}"></title>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <h2 class="mb-4" th:text="#{nav.editOffering}"></h2>
-</div>
-
-<div class="container mb-4">
-
-    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
-    <div th:replace="~{fragments :: alert-success (${success})}"></div>
-    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/offerings}" th:text="#{nav.offerings}"></a> / <span th:text="#{nav.editOffering}"></span></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">

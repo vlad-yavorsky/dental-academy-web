@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (#{nav.addFolder})}"></div>
+    <title th:replace="~{fragments :: head (#{nav.addFolder})}"></title>
     <script type="text/javascript" th:src="@{/js/admin-folder-form.js}"></script>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <h2 class="mb-4" th:text="#{nav.addFolder}"></h2>
-</div>
-
-<div class="container mb-4">
-
-    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
-    <div th:replace="~{fragments :: alert-success (${success})}"></div>
-    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.addFolder}"></span></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -33,14 +32,14 @@
                     </div>
                 </div>
                 <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label" th:text="Program"></label>
+                    <label for="name" class="col-2 col-form-label" th:text="#{program}"></label>
                     <div class="col-10 input-group">
                         <select class="form-control selectpicker" multiple th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
                             <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row required">
                     <label for="name" class="col-2 col-form-label" th:text="#{folder.name}"></label>
                     <div class="col-10">
                         <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
@@ -95,7 +94,7 @@
                             </div>
                         </td>
                         <td>
-                            <button type="submit" name="removeRow" th:value="${iter.index}" class="btn btn-danger" formnovalidate><i class="fas fa-trash-alt fa-fw"></i></button>
+                            <button type="submit" name="removeRow" th:value="${iter.index}" class="btn btn-danger" th:title="#{button.delete}" formnovalidate><i class="fas fa-trash-alt fa-fw"></i></button>
                         </td>
                     </tr>
                     </tbody>

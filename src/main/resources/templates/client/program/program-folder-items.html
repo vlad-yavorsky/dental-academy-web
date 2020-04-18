@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (${program.name})}"></div>
+    <title th:replace="~{fragments :: head (${selectedItem.name} + ' - ' + ${folder.name} + ' - ' + ${program.name} + ' - ' + #{nav.myPrograms})}"></title>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <h2 class="mb-4" th:text="${program.name}"></h2>
-    <h3 th:text="${folder.name}"></h3>
-</div>
-
-<div class="container mb-4">
-
-    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
-    <div th:replace="~{fragments :: alert-success (${success})}"></div>
-    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3><a th:href="@{/}" th:text="#{nav.myPrograms}"></a> / <a th:href="@{/program/__${program.id}__}" th:text="${program.name}"></a> / <a th:href="@{/program/__${program.id}__/folder/__${folder.id}__}" th:text="${folder.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">

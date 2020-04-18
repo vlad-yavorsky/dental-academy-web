@@ -16,6 +16,11 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     boolean existsByName(String name);
     boolean existsByNameAndIdNot(String name, Long id);
 
+    @Query("select distinct p from Program p " +
+            "join p.folders " +
+            "order by p.name")
+    List<Program> findAllWithFolders();
+
     /**
      * Client side: Shop page
      */

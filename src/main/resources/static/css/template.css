@@ -6,7 +6,7 @@
     font-weight: bold;
 }
 .form-group.required .col-form-label:after {
-    content: " *";
+    content: "*";
     color: red;
 }
 

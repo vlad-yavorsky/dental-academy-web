@@ -79,7 +79,7 @@ public class AdminOfferingController {
     private String loadOfferingAddPage(final OfferingCreateDto offeringCreateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringCreateDto);
         model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithFolders()));
         return "admin/offering/offering-add";
     }
 
@@ -114,7 +114,7 @@ public class AdminOfferingController {
     private String loadOfferingEditPage(final OfferingUpdateDto offeringUpdateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringUpdateDto);
         model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithFolders()));
         return "admin/offering/offering-edit";
     }
 

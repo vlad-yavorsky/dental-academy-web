@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (#{nav.users})}"></div>
+    <title th:replace="~{fragments :: head (#{nav.users})}"></title>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <h2 class="mb-4" th:text="#{nav.users}"></h2>
-</div>
-
-<div class="container mb-4">
-
-    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
-    <div th:replace="~{fragments :: alert-success (${success})}"></div>
-    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.users}"></span></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -40,10 +39,13 @@
                     <td th:text="${user.lastName}"></td>
                     <td th:text="${user.mobile}"></td>
                     <td th:text="${user.birthday}"></td>
-                    <td th:text="${user.enabled}"></td>
+                    <td>
+                        <i th:if="${user.enabled}" class="fas fa-check-circle fa-2x fa-fw text-success"></i>
+                        <i th:unless="${user.enabled}" class="fas fa-times-circle fa-2x fa-fw text-danger"></i>
+                    </td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{/admin/user/edit/__${user.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                            <a th:href="@{/admin/user/edit/__${user.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit 2 fa-fw"></i></a>
                             <a th:href="@{/admin/user/delete/__${user.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
                         </div>
                     </td>

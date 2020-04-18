@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (#{error})}"></div>
+    <title th:replace="~{fragments :: head (#{error})}"></title>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}" class="alert alert-danger">
-        <strong th:text="|${httpStatus.value()} - ${httpStatus.reasonPhrase}|"></strong>
-        <div th:utext="${message}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}" class="alert alert-danger">
+                <strong th:text="|${httpStatus.value()} - ${httpStatus.reasonPhrase}|"></strong>
+                <div th:utext="${message}"></div>
+            </div>
+        </div>
     </div>
 </div>
 

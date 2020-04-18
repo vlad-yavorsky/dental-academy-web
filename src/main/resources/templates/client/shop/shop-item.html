@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <div th:replace="~{fragments :: head (${program.name})}"></div>
+    <title th:replace="~{fragments :: head (${program.name} + ' - ' + #{nav.shop})}"></title>
 </head>
 <body>
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container mt-4 mb-4">
-    <h2 class="mb-4">
-        <span th:text="#{nav.buy}"></span> <span th:text="${program.name}"></span>
-    </h2>
-</div>
-
-<div class="container mb-4">
-
-    <div th:replace="~{fragments :: alert-errors (${errors})}"></div>
-    <div th:replace="~{fragments :: alert-success (${success})}"></div>
-    <div th:replace="~{fragments :: alert-exception (${exception})}"></div>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3><a th:href="@{/shop}" th:text="#{nav.shop}"></a> / <span th:text="${program.name}"></span></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -68,7 +65,7 @@
                         <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>
                         <span th:unless="${offering.purchased}">
                             <a th:if="${offering.activated < now}" th:href="@{/shop/program/__${program.id}__/buy/__${offering.id}__}" class="btn btn-success" th:text="#{nav.buy}"></a>
-                            <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
+                            <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                         </span>
                     </td>
                 </tr>

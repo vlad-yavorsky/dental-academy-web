@@ -26,6 +26,10 @@ public class ProgramService {
         return programRepository.findAll(Sort.by("id"));
     }
 
+    public List<Program> findAllWithFolders() {
+        return programRepository.findAllWithFolders();
+    }
+
     public List<Program> findAllByNotDeactivatedOfferings() {
         return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now());
     }

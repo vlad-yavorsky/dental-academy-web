@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:lang="${#locale}">
 <head th:fragment="head (title)" th:remove="tag">
     <title th:text="${title} + ' - ' + #{sitename}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -49,6 +49,12 @@
                             <i class="fas fa-shield-alt fa-fw"></i> <span th:text="#{nav.admin}"></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item"
+                               th:href="@{/admin}"
+                               th:classappend="${#httpServletRequest.requestURI == '/admin'} ? 'active'">
+                                <i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.adminpanel}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/programs}"
                                th:classappend="${#httpServletRequest.requestURI == '/admin/programs'} ? 'active'">
@@ -148,29 +154,23 @@
     </nav>
 </header>
 
-<div th:fragment="alert-errors (errors)">
-    <div class="alert alert-danger" th:if="${errors}">
+<div th:fragment="alerts (errors, success, exception)">
+    <div th:if="${errors}" class="alert alert-danger" th:fragment="alert-errors (errors)">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <h5 th:text="#{error}"></h5>
         <div th:each="error : ${errors}">
-            <div><span th:text="#{field}"></span> <strong th:text="${error.field}"></strong> <span th:text="${error.defaultMessage}"></span></div>
+            <div><span th:text="#{field}"></span> <strong th:text="${error.field}"></strong> <span th:text="${error.defaultMessage != null} ? ${error.defaultMessage} : #{${error.code}}"></span></div>
         </div>
     </div>
-</div>
-
-<div th:fragment="alert-success (success)">
-    <div class="alert alert-success" th:if="${success}">
+    <div th:if="${success}" class="alert alert-success" th:fragment="alert-success (success)">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <span th:text="#{${success}}"></span>
     </div>
-</div>
-
-<div th:fragment="alert-exception (exception)">
-    <div class="alert alert-danger" th:if="${exception}">
+    <div th:if="${exception}" class="alert alert-danger" th:fragment="alert-exception (exception)">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
