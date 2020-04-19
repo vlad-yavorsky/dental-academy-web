@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.entity.Folder;
@@ -39,8 +40,9 @@ public class ProgramController {
     /* ---------------------------------------------- MY PROGRAMS ---------------------------------------------- */
 
     @GetMapping("/")
-    public String myPrograms(final ModelMap model, final Principal principal) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllPurchasedPrograms(principal.getName())));
+    public String myPrograms(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search) {
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotExpiredPurchase(principal.getName(), search)));
+        model.addAttribute(ModelMapConstants.SEARCH, search);
         return "index";
     }
 
@@ -101,8 +103,9 @@ public class ProgramController {
     /* ---------------------------------------------- MY BONUSES ---------------------------------------------- */
 
     @GetMapping("/bonuses")
-    public String myBonuses(final ModelMap model, final Principal principal) {
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByUserEmail(principal.getName())));
+    public String myBonuses(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search) {
+        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByUserEmail(principal.getName(), search)));
+        model.addAttribute(ModelMapConstants.SEARCH, search);
         return "client/bonus/bonuses";
     }
 

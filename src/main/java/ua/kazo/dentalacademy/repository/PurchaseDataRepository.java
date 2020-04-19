@@ -13,7 +13,7 @@ import java.util.List;
 public interface PurchaseDataRepository extends JpaRepository<PurchaseData, PurchaseDataId> {
 
     /**
-     * Client side: Purchase Data page
+     * Client / Purchase Data
      */
     @Query("select distinct ph from PurchaseData ph " +
             "left join fetch ph.offering o " +
@@ -23,7 +23,7 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
     List<PurchaseData> findAllByUserEmailFetchOfferingAndPrograms(String email);
 
     /**
-     * Client side: Purchase Data page
+     * Client / Purchase Data
      */
     @Query("select distinct ph from PurchaseData ph " +
             "left join fetch ph.offering o " +
@@ -33,17 +33,17 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
     List<PurchaseData> findAllByUserEmailFetchOfferingAndFolders(String email);
 
     /**
-     * Client side: Buy Offering Process
+     * Client / Buy Offering Process
      */
     boolean existsByIdOfferingIdAndUserEmail(Long offeringId, String email);
 
     /**
-     * Client side: Shop Item page
+     * Client / Shop Item
      */
     List<PurchaseData> findAllByIdOfferingIdInAndUserEmail(List<Long> offeringIds, String userEmail);
 
     /**
-     * Client side: Permission Evaluator, Shop Item page
+     * Client / Permission Evaluator, Shop Item
      */
     @Query("select (count(pd) > 0) from PurchaseData pd " +
             "join pd.offering o " +
@@ -52,7 +52,7 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
     boolean isProgramPurchasedAndNotExpired(Long programId, LocalDateTime dateTime, String email);
 
     /**
-     * Client side: Permission Evaluator
+     * Client / Permission Evaluator
      */
     @Query("select (count(pd) > 0) from PurchaseData pd " +
             "join pd.offering o " +

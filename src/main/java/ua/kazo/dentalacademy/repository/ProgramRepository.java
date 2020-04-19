@@ -22,7 +22,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     List<Program> findAllWithFolders();
 
     /**
-     * Client side: Shop page
+     * Client / Shop
      */
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
@@ -31,7 +31,17 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     List<Program> findAllByNotDeactivatedOfferings(LocalDateTime dateTime);
 
     /**
-     * Client side: Program Modules/QA page
+     * Client / Shop (search)
+     */
+    @Query("select distinct p from Program p " +
+            "join p.offerings o " +
+            "where (o.deactivated is null or :dateTime < o.deactivated) " +
+            "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
+            "order by p.id desc")
+    List<Program> findAllByNotDeactivatedOfferingsAndName(LocalDateTime dateTime, String name);
+
+    /**
+     * Client / My Programs / Modules, QA
      */
     @Query("select (count(p) > 0) from Program p " +
             "join p.folders f " +
@@ -39,7 +49,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     boolean existByIdAndFolderCategory(Long id, FolderCategory category);
 
     /**
-     * Client side: Program Modules/QA page
+     * Client / My Programs / Modules, QA
      */
     @Query("select distinct p from Program p " +
             "join fetch p.folders f " +
@@ -48,13 +58,24 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     Optional<Program> findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category);
 
     /**
-     * Client side: My Programs page
+     * Client / My Programs
      */
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "join o.purchaseData pd " +
             "where pd.expired > :dateTime and pd.user.email = :email " +
             "order by p.id desc")
-    List<Program> findAllPurchasedAndNotExpiredPrograms(String email, LocalDateTime dateTime);
+    List<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime);
+
+    /**
+     * Client / My Programs (search)
+     */
+    @Query("select distinct p from Program p " +
+            "join p.offerings o " +
+            "join o.purchaseData pd " +
+            "where pd.expired > :dateTime and pd.user.email = :email " +
+            "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
+            "order by p.id desc")
+    List<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name);
 
 }

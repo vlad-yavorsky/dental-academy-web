@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
@@ -30,7 +31,10 @@ public class ProgramService {
         return programRepository.findAllWithFolders();
     }
 
-    public List<Program> findAllByNotDeactivatedOfferings() {
+    public List<Program> findAllByNotDeactivatedOfferings(String search) {
+        if (!StringUtils.isEmpty(search)) {
+            return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search);
+        }
         return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now());
     }
 
@@ -60,8 +64,11 @@ public class ProgramService {
         return programRepository.save(program);
     }
 
-    public List<Program> findAllPurchasedPrograms(String email) {
-        return programRepository.findAllPurchasedAndNotExpiredPrograms(email, LocalDateTime.now());
+    public List<Program> findAllByNotExpiredPurchase(String email, String search) {
+        if (!StringUtils.isEmpty(search)) {
+            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search);
+        }
+        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now());
     }
 
     public void delete(Long id) {

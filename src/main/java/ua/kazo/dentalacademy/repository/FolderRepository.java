@@ -4,9 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.Folder;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Program;
+import ua.kazo.dentalacademy.enumerated.FolderCategory;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +20,8 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     boolean existsByNameAndOfferingsInAndIdNot(String name, List<Offering> offerings, Long id);
 
     /**
-     * Client side: Folder Items page
-     * Admin side: Edit Folder page
+     * Client / My Programs / Folder Items, Bonus Items
+     * Admin / Edit Folder
      */
     @Query("select f from Folder f " +
             "join fetch f.items i " +
@@ -30,7 +30,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     Optional<Folder> findByIdFetchItems(Long id);
 
     /**
-     * Admin side: Edit Folder page
+     * Admin / Edit Folder
      */
     @Query("select f from Folder f " +
             "left join fetch f.programs p " +
@@ -38,17 +38,18 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     Optional<Folder> findByIdFetchPrograms(Long id);
 
     /**
-     * Admin side: Edit Program page
+     * Admin / Edit Program
      */
     List<Folder> findAllByPrograms_Id(Long programId);
 
     /**
-     * Admin side: Edit Offering page; Bonuses page
+     * Admin / Edit Offering
+     * Admin / Bonuses
      */
     List<Folder> findAllByCategory(FolderCategory category);
 
     /**
-     * Client side: My Bonuses page
+     * Client / My Bonuses
      */
     @Query("select distinct f from Folder f " +
             "join f.offerings o " +
@@ -56,5 +57,16 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "where pd.user.email = :userEmail " +
             "order by f.id")
     List<Folder> findAllByUserEmail(String userEmail);
+
+    /**
+     * Client / My Bonuses (search)
+     */
+    @Query("select distinct f from Folder f " +
+            "join f.offerings o " +
+            "join o.purchaseData pd " +
+            "where pd.user.email = :userEmail " +
+            "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
+            "order by f.id")
+    List<Folder> findAllByUserEmailAndName(String userEmail, String name);
 
 }

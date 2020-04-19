@@ -5,12 +5,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ua.kazo.dentalacademy.entity.Folder;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Program;
-import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
+import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.FolderRepository;
 
 import java.util.List;
@@ -40,7 +41,10 @@ public class FolderService {
         return folderRepository.findAllByCategory(category);
     }
 
-    public List<Folder> findAllByUserEmail(String userEmail) {
+    public List<Folder> findAllByUserEmail(String userEmail, String search) {
+        if (!StringUtils.isEmpty(search)) {
+            return folderRepository.findAllByUserEmailAndName(userEmail, search);
+        }
         return folderRepository.findAllByUserEmail(userEmail);
     }
 

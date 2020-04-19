@@ -18,7 +18,8 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card text-center" th:if="${programs.isEmpty()}">
+            <div th:replace="fragments :: search-form (${search}, ${programs.size()})"></div>
+            <div class="card text-center" th:if="${#strings.isEmpty(search) and programs.isEmpty()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="#{info.ShopIsEmpty}"></h5>
                     <span sec:authorize="hasAuthority('ADMIN')">

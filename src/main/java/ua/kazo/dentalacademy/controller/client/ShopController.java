@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
@@ -32,8 +33,9 @@ public class ShopController {
     /* ---------------------------------------------- SHOP ---------------------------------------------- */
 
     @GetMapping("/shop")
-    public String shop(final ModelMap model) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotDeactivatedOfferings()));
+    public String shop(final ModelMap model, @RequestParam(required = false) final String search) {
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotDeactivatedOfferings(search)));
+        model.addAttribute(ModelMapConstants.SEARCH, search);
         return "client/shop/shop";
     }
 

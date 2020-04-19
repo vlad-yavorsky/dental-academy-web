@@ -194,6 +194,26 @@
     </div>
 </footer>
 
+<div th:fragment="search-form (search, count)" th:remove="tag">
+    <form th:action="@{__${#httpServletRequest.requestURI}__}" method="get">
+        <div class="form-row justify-content-between align-items-center" th:classappend="${#strings.isEmpty(search)} ? 'flex-row-reverse'">
+            <div class="col-auto" th:if="${!#strings.isEmpty(search)}">
+                <h6><span th:text="#{info.searchResults}"></span>: <span th:text="${count}"></span></h6>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="search" th:value="#{program.name}"></label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="search" name="search" autofocus th:placeholder="#{button.search}" th:value="${search}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search fa-fw"></i></button>
+                        <a th:href="@{__${#httpServletRequest.requestURI}__}" class="btn btn-danger"><i class="fas fa-times-circle fa-fw"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 <!--<div th:fragment="modal">-->
 <!--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">-->
 <!--        <div class="modal-dialog" role="document">-->

@@ -17,7 +17,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     boolean existsByNameAndTypeAndIdNot(String name, OfferingType type, Long id);
 
     /**
-     * Admin side: Offering Edit page
+     * Admin / Offering Edit
      */
     @Query("select o from Offering o " +
             "left join fetch o.programs p " +
@@ -25,7 +25,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     Optional<Offering> findByIdFetchPrograms(Long id);
 
     /**
-     * Admin side: Offering Edit page
+     * Admin / Offering Edit
      */
     @Query("select o from Offering o " +
             "left join fetch o.folders f " +
@@ -33,7 +33,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     Optional<Offering> findByIdFetchFolders(Long id);
 
     /**
-     * Admin side: Program Edit page
+     * Admin / Program Edit
      */
     @Query("select o from Offering o " +
             "join o.programs p " +
@@ -41,7 +41,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     List<Offering> findAllByProgramId(Long programId);
 
     /**
-     * Client side: Shop Item page
+     * Client / Shop Item
      */
     @Query("select o.id from Offering o " +
             "join o.programs p " +
@@ -49,7 +49,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     List<Long> findAllIdsByProgramId(Long programId);
 
     /**
-     * Client side: Shop Item page
+     * Client / Shop Item
      */
     @Query("select distinct o from Offering o " +
             "left join fetch o.programs p " +
@@ -57,7 +57,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     List<Offering> findAllByIdsAndNotDeactivatedFetchPrograms(List<Long> ids, LocalDateTime dateTime);
 
     /**
-     * Client side: Shop Item page
+     * Client / Shop Item
      */
     @Query("select distinct o from Offering o " +
             "left join fetch o.folders f " +
@@ -65,7 +65,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     List<Offering> findAllByIdsAndNotDeactivatedFetchFolders(List<Long> ids, LocalDateTime dateTime);
 
     /**
-     * Client side: Buy Offering Process
+     * Client / Buy Offering Process
      */
     @Query("select o from Offering o " +
             "where o.id = :id and o.activated < :dateTime and (o.deactivated is null or :dateTime < o.deactivated)")
