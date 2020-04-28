@@ -19,6 +19,16 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
+                  value: VIMEO
+              - column:
+                  name: description
+                  value: Vimeo
+
+        - insert:
+            tableName: folder_item_type
+            columns:
+              - column:
+                  name: name
                   value: PDF
               - column:
                   name: description

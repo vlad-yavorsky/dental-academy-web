@@ -18,19 +18,16 @@
 
     <div class="row">
         <div class="col-12">
-            <div th:replace="fragments :: search-form (${search}, ${programs.size()})"></div>
-            <div class="card text-center" th:if="${#strings.isEmpty(search) and programs.isEmpty()}">
+            <div th:replace="fragments :: search-form (${search}, ${pageResult.totalPages})"></div>
+
+            <div th:if="${programs.isEmpty()}" class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="#{info.ShopIsEmpty}"></h5>
-                    <span sec:authorize="hasAuthority('ADMIN')">
-                        <p class="card-text" th:text="#{info.AddProgramsToShop}"></p>
-                        <a th:href="@{/shop}" class="btn btn-primary" th:text="#{nav.addProgram}"></a>
-                        <a th:href="@{/shop}" class="btn btn-primary" th:text="#{nav.addOffering}"></a>
-                    </span>
-                    <p sec:authorize="hasAuthority('USER')" class="card-text" th:text="#{info.WaitUntilShopFills}"></p>
+                    <h5 class="card-title" th:text="#{info.NoData}"></h5>
+                    <p class="card-text" th:text="#{info.ChangeSearchParams}"></p>
                 </div>
             </div>
-            <div class="card-columns">
+
+            <div th:if="${!programs.isEmpty()}" class="card-columns">
                 <div class="card text-center" th:each="program: ${programs}">
                     <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
                     <div class="card-body">
@@ -40,6 +37,8 @@
                     </div>
                 </div>
             </div>
+
+            <nav th:replace="fragments :: pagination (${pageResult}, ${search})"></nav>
         </div>
     </div>
 </div>

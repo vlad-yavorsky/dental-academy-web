@@ -18,7 +18,8 @@
 
     <div class="row">
         <div class="col-12">
-            <div th:replace="fragments :: search-form (${search}, ${programs.size()})"></div>
+            <div th:replace="fragments :: search-form (${search}, ${pageResult.totalPages})"></div>
+
             <div class="card text-center" th:if="${#strings.isEmpty(search) and programs.isEmpty()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="#{info.NonePurchases.Header}"></h5>
@@ -26,6 +27,7 @@
                     <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
                 </div>
             </div>
+
             <div class="card-columns" th:if="${programs.size() > 0}">
                 <div class="card text-center" th:each="program: ${programs}">
                     <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
@@ -38,6 +40,8 @@
                     </div>
                 </div>
             </div>
+
+            <nav th:replace="fragments :: pagination (${pageResult}, ${search})"></nav>
         </div>
     </div>
 </div>

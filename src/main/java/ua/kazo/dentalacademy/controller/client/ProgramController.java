@@ -2,6 +2,8 @@ package ua.kazo.dentalacademy.controller.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.entity.Folder;
+import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.exception.ApplicationException;
@@ -40,9 +44,13 @@ public class ProgramController {
     /* ---------------------------------------------- MY PROGRAMS ---------------------------------------------- */
 
     @GetMapping("/")
-    public String myPrograms(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotExpiredPurchase(principal.getName(), search)));
+    public String myPrograms(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search,
+                             @RequestParam(defaultValue = "0") final int page,
+                             @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Program> pageResult = programService.findAllByNotExpiredPurchase(principal.getName(), search, PageRequest.of(page, size));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
+        model.addAttribute("pageResult", pageResult);
         return "index";
     }
 
@@ -103,9 +111,13 @@ public class ProgramController {
     /* ---------------------------------------------- MY BONUSES ---------------------------------------------- */
 
     @GetMapping("/bonuses")
-    public String myBonuses(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search) {
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByUserEmail(principal.getName(), search)));
+    public String myBonuses(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search,
+                            @RequestParam(defaultValue = "0") final int page,
+                            @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Folder> pageResult = folderService.findAllByUserEmail(principal.getName(), search, PageRequest.of(page, size));
+        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
+        model.addAttribute("pageResult", pageResult);
         return "client/bonus/bonuses";
     }
 

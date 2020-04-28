@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.mapper;
 
 import org.mapstruct.Mapper;
+import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.program.ProgramCreateDto;
 import ua.kazo.dentalacademy.dto.program.ProgramFoldersResponseDto;
 import ua.kazo.dentalacademy.dto.program.ProgramResponseDto;
@@ -19,6 +20,7 @@ public interface ProgramMapper {
 
     ProgramResponseDto toResponseDto(Program program);
     List<ProgramResponseDto> toResponseDto(List<Program> programs);
+    List<ProgramResponseDto> toResponseDto(Page<Program> programs);
 
     ProgramUpdateDto toUpdateDto(Program program);
 

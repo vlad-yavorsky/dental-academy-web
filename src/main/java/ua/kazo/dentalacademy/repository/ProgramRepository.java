@@ -1,5 +1,7 @@
 package ua.kazo.dentalacademy.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public interface ProgramRepository extends JpaRepository<Program, Long> {
 
     boolean existsByName(String name);
+
     boolean existsByNameAndIdNot(String name, Long id);
 
     @Query("select distinct p from Program p " +
@@ -28,7 +31,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "join p.offerings o " +
             "where (o.deactivated is null or :dateTime < o.deactivated) " +
             "order by p.id desc")
-    List<Program> findAllByNotDeactivatedOfferings(LocalDateTime dateTime);
+    Page<Program> findAllByNotDeactivatedOfferings(LocalDateTime dateTime, Pageable pageable);
 
     /**
      * Client / Shop (search)
@@ -38,7 +41,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "where (o.deactivated is null or :dateTime < o.deactivated) " +
             "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by p.id desc")
-    List<Program> findAllByNotDeactivatedOfferingsAndName(LocalDateTime dateTime, String name);
+    Page<Program> findAllByNotDeactivatedOfferingsAndName(LocalDateTime dateTime, String name, Pageable pageable);
 
     /**
      * Client / My Programs / Modules, QA
@@ -65,7 +68,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "join o.purchaseData pd " +
             "where pd.expired > :dateTime and pd.user.email = :email " +
             "order by p.id desc")
-    List<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime);
+    Page<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime, Pageable pageable);
 
     /**
      * Client / My Programs (search)
@@ -76,6 +79,6 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "where pd.expired > :dateTime and pd.user.email = :email " +
             "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by p.id desc")
-    List<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name);
+    Page<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable);
 
 }

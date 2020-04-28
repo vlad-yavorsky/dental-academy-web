@@ -2,6 +2,7 @@ package ua.kazo.dentalacademy.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.folder.FolderCreateDto;
 import ua.kazo.dentalacademy.dto.folder.FolderItemsResponseDto;
 import ua.kazo.dentalacademy.dto.folder.FolderResponseDto;
@@ -23,6 +24,7 @@ public interface FolderMapper {
 
     FolderResponseDto toResponseDto(Folder folder);
     List<FolderResponseDto> toResponseDto(List<Folder> folders);
+    List<FolderResponseDto> toResponseDto(Page<Folder> folders);
 
     FolderItemsResponseDto toItemsResponseDto(Folder folder);
     List<FolderItemsResponseDto> toItemsResponseDto(List<Folder> folders);

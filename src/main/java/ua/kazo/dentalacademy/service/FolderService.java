@@ -2,6 +2,8 @@ package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,11 +43,11 @@ public class FolderService {
         return folderRepository.findAllByCategory(category);
     }
 
-    public List<Folder> findAllByUserEmail(String userEmail, String search) {
+    public Page<Folder> findAllByUserEmail(String userEmail, String search, Pageable pageable) {
         if (!StringUtils.isEmpty(search)) {
-            return folderRepository.findAllByUserEmailAndName(userEmail, search);
+            return folderRepository.findAllByUserEmailAndName(userEmail, search, pageable);
         }
-        return folderRepository.findAllByUserEmail(userEmail);
+        return folderRepository.findAllByUserEmail(userEmail, pageable);
     }
 
     public Folder findByIdFetchItems(Long id) {

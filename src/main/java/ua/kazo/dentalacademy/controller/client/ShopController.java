@@ -1,6 +1,8 @@
 package ua.kazo.dentalacademy.controller.client;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
+import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.mapper.OfferingMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
@@ -33,9 +37,13 @@ public class ShopController {
     /* ---------------------------------------------- SHOP ---------------------------------------------- */
 
     @GetMapping("/shop")
-    public String shop(final ModelMap model, @RequestParam(required = false) final String search) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByNotDeactivatedOfferings(search)));
+    public String shop(final ModelMap model, @RequestParam(required = false) final String search,
+                       @RequestParam(defaultValue = "0") final int page,
+                       @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Program> pageResult = programService.findAllByNotDeactivatedOfferings(search, PageRequest.of(page, size));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
+        model.addAttribute("pageResult", pageResult);
         return "client/shop/shop";
     }
 

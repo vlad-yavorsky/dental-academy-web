@@ -214,6 +214,27 @@
     </form>
 </div>
 
+<nav th:if="${result.totalPages > 1}" th:fragment="pagination (result, search)">
+    <ul class="pagination justify-content-center">
+        <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
+            <a th:href="@{__${#httpServletRequest.requestURI}__(page=0,size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.first}"></a>
+        </li>
+        <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
+            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.pageable.pageNumber - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.previous}"></a>
+        </li>
+        <li th:classappend="${result.pageable.pageNumber == i} ? 'active'" th:each="i : ${#numbers.sequence(0, result.totalPages - 1)}" class="page-item">
+            <span th:if="${result.pageable.pageNumber == i}" class="page-link" th:text="${i + 1}"></span>
+            <a th:unless="${result.pageable.pageNumber == i}" th:href="@{__${#httpServletRequest.requestURI}__(page=${i},size=${result.pageable.pageSize},search=${search})}" th:text="${i + 1}" class="page-link"></a>
+        </li>
+        <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
+            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.pageable.pageNumber + 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.next}"></a>
+        </li>
+        <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
+            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.totalPages - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.last}"></a>
+        </li>
+    </ul>
+</nav>
+
 <!--<div th:fragment="modal">-->
 <!--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">-->
 <!--        <div class="modal-dialog" role="document">-->

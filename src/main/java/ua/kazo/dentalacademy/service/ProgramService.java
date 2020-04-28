@@ -2,6 +2,8 @@ package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +33,11 @@ public class ProgramService {
         return programRepository.findAllWithFolders();
     }
 
-    public List<Program> findAllByNotDeactivatedOfferings(String search) {
+    public Page<Program> findAllByNotDeactivatedOfferings(String search, Pageable pageable) {
         if (!StringUtils.isEmpty(search)) {
-            return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search);
+            return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search, pageable);
         }
-        return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now());
+        return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now(), pageable);
     }
 
     public Program findById(Long id) {
@@ -64,11 +66,11 @@ public class ProgramService {
         return programRepository.save(program);
     }
 
-    public List<Program> findAllByNotExpiredPurchase(String email, String search) {
+    public Page<Program> findAllByNotExpiredPurchase(String email, String search, Pageable pageable) {
         if (!StringUtils.isEmpty(search)) {
-            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search);
+            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable);
         }
-        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now());
+        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now(), pageable);
     }
 
     public void delete(Long id) {

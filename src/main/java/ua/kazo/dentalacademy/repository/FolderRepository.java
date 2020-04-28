@@ -1,5 +1,7 @@
 package ua.kazo.dentalacademy.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -56,7 +58,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "join o.purchaseData pd " +
             "where pd.user.email = :userEmail " +
             "order by f.id")
-    List<Folder> findAllByUserEmail(String userEmail);
+    Page<Folder> findAllByUserEmail(String userEmail, Pageable pageable);
 
     /**
      * Client / My Bonuses (search)
@@ -67,6 +69,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "where pd.user.email = :userEmail " +
             "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by f.id")
-    List<Folder> findAllByUserEmailAndName(String userEmail, String name);
+    Page<Folder> findAllByUserEmailAndName(String userEmail, String name, Pageable pageable);
 
 }
