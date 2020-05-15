@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{nav.ordersHistory})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3 th:text="#{nav.ordersHistory}"></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card text-center" th:if="${orders.isEmpty()}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="#{info.NoneOrders.Header}"></h5>
+                    <p class="card-text" th:text="#{info.NoneOrders.Description}"></p>
+                    <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
+                </div>
+            </div>
+            <div th:if="${orders.size() > 0}" th:each="order: ${orders}">
+                <ul>
+                    <li><a th:href="@{/order/__${order.id}__}"><strong th:text="#{nav.order}"></strong> #<span th:text="${order.id}"></span></a></li>
+                    <li><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
+                    <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}"></span></li>
+                    <li><strong th:text="#{order.totalPrice}"></strong>: <span th:text="${'$' + order.price}"></span></li>
+                </ul>
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:text="#{purchaseData.expired}"></th>
+                        <th th:text="#{purchaseData.offeringName}"></th>
+                        <th th:text="#{purchaseData.package}"></th>
+                        <th th:text="#{programs}">
+                        <th th:text="#{bonuses}">
+                        <th th:text="#{purchaseData.price}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderItem: ${order.purchaseData}">
+                        <td th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${orderItem.name}"></td>
+                        <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
+                        <td>
+                            <ul>
+                                <li th:each="program: ${orderItem.offering.programs}" th:text="${program.name}"></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul th:if="${!orderItem.offering.folders.isEmpty()}">
+                                <li th:each="folder: ${orderItem.offering.folders}" th:text="${folder.name}"></li>
+                            </ul>
+                        </td>
+                        <td th:text="${'$' + orderItem.price}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <hr/>
+            </div>
+
+            <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

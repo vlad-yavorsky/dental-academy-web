@@ -7,6 +7,7 @@ import org.springframework.security.access.expression.method.MethodSecurityExpre
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import ua.kazo.dentalacademy.security.CustomPermissionEvaluator;
+import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.PurchaseDataService;
 
 @Configuration
@@ -15,11 +16,12 @@ import ua.kazo.dentalacademy.service.PurchaseDataService;
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
     private final PurchaseDataService purchaseDataService;
+    private final OrderService orderService;
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
         DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
-        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator(purchaseDataService));
+        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator(purchaseDataService, orderService));
         return expressionHandler;
     }
 

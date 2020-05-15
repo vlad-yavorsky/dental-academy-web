@@ -45,10 +45,14 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     List<Folder> findAllByPrograms_Id(Long programId);
 
     /**
-     * Admin / Edit Offering
-     * Admin / Bonuses
+     * Admin / Add Offering, Edit Offering
      */
     List<Folder> findAllByCategory(FolderCategory category);
+
+    /**
+     * Admin / Bonuses
+     */
+    Page<Folder> findAllByCategory(FolderCategory category, Pageable pageable);
 
     /**
      * Client / My Bonuses
@@ -56,7 +60,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("select distinct f from Folder f " +
             "join f.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.user.email = :userEmail " +
+            "where pd.order.user.email = :userEmail " +
             "order by f.id")
     Page<Folder> findAllByUserEmail(String userEmail, Pageable pageable);
 
@@ -66,7 +70,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("select distinct f from Folder f " +
             "join f.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.user.email = :userEmail " +
+            "where pd.order.user.email = :userEmail " +
             "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by f.id")
     Page<Folder> findAllByUserEmailAndName(String userEmail, String name, Pageable pageable);

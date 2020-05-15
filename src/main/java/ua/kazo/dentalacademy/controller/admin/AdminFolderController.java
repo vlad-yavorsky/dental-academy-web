@@ -1,11 +1,14 @@
 package ua.kazo.dentalacademy.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.folder.FolderCreateDto;
 import ua.kazo.dentalacademy.dto.folder.FolderUpdateDto;
@@ -36,8 +39,12 @@ public class AdminFolderController {
     /* ---------------------------------------------- FOLDERS/BONUSES ---------------------------------------------- */
 
     @GetMapping("/bonuses")
-    public String bonuses(final ModelMap model) {
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
+    public String bonuses(final ModelMap model,
+                          @RequestParam(defaultValue = "0") final int page,
+                          @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Folder> pageResult = folderService.findAllByCategory(FolderCategory.BONUS, PageRequest.of(page, size));
+        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "admin/folder/bonuses";
     }
 
@@ -97,13 +104,13 @@ public class AdminFolderController {
     }
 
     @PostMapping(value = "/folder/add", params = {"addRow"})
-    public String addFolderAddRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderCreateDto folderCreateDto, final BindingResult bindingResult, ModelMap model) {
+    public String addFolderAddRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderCreateDto folderCreateDto, ModelMap model) {
         folderCreateDto.getItems().add(new FolderItemCreateDto());
         return loadFolderAddPage(folderCreateDto, model);
     }
 
     @PostMapping(value = "/folder/add", params = {"removeRow"})
-    public String addFolderRemoveRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderCreateDto folderCreateDto, final BindingResult bindingResult, final HttpServletRequest request, ModelMap model) {
+    public String addFolderRemoveRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderCreateDto folderCreateDto, final HttpServletRequest request, ModelMap model) {
         int rowId = Integer.parseInt(request.getParameter("removeRow"));
         folderCreateDto.getItems().remove(rowId);
         return loadFolderAddPage(folderCreateDto, model);
@@ -139,7 +146,7 @@ public class AdminFolderController {
     }
 
     @PostMapping(value = "/folder/edit/{id}", params = {"addRow"})
-    public String editFolderAddRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderUpdateDto folderUpdateDto, final BindingResult bindingResult, ModelMap model) {
+    public String editFolderAddRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderUpdateDto folderUpdateDto, ModelMap model) {
         FolderItemUpdateDto folderItemUpdateDto = new FolderItemUpdateDto();
         folderItemUpdateDto.setFolderId(folderUpdateDto.getId());
         folderUpdateDto.getItems().add(folderItemUpdateDto);
@@ -147,7 +154,7 @@ public class AdminFolderController {
     }
 
     @PostMapping(value = "/folder/edit/{id}", params = {"removeRow"})
-    public String editFolderRemoveRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderUpdateDto folderUpdateDto, final BindingResult bindingResult, final HttpServletRequest request, ModelMap model) {
+    public String editFolderRemoveRow(@ModelAttribute(ModelMapConstants.FOLDER) final FolderUpdateDto folderUpdateDto, final HttpServletRequest request, ModelMap model) {
         int rowId = Integer.parseInt(request.getParameter("removeRow"));
         folderUpdateDto.getItems().remove(rowId);
         return loadFolderEditPage(folderUpdateDto, model);

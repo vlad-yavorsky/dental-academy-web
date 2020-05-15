@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -26,10 +25,6 @@ public class FolderService {
     private final FolderRepository folderRepository;
     private final MessageSource messageSource;
 
-    public List<Folder> findAll() {
-        return folderRepository.findAll(Sort.by("id"));
-    }
-
     public List<Folder> findAllByProgramId(Long programId) {
         return folderRepository.findAllByPrograms_Id(programId);
     }
@@ -41,6 +36,10 @@ public class FolderService {
 
     public List<Folder> findAllByCategory(FolderCategory category) {
         return folderRepository.findAllByCategory(category);
+    }
+
+    public Page<Folder> findAllByCategory(FolderCategory category, Pageable pageable) {
+        return folderRepository.findAllByCategory(category, pageable);
     }
 
     public Page<Folder> findAllByUserEmail(String userEmail, String search, Pageable pageable) {

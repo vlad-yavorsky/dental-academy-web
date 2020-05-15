@@ -22,8 +22,8 @@
 
             <div class="card text-center" th:if="${#strings.isEmpty(search) and programs.isEmpty()}">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="#{info.NonePurchases.Header}"></h5>
-                    <p class="card-text" th:text="#{info.NonePurchases.Description}"></p>
+                    <h5 class="card-title" th:text="#{info.NoneOrders.Header}"></h5>
+                    <p class="card-text" th:text="#{info.NoneOrders.Description}"></p>
                     <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
                 </div>
             </div>

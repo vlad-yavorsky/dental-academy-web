@@ -17,11 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
-                .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**").permitAll()
+                .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/api/liqpay-callback").permitAll()
                 .antMatchers("/login", "/register").anonymous()
                 .antMatchers("/**").authenticated()
                 .and().formLogin()
-                .and().logout();
+                .and().logout()
+                .and().csrf().ignoringAntMatchers("/api/liqpay-callback", "/order/*");
     }
 
 }

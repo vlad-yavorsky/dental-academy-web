@@ -13,3 +13,38 @@
 .line-through {
     text-decoration: line-through;
 }
+
+/* liqpay */
+.liqpay-button {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    border: 0;
+    border-bottom: 3px solid #4c7714;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin: 0 auto;
+}
+.liqpay-button:hover {
+    opacity: 0.8;
+}
+.liqpay-button-left {
+    background: #82b63e;
+    border-right: 1px solid #8abb4a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 13px;
+    border-top-left-radius: 5px;
+}
+.liqpay-button-right {
+    font-size: 17px;
+    text-transform: uppercase;
+    background: #6ca91c;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 37px;
+    border-top-right-radius: 5px;
+}

@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.kazo.dentalacademy.enumerated.Role;
 
@@ -48,14 +49,23 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
 
     private LocalDate birthday;
 
+    @ToString.Exclude
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user")
-    private List<PurchaseData> purchaseData = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
+
+    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(name = "cart_item",
+            joinColumns = {@JoinColumn(name = "userId")},
+            inverseJoinColumns = {@JoinColumn(name = "offeringId")})
+    private List<Offering> cartItems = new ArrayList<>();
 
     @Override
     public Collection<Role> getAuthorities() {

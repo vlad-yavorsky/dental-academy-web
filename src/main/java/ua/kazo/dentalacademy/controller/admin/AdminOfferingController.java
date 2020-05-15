@@ -1,11 +1,15 @@
 package ua.kazo.dentalacademy.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.offering.OfferingCreateDto;
 import ua.kazo.dentalacademy.dto.offering.OfferingUpdateDto;
@@ -36,8 +40,12 @@ public class AdminOfferingController {
     /* ---------------------------------------------- OFFERINGS ---------------------------------------------- */
 
     @GetMapping("/offerings")
-    public String offerings(final ModelMap model) {
-        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toResponseDto(offeringService.findAll()));
+    public String offerings(final ModelMap model,
+                            @RequestParam(defaultValue = "0") final int page,
+                            @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Offering> pageResult = offeringService.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+        model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "admin/offering/offerings";
     }
@@ -45,15 +53,19 @@ public class AdminOfferingController {
     /* ---------------------------------------------- DE/ACTIVATE OFFERINGS ---------------------------------------------- */
 
     @GetMapping("/offering/activate/{id}")
-    public String activateOffering(@PathVariable Long id, final ModelMap model) {
+    public String activateOffering(@PathVariable Long id, final ModelMap model,
+                                   @RequestParam(defaultValue = "0") final int page,
+                                   @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         offeringService.activateOffering(id);
-        return offerings(model);
+        return offerings(model, page, size);
     }
 
     @GetMapping("/offering/deactivate/{id}")
-    public String deactivateOffering(@PathVariable Long id, final ModelMap model) {
+    public String deactivateOffering(@PathVariable Long id, final ModelMap model,
+                                     @RequestParam(defaultValue = "0") final int page,
+                                     @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         offeringService.deactivateOffering(id);
-        return offerings(model);
+        return offerings(model, page, size);
     }
 
     /* ---------------------------------------------- ADD OFFERING ---------------------------------------------- */

@@ -64,7 +64,15 @@
                     <td class="text-center">
                         <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>
                         <span th:unless="${offering.purchased}">
-                            <a th:if="${offering.activated < now}" th:href="@{/shop/program/__${program.id}__/buy/__${offering.id}__}" class="btn btn-success" th:text="#{nav.buy}"></a>
+
+                            <i th:if="${offering.inCart}" class="fas fa-cart-plus fa-2x text-success" th:title="#{shop.item.offering.AlreadyInCart}"></i>
+                            <span th:unless="${offering.inCart}">
+                                <form th:if="${offering.activated < now}" th:action="@{/cart}" method="post">
+                                    <input type="hidden" name="offeringId" th:value="${offering.id}">
+                                    <button type="submit" name="addItem" class="btn btn-success" th:title="#{button.AddToCart}"><i class="fas fa-shopping-cart fa-fw"></i></button>
+                                </form>
+                            </span>
+
                             <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                         </span>
                     </td>

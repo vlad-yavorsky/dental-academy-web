@@ -1,5 +1,6 @@
 package ua.kazo.dentalacademy.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import ua.kazo.dentalacademy.enumerated.OfferingType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface OfferingRepository extends JpaRepository<Offering, Long> {
@@ -19,18 +21,14 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     /**
      * Admin / Offering Edit
      */
-    @Query("select o from Offering o " +
-            "left join fetch o.programs p " +
-            "where o.id = :id")
-    Optional<Offering> findByIdFetchPrograms(Long id);
+    @EntityGraph(attributePaths = "programs")
+    Optional<Offering> findFetchProgramsById(Long id);
 
     /**
      * Admin / Offering Edit
      */
-    @Query("select o from Offering o " +
-            "left join fetch o.folders f " +
-            "where o.id = :id")
-    Optional<Offering> findByIdFetchFolders(Long id);
+    @EntityGraph(attributePaths = "folders")
+    Optional<Offering> findFetchFoldersById(Long id);
 
     /**
      * Admin / Program Edit
@@ -52,7 +50,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
      * Client / Shop Item
      */
     @Query("select distinct o from Offering o " +
-            "left join fetch o.programs p " +
+            "left join fetch o.programs " +
             "where o.id in (:ids) and (o.deactivated is null or :dateTime < o.deactivated)")
     List<Offering> findAllByIdsAndNotDeactivatedFetchPrograms(List<Long> ids, LocalDateTime dateTime);
 
@@ -60,15 +58,27 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
      * Client / Shop Item
      */
     @Query("select distinct o from Offering o " +
-            "left join fetch o.folders f " +
+            "left join fetch o.folders " +
             "where o.id in (:ids) and (o.deactivated is null or :dateTime < o.deactivated)")
     List<Offering> findAllByIdsAndNotDeactivatedFetchFolders(List<Long> ids, LocalDateTime dateTime);
 
     /**
-     * Client / Buy Offering Process
+     * Client / Add offering to cart
      */
     @Query("select o from Offering o " +
             "where o.id = :id and o.activated < :dateTime and (o.deactivated is null or :dateTime < o.deactivated)")
     Optional<Offering> findByIdAndActive(Long id, LocalDateTime dateTime);
+
+    /**
+     * Client / Order History
+     */
+    @EntityGraph(attributePaths = "programs")
+    List<Offering> findAllFetchProgramsByIdIn(Set<Long> ids);
+
+    /**
+     * Client / Order History
+     */
+    @EntityGraph(attributePaths = "folders")
+    List<Offering> findAllFetchFoldersByIdIn(Set<Long> ids);
 
 }

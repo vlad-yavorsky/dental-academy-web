@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ua.kazo.dentalacademy.enumerated.FolderItemType;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class FolderItem extends TrackedDateEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private FolderItemType type;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Folder folder;
 

@@ -1,11 +1,15 @@
 package ua.kazo.dentalacademy.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.program.ProgramCreateDto;
 import ua.kazo.dentalacademy.dto.program.ProgramUpdateDto;
@@ -34,8 +38,12 @@ public class AdminProgramController {
     /* ---------------------------------------------- PROGRAMS ---------------------------------------------- */
 
     @GetMapping("/programs")
-    public String programs(final ModelMap model) {
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAll()));
+    public String programs(final ModelMap model,
+                           @RequestParam(defaultValue = "0") final int page,
+                           @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Program> pageResult = programService.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "admin/program/programs";
     }
 

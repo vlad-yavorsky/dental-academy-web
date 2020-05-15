@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,10 +48,10 @@ public class ProgramController {
     public String myPrograms(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search,
                              @RequestParam(defaultValue = "0") final int page,
                              @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
-        Page<Program> pageResult = programService.findAllByNotExpiredPurchase(principal.getName(), search, PageRequest.of(page, size));
+        Page<Program> pageResult = programService.findAllByNotExpiredPurchase(principal.getName(), search, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
-        model.addAttribute("pageResult", pageResult);
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "index";
     }
 
@@ -105,7 +106,7 @@ public class ProgramController {
         model.addAttribute(ModelMapConstants.FOLDER, folderMapper.toItemsResponseDto(folder));
         model.addAttribute(ModelMapConstants.SELECTED_ITEM, folderItemMapper.toResponseDto(itemId == null ? folder.getItems().get(0) : folderItemService.findById(itemId)));
         addFolderCategoriesExistence(programId, model, folder.getCategory());
-        return "client/program/program-folder-items";
+        return "client/program/program-folder-item";
     }
 
     /* ---------------------------------------------- MY BONUSES ---------------------------------------------- */
@@ -117,7 +118,7 @@ public class ProgramController {
         Page<Folder> pageResult = folderService.findAllByUserEmail(principal.getName(), search, PageRequest.of(page, size));
         model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
-        model.addAttribute("pageResult", pageResult);
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "client/bonus/bonuses";
     }
 

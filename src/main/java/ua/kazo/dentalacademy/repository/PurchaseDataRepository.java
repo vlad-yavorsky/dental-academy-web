@@ -5,42 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.entity.PurchaseDataId;
+import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Repository
 public interface PurchaseDataRepository extends JpaRepository<PurchaseData, PurchaseDataId> {
-
-    /**
-     * Client / Purchase Data
-     */
-    @Query("select distinct ph from PurchaseData ph " +
-            "left join fetch ph.offering o " +
-            "left join fetch o.programs " +
-            "where ph.user.email = :email " +
-            "order by ph.purchased desc")
-    List<PurchaseData> findAllByUserEmailFetchOfferingAndPrograms(String email);
-
-    /**
-     * Client / Purchase Data
-     */
-    @Query("select distinct ph from PurchaseData ph " +
-            "left join fetch ph.offering o " +
-            "left join fetch o.folders " +
-            "where ph.user.email = :email " +
-            "order by ph.purchased desc")
-    List<PurchaseData> findAllByUserEmailFetchOfferingAndFolders(String email);
-
-    /**
-     * Client / Buy Offering Process
-     */
-    boolean existsByIdOfferingIdAndUserEmail(Long offeringId, String email);
-
-    /**
-     * Client / Shop Item
-     */
-    List<PurchaseData> findAllByIdOfferingIdInAndUserEmail(List<Long> offeringIds, String userEmail);
 
     /**
      * Client / Permission Evaluator, Shop Item
@@ -48,8 +18,8 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
     @Query("select (count(pd) > 0) from PurchaseData pd " +
             "join pd.offering o " +
             "join o.programs p " +
-            "where p.id = :programId and pd.expired > :dateTime and pd.user.email = :email")
-    boolean isProgramPurchasedAndNotExpired(Long programId, LocalDateTime dateTime, String email);
+            "where p.id = :programId and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
+    boolean isProgramPurchasedAndNotExpired(Long programId, LocalDateTime dateTime, String email, LiqPayPaymentStatus status);
 
     /**
      * Client / Permission Evaluator
@@ -59,7 +29,7 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "join o.programs p " +
             "left join p.folders module " +
             "left join o.folders bonus " +
-            "where (module.id = :folderId or bonus.id = :folderId) and pd.expired > :dateTime and pd.user.email = :email")
-    boolean isFolderPurchasedAndNotExpired(Long folderId, LocalDateTime dateTime, String email);
+            "where (module.id = :folderId or bonus.id = :folderId) and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
+    boolean isFolderPurchasedAndNotExpired(Long folderId, LocalDateTime dateTime, String email, LiqPayPaymentStatus status);
 
 }

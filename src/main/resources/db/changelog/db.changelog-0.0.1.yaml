@@ -23,6 +23,9 @@ databaseChangeLog:
         - createSequence:
             sequenceName: event_id_seq
 
+        - createSequence:
+            sequenceName: order_id_seq
+
         # tables
         - createTable:
             tableName: role
@@ -358,6 +361,40 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
         - createTable:
+            tableName: order
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: order_pk
+                  defaultValueComputed: nextval('order_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    foreignKeyName: order_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: purchased
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: NUMBER(6,2)
+
+        - createTable:
             tableName: purchase_data
             columns:
               - column:
@@ -373,10 +410,10 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: purchase_data_pk
-                    foreignKeyName: purchase_data_user_id_fk
-                    referencedTableName: user
+                    foreignKeyName: purchase_data_order_id_fk
+                    referencedTableName: order
                     referencedColumnNames: id
-                  name: user_id
+                  name: order_id
                   type: BIGINT
               - column:
                   constraints:
@@ -391,12 +428,6 @@ databaseChangeLog:
                     referencedColumnNames: name
                   name: type
                   type: VARCHAR(20)
-              - column:
-                  constraints:
-                    nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
-                  name: purchased
-                  type: TIMESTAMP
               - column:
                   constraints:
                     nullable: false
@@ -472,4 +503,26 @@ databaseChangeLog:
                     referencedTableName: folder
                     referencedColumnNames: id
                   name: folder_id
+                  type: BIGINT
+
+        - createTable:
+            tableName: cart_item
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: cart_item_pk
+                    foreignKeyName: cart_item_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: cart_item_pk
+                    foreignKeyName: cart_item_offering_id_fk
+                    referencedTableName: offering
+                    referencedColumnNames: id
+                  name: offering_id
                   type: BIGINT

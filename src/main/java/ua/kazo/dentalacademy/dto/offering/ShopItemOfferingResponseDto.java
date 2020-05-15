@@ -27,5 +27,6 @@ public class ShopItemOfferingResponseDto {
     private List<ProgramResponseDto> programs;
     private List<FolderResponseDto> folders;
     private boolean purchased;
+    private boolean inCart;
 
 }

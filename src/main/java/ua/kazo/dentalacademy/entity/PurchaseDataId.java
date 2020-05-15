@@ -15,6 +15,6 @@ public class PurchaseDataId implements Serializable {
 
     private Long offeringId;
 
-    private Long userId;
+    private Long orderId;
 
 }

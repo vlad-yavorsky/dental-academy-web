@@ -30,3 +30,8 @@ logging:
           descriptor:
             sql:
               BasicBinder: trace
+
+liqpay:
+  privateKey: ${LIQPAY_PRIVATE_KEY}
+  publicKey: ${LIQPAY_PUBLIC_KEY}
+  callbackHost: ${LIQPAY_CALLBACK_HOST}

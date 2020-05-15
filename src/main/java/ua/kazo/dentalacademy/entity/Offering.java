@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 
 import javax.persistence.*;
@@ -43,19 +44,26 @@ public class Offering extends TrackedDateEntity implements Serializable {
 
     private LocalDateTime deactivated;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "offering")
     private List<PurchaseData> purchaseData = new ArrayList<>();
 
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "offering_program",
             joinColumns = {@JoinColumn(name = "offeringId")},
             inverseJoinColumns = {@JoinColumn(name = "programId")})
     private List<Program> programs;
 
+    @ToString.Exclude
     @ManyToMany
     @JoinTable(name = "offering_folder",
             joinColumns = {@JoinColumn(name = "offeringId")},
             inverseJoinColumns = {@JoinColumn(name = "folderId")})
     private List<Folder> folders;
+
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "cartItems")
+    private List<User> usersAddedToCart;
 
 }

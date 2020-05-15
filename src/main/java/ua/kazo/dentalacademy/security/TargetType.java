@@ -7,5 +7,6 @@ public class TargetType {
 
     public final String PROGRAM = "PROGRAM";
     public final String FOLDER = "FOLDER";
+    public final String ORDER = "ORDER";
 
 }

@@ -16,12 +16,12 @@ public enum ExceptionCode {
     PASSWORDS_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.user.PasswordsDoNotMatch"),
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "exception.user.EmailAlreadyExists"),
     NAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "exception.global.NameAlreadyExists"),
-    OFFERING_ALREADY_PURCHASED(HttpStatus.BAD_REQUEST, "exception.user.OfferingAlreadyPurchased"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.user.NotFound"),
     PROGRAM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.program.NotFound"),
     OFFERING_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.offering.NotFound"),
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),
-    FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound");
+    FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound"),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound");
 
     @Getter
     private final HttpStatus status;

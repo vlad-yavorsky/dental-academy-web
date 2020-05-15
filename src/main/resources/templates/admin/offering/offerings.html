@@ -45,13 +45,15 @@
                     <td>
                         <div class="btn-group">
                             <a th:href="@{/admin/offering/edit/__${offering.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:if="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/deactivate/__${offering.id}__}" class="btn btn-warning" th:title="#{button.deactivate}"><i class="fas fa-stop-circle fa-fw"></i></a>
-                            <a th:unless="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/activate/__${offering.id}__}" class="btn btn-success" th:title="#{button.activate}"><i class="fas fa-play-circle fa-fw"></i></a>
+                            <a th:if="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/deactivate/__${offering.id}__(page=${pageResult.pageable.pageNumber},size=${pageResult.pageable.pageSize})}" class="btn btn-warning" th:title="#{button.deactivate}"><i class="fas fa-stop-circle fa-fw"></i></a>
+                            <a th:unless="${offering.deactivated == null or offering.deactivated > now}" th:href="@{/admin/offering/activate/__${offering.id}__(page=${pageResult.pageable.pageNumber},size=${pageResult.pageable.pageSize})}" class="btn btn-success" th:title="#{button.activate}"><i class="fas fa-play-circle fa-fw"></i></a>
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
+            <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
         </div>
     </div>
 </div>

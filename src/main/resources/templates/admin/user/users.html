@@ -28,6 +28,7 @@
                     <th th:text="#{user.mobile}"></th>
                     <th th:text="#{user.birthday}"></th>
                     <th th:text="#{user.enabled}"></th>
+                    <th th:text="#{user.roles}"></th>
                     <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
                 </thead>
@@ -44,6 +45,11 @@
                         <i th:unless="${user.enabled}" class="fas fa-times-circle fa-2x fa-fw text-danger"></i>
                     </td>
                     <td>
+                        <ul>
+                            <li th:each="role: ${user.roles}" th:text="${role}"></li>
+                        </ul>
+                    </td>
+                    <td>
                         <div class="btn-group">
                             <a th:href="@{/admin/user/edit/__${user.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit 2 fa-fw"></i></a>
                             <a th:href="@{/admin/user/delete/__${user.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
@@ -52,6 +58,8 @@
                 </tr>
                 </tbody>
             </table>
+
+            <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
         </div>
     </div>
 </div>

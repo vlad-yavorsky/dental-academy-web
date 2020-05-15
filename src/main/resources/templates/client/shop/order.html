@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{nav.order} + ' #' + ${order.id})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h3 th:text="#{nav.order} + ' #' + ${order.id}"></h3>
+            <hr/>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul>
+                <li><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
+                <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span></li>
+                <li><strong th:text="#{order.totalPrice}"></strong>: <span th:text="${'$' + order.price}"></span></li>
+            </ul>
+
+            <table class="table table-sm">
+                <thead class="thead-light">
+                <tr>
+                    <th th:text="#{purchaseData.expired}"></th>
+                    <th th:text="#{purchaseData.offeringName}"></th>
+                    <th th:text="#{purchaseData.package}"></th>
+                    <th th:text="#{programs}">
+                    <th th:text="#{bonuses}">
+                    <th th:text="#{purchaseData.price}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderItem,iter : ${order.purchaseData}">
+                    <td th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${orderItem.name}"></td>
+                    <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="program: ${orderItem.offering.programs}" th:text="${program.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:if="${!orderItem.offering.folders.isEmpty()}">
+                            <li th:each="bonus: ${orderItem.offering.folders}" th:text="${bonus.name}"></li>
+                        </ul>
+                    </td>
+                    <td th:text="${'$' + orderItem.price}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <form th:if="${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).WAITING_FOR_PAYMENT.equals(order.status)}"
+                  th:action="@{${T(com.liqpay.LiqPayApi).LIQPAY_API_CHECKOUT_URL}}" method="post" accept-charset="utf-8">
+                <input type="hidden" name="data" th:value="${liqpayData}" />
+                <input type="hidden" name="signature" th:value="${liqpaySignature}" />
+                <button class="liqpay-button">
+                    <div class="liqpay-button-left"><img src="https://static.liqpay.ua/buttons/logo-small.png"/></div>
+                    <div class="liqpay-button-right" th:text="#{button.pay}"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(function () {
+        let id = [[${order.id}]];
+        function refreshOrderStatus() {
+            $.get("/api/order/" + id + "/status", function (data) {
+                $("#order-status").text(data);
+            });
+        }
+
+        // todo: fix error when sending ajax api requests
+        // setInterval(refreshOrderStatus, 5000);
+    });
+</script>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

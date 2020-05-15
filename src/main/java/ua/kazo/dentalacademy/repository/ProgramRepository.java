@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,9 +67,9 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.expired > :dateTime and pd.user.email = :email " +
-            "order by p.id desc")
-    Page<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime, Pageable pageable);
+            "join pd.order ord " +
+            "where pd.expired > :dateTime and pd.order.user.email = :email and ord.status = :status")
+    Page<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime, Pageable pageable, LiqPayPaymentStatus status);
 
     /**
      * Client / My Programs (search)
@@ -76,9 +77,9 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.expired > :dateTime and pd.user.email = :email " +
-            "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
-            "order by p.id desc")
-    Page<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable);
+            "join pd.order ord " +
+            "where pd.expired > :dateTime and pd.order.user.email = :email and ord.status = :status " +
+            "and lower(p.name) like lower(concat('%', concat(:name, '%')))")
+    Page<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable, LiqPayPaymentStatus status);
 
 }

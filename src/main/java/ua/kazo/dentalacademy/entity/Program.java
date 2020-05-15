@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,9 +29,11 @@ public class Program extends TrackedDateEntity implements Serializable {
 
     private String image;
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "programs")
     private List<Offering> offerings;
 
+    @ToString.Exclude
     @ManyToMany(mappedBy = "programs")
     private List<Folder> folders;
 

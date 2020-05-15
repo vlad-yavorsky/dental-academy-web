@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 import ua.kazo.dentalacademy.util.MathUtil;
 
@@ -15,19 +16,21 @@ import java.time.LocalDateTime;
 @Table
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(of = {"user", "offering"})
+@EqualsAndHashCode(of = {"offering", "order"})
 public class PurchaseData implements Serializable {
 
     @EmbeddedId
     private PurchaseDataId id;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("offeringId")
     private Offering offering;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @MapsId("userId")
-    private User user;
+    @MapsId("orderId")
+    private Order order;
 
     private String name;
 
@@ -36,23 +39,20 @@ public class PurchaseData implements Serializable {
 
     private BigDecimal price;
 
-    private LocalDateTime purchased;
-
     private LocalDateTime expired;
 
-    private PurchaseData(Offering offering, User user, LocalDateTime dateTime) {
-        this.id = new PurchaseDataId(offering.getId(), user.getId());
+    private PurchaseData(Offering offering, Order order, LocalDateTime dateTime) {
+        this.id = new PurchaseDataId(offering.getId(), order.getId());
         this.offering = offering;
-        this.user = user;
-        this.purchased = dateTime;
+        this.order = order;
         this.expired = dateTime.plusMonths(offering.getTerm());
         this.price = MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
         this.name = offering.getName();
         this.type = offering.getType();
     }
 
-    public static PurchaseData of(Offering offering, User user, LocalDateTime dateTime) {
-        return new PurchaseData(offering, user, dateTime);
+    public static PurchaseData of(Offering offering, Order order, LocalDateTime dateTime) {
+        return new PurchaseData(offering, order, dateTime);
     }
 
 }

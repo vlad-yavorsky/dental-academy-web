@@ -2,12 +2,11 @@ package ua.kazo.dentalacademy.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.kazo.dentalacademy.entity.Offering;
-import ua.kazo.dentalacademy.entity.PurchaseData;
-import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 import ua.kazo.dentalacademy.exception.ApplicationException;
@@ -15,19 +14,18 @@ import ua.kazo.dentalacademy.repository.OfferingRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class OfferingService {
 
-    private final UserService userService;
     private final OfferingRepository offeringRepository;
-    private final PurchaseDataService purchaseDataService;
     private final MessageSource messageSource;
 
-    public List<Offering> findAll() {
-        return offeringRepository.findAll(Sort.by("id"));
+    public Page<Offering> findAll(Pageable pageable) {
+        return offeringRepository.findAll(pageable);
     }
 
     public Offering findById(Long id) {
@@ -36,17 +34,21 @@ public class OfferingService {
     }
 
     public Offering findByIdFetchProgramsAndFolders(Long id) {
-        Offering offering = offeringRepository.findByIdFetchPrograms(id)
+        Offering offering = offeringRepository.findFetchProgramsById(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
-        offeringRepository.findByIdFetchFolders(id);
+        offeringRepository.findFetchFoldersById(id);
         return offering;
     }
 
     public List<Offering> findAllByIdsAndNotDeactivatedFetchProgramsAndFolders(List<Long> offeringIds) {
         LocalDateTime now = LocalDateTime.now();
-        List<Offering> result = offeringRepository.findAllByIdsAndNotDeactivatedFetchPrograms(offeringIds, now);
-        offeringRepository.findAllByIdsAndNotDeactivatedFetchFolders(offeringIds, now);
-        return result;
+        offeringRepository.findAllByIdsAndNotDeactivatedFetchPrograms(offeringIds, now);
+        return offeringRepository.findAllByIdsAndNotDeactivatedFetchFolders(offeringIds, now);
+    }
+
+    public List<Offering> findAllByIdInFetchProgramsAndFolders(Set<Long> ids) {
+        offeringRepository.findAllFetchProgramsByIdIn(ids);
+        return offeringRepository.findAllFetchFoldersByIdIn(ids);
     }
 
     public List<Offering> findAllByProgramId(Long programId) {
@@ -72,15 +74,9 @@ public class OfferingService {
         return offeringRepository.save(offering);
     }
 
-    public void buy(Long id, String email) {
-        if (purchaseDataService.existsByIdOfferingIdAndUserEmail(id, email)) {
-            throw new ApplicationException(messageSource, ExceptionCode.OFFERING_ALREADY_PURCHASED, id, email);
-        }
-        LocalDateTime now = LocalDateTime.now();
-        Offering offering = offeringRepository.findByIdAndActive(id, now)
+    public Offering findByIdAndActive(Long id) {
+        return offeringRepository.findByIdAndActive(id, LocalDateTime.now())
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
-        User user = userService.findByEmail(email);
-        purchaseDataService.create(PurchaseData.of(offering, user, now));
     }
 
     public void activateOffering(Long id) {
