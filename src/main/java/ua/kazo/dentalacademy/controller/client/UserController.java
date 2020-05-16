@@ -48,6 +48,13 @@ public class UserController {
         }
     }
 
+    /* ---------------------------------------------- LOGIN ---------------------------------------------- */
+
+    @GetMapping("/login")
+    public String login(@RequestParam(defaultValue = "false") final boolean error) {
+        return "client/user/login";
+    }
+
     /* ---------------------------------------------- REGISTER ---------------------------------------------- */
 
     private String loadRegisterPage(final UserCreateDto userCreateDto, final ModelMap model) {

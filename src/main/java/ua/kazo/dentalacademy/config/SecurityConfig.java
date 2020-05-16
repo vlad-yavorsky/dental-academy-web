@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/api/liqpay-callback").permitAll()
                 .antMatchers("/login", "/register").anonymous()
                 .antMatchers("/**").authenticated()
-                .and().formLogin()
+                .and().formLogin().loginPage("/login")
                 .and().logout()
                 .and().csrf().ignoringAntMatchers("/api/liqpay-callback", "/order/*");
     }
