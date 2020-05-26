@@ -9,6 +9,7 @@ import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,9 +61,9 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("select distinct f from Folder f " +
             "join f.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.order.user.email = :userEmail " +
+            "where pd.order.user.email = :userEmail and pd.order.status = :status " +
             "order by f.id")
-    Page<Folder> findAllByUserEmail(String userEmail, Pageable pageable);
+    Page<Folder> findAllByUserEmail(String userEmail, LiqPayPaymentStatus status, Pageable pageable);
 
     /**
      * Client / My Bonuses (search)
@@ -70,9 +71,9 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("select distinct f from Folder f " +
             "join f.offerings o " +
             "join o.purchaseData pd " +
-            "where pd.order.user.email = :userEmail " +
+            "where pd.order.user.email = :userEmail and pd.order.status = :status " +
             "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by f.id")
-    Page<Folder> findAllByUserEmailAndName(String userEmail, String name, Pageable pageable);
+    Page<Folder> findAllByUserEmailAndName(String userEmail, String name, LiqPayPaymentStatus status, Pageable pageable);
 
 }

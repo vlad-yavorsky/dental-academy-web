@@ -48,12 +48,14 @@
                     <thead class="thead-light">
                     <tr>
                         <th th:text="#{folder.name}"></th>
+                        <th th:text="#{folder.category}"></th>
                         <th th:text="#{button.actions}" style="width: 1%;"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="folder: ${folders}">
                         <td th:text="${folder.name}"></td>
+                        <td th:text="#{${folder.category.toString().toLowerCase()}}"></td>
                         <td style="text-align: right;">
                             <a class="btn btn-primary" th:href="@{/admin/folder/edit/__${folder.id}__}"><i class="fas fa-edit fa-fw"></i></a>
                         </td>
@@ -73,6 +75,7 @@
                     <thead class="thead-light">
                     <tr>
                         <th th:text="#{offering.name}"></th>
+                        <th th:text="#{offering.package}"></th>
                         <th th:text="#{offering.price}"></th>
                         <th th:text="#{offering.term}"></th>
                         <th th:text="#{button.actions}" style="width: 1%;"></th>
@@ -81,6 +84,7 @@
                     <tbody>
                     <tr th:each="offering: ${offerings}">
                         <td th:text="${offering.name}"></td>
+                        <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
                         <td th:text="${offering.price}"></td>
                         <td th:text="${offering.term}"></td>
                         <td style="text-align: right;">
