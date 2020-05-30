@@ -81,14 +81,14 @@ public class ShopController {
 
     @GetMapping("/create-order")
     public RedirectView createOrder(final Principal principal) {
-        return new RedirectView("/order/" + orderService.create(principal.getName()).getId());
+        return new RedirectView("/order/" + orderService.create(principal.getName(), liqPayProperties.getOrderPrefix()).getNumber());
     }
 
-    @PreAuthorize("hasPermission(#id, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
-    @GetMapping("/order/{id}")
-    public String orderGet(@PathVariable final Long id, final ModelMap model) {
-        Order order = orderService.findByIdFetchPurchaseData(id);
-        Map<String, String> params = liqPay.createParams(order.getPrice(), "", order.getId(), liqPayProperties.getCallbackHost());
+    @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
+    @GetMapping("/order/{orderNumber}")
+    public String orderGet(@PathVariable final String orderNumber, final ModelMap model) {
+        Order order = orderService.findByNumberFetchPurchaseData(orderNumber);
+        Map<String, String> params = liqPay.createParams(order.getPrice(), "", orderNumber, liqPayProperties.getCallbackHost());
         String data = liqPay.convertToJsonAndEncodeToBase64(params);
         String signature = liqPay.createSignature(data);
         model.addAttribute("order", orderMapper.toResponseDto(order));
@@ -97,10 +97,10 @@ public class ShopController {
         return "client/shop/order";
     }
 
-    @PreAuthorize("hasPermission(#id, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
-    @PostMapping("/order/{id}")
-    public String orderPost(@PathVariable Long id, final ModelMap model) {
-        Order order = orderService.findByIdFetchPurchaseData(id);
+    @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
+    @PostMapping("/order/{orderNumber}")
+    public String orderPost(@PathVariable String orderNumber, final ModelMap model) {
+        Order order = orderService.findByNumberFetchPurchaseData(orderNumber);
         model.addAttribute("order", orderMapper.toResponseDto(order));
         return "client/shop/order";
     }

@@ -14,6 +14,7 @@ import java.util.List;
 public class OrderResponseDto {
 
     private Long id;
+    private String number;
     private List<PurchaseDataResponseDto> purchaseData;
     private LiqPayPaymentStatus status;
     private LocalDateTime purchased;

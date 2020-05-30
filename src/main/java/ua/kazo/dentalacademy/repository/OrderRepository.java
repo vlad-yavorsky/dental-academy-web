@@ -12,11 +12,13 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    Optional<Order> findByNumber(String number);
+
     /**
      * Client / Order
      */
     @EntityGraph(Graph.ORDER_PURCHASE_DATA_OFFERING)
-    Optional<Order> findFetchPurchaseDataById(Long id);
+    Optional<Order> findFetchPurchaseDataByNumber(String number);
 
     /**
      * Client / Orders
@@ -33,6 +35,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     /**
      * Client / Permission Evaluator
      */
-    boolean existsByIdAndUserEmail(Long id, String email);
+    boolean existsByNumberAndUserEmail(String number, String email);
 
 }

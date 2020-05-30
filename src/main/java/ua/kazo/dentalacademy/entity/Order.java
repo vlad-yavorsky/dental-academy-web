@@ -28,6 +28,8 @@ public class Order {
     @SequenceGenerator(name = "order_id_seq", sequenceName = "order_id_seq", allocationSize = 1)
     private Long id;
 
+    private String number;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;

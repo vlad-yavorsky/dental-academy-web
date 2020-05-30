@@ -23,15 +23,15 @@ public class CustomLiqPay extends LiqPay {
         return super.createSignature(base64EncodedData);
     }
 
-    public Map<String, String> createParams(BigDecimal price, String description, Long orderId, String host) {
+    public Map<String, String> createParams(BigDecimal price, String description, String orderNumber, String host) {
         Map<String, String> params = new HashMap<>();
         params.put("action", "pay");
         params.put("amount", price.toString());
         params.put("currency", "UAH");
         params.put("description", description);
         params.put("language", LocaleContextHolder.getLocale().getLanguage());
-        params.put("order_id", orderId.toString());
-        params.put("result_url", host + "/order/" + orderId);
+        params.put("order_id", orderNumber);
+        params.put("result_url", host + "/order/" + orderNumber);
         params.put("server_url", host + "/api/liqpay-callback");
         return params;
     }

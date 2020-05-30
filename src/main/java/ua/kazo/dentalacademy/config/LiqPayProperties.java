@@ -12,5 +12,6 @@ public class LiqPayProperties {
     private String privateKey;
     private String publicKey;
     private String callbackHost;
+    private String orderPrefix;
 
 }

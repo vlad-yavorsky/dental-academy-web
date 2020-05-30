@@ -22,8 +22,8 @@ public class RestApi {
     private final CustomLiqPay liqPay;
 
     @GetMapping("/order/{id}/status")
-    public LiqPayPaymentStatus orderGet(@PathVariable final Long id) {
-        return orderService.findById(id).getStatus();
+    public LiqPayPaymentStatus orderGet(@PathVariable final String id) {
+        return orderService.findByNumber(id).getStatus();
     }
 
     @PostMapping("/liqpay-callback")
@@ -34,9 +34,9 @@ public class RestApi {
         }
         String decodedJsonString = new String(DatatypeConverter.parseBase64Binary(data));
         Map<String, String> dataMap = objectMapper.readValue(decodedJsonString, new TypeReference<>() {});
-        Long orderId = Long.valueOf(dataMap.get("order_id"));
+        String orderNumber = dataMap.get("order_id");
         String orderStatus = dataMap.get("status");
-        orderService.setStatus(orderId, orderStatus);
+        orderService.setStatus(orderNumber, orderStatus);
     }
 
 }

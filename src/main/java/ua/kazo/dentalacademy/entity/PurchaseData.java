@@ -41,18 +41,18 @@ public class PurchaseData implements Serializable {
 
     private LocalDateTime expired;
 
-    private PurchaseData(Offering offering, Order order, LocalDateTime dateTime) {
+    private PurchaseData(Offering offering, Order order, LocalDateTime purchaseDateTime) {
         this.id = new PurchaseDataId(offering.getId(), order.getId());
         this.offering = offering;
         this.order = order;
-        this.expired = dateTime.plusMonths(offering.getTerm());
+        this.expired = purchaseDateTime.plusMonths(offering.getTerm());
         this.price = MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
         this.name = offering.getName();
         this.type = offering.getType();
     }
 
-    public static PurchaseData of(Offering offering, Order order, LocalDateTime dateTime) {
-        return new PurchaseData(offering, order, dateTime);
+    public static PurchaseData of(Offering offering, Order order, LocalDateTime purchaseDateTime) {
+        return new PurchaseData(offering, order, purchaseDateTime);
     }
 
 }

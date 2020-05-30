@@ -30,18 +30,18 @@ public class OrderService {
     private final UserService userService;
     private final MessageSource messageSource;
 
-    public Order findById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, id));
+    public Order findByNumber(String number) {
+        return orderRepository.findByNumber(number)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, number));
     }
 
     public List<Order> findAllByUserEmail(String email) {
         return orderRepository.findAllByUserEmail(email);
     }
 
-    public Order findByIdFetchPurchaseData(Long id) {
-        Order order = orderRepository.findFetchPurchaseDataById(id)
-                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, id));
+    public Order findByNumberFetchPurchaseData(String number) {
+        Order order = orderRepository.findFetchPurchaseDataByNumber(number)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, number));
         Set<Long> offeringIds = new HashSet<>();
         order.getPurchaseData().forEach(purchaseData -> offeringIds.add(purchaseData.getOffering().getId()));
         offeringService.findAllByIdInFetchProgramsAndFolders(offeringIds);
@@ -56,11 +56,12 @@ public class OrderService {
         return result;
     }
 
-    public Order create(String email) {
+    public Order create(String email, String orderPrefix) {
         User user = userService.findByEmailFetchCartItems(email);
         // todo: check if every offering is not deactivated
         LocalDateTime now = LocalDateTime.now();
         Order order = new Order();
+        order.setNumber("");
         order.setUser(user);
         order.setStatus(LiqPayPaymentStatus.WAITING_FOR_PAYMENT);
         order.setPurchased(now);
@@ -70,16 +71,17 @@ public class OrderService {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO));
         Order savedOrder = orderRepository.save(order);
+        savedOrder.setNumber(orderPrefix + savedOrder.getId());
         user.getCartItems().clear();
         return savedOrder;
     }
 
-    public void setStatus(Long orderId, String status) {
-        findById(orderId).setStatus(LiqPayPaymentStatus.of(status));
+    public void setStatus(String number, String status) {
+        findByNumber(number).setStatus(LiqPayPaymentStatus.of(status));
     }
 
-    public boolean existsByIdAndUserEmail(Long id, String userEmail) {
-        return orderRepository.existsByIdAndUserEmail(id, userEmail);
+    public boolean existsByNumberAndUserEmail(String number, String userEmail) {
+        return orderRepository.existsByNumberAndUserEmail(number, userEmail);
     }
 
 }

@@ -372,6 +372,13 @@ databaseChangeLog:
                   type: BIGINT
               - column:
                   constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: order_number_uindex
+                  name: number
+                  type: VARCHAR(30)
+              - column:
+                  constraints:
                     foreignKeyName: order_user_id_fk
                     referencedTableName: user
                     referencedColumnNames: id

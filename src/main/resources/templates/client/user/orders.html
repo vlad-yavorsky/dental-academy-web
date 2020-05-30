@@ -27,7 +27,7 @@
             </div>
             <div th:if="${orders.size() > 0}" th:each="order: ${orders}">
                 <ul>
-                    <li><a th:href="@{/order/__${order.id}__}"><strong th:text="#{nav.order}"></strong> #<span th:text="${order.id}"></span></a></li>
+                    <li><a th:href="@{/order/__${order.number}__}"><strong th:text="#{nav.order}"></strong> #<span th:text="${order.number}"></span></a></li>
                     <li><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
                     <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}"></span></li>
                     <li><strong th:text="#{order.totalPrice}"></strong>: <span th:text="${'$' + order.price}"></span></li>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (#{nav.order} + ' #' + ${order.id})}"></title>
+    <title th:replace="~{fragments :: head (#{nav.order} + ' #' + ${order.number})}"></title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h3 th:text="#{nav.order} + ' #' + ${order.id}"></h3>
+            <h3 th:text="#{nav.order} + ' #' + ${order.number}"></h3>
             <hr/>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
@@ -70,7 +70,7 @@
 
 <script th:inline="javascript">
     $(function () {
-        let id = [[${order.id}]];
+        let id = [[${order.number}]];
         function refreshOrderStatus() {
             $.get("/api/order/" + id + "/status", function (data) {
                 $("#order-status").text(data);

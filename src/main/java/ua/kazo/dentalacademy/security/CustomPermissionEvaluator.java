@@ -40,7 +40,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
                 return purchaseDataService.isFolderPurchasedAndNotExpired((Long) targetId, auth.getName());
             }
             if (TargetType.ORDER.equals(targetType)) {
-                return orderService.existsByIdAndUserEmail((Long) targetId, auth.getName());
+                return orderService.existsByNumberAndUserEmail((String) targetId, auth.getName());
             }
         }
         return false;
