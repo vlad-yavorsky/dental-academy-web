@@ -35,4 +35,4 @@ liqpay:
   privateKey: ${LIQPAY_PRIVATE_KEY}
   publicKey: ${LIQPAY_PUBLIC_KEY}
   callbackHost: ${LIQPAY_CALLBACK_HOST}
-  orderPrefix: ${LIQPAY_ORDER_PREFIX}
+  orderPrefix: ${LIQPAY_ORDER_PREFIX:}
