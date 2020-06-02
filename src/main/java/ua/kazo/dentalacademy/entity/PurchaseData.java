@@ -45,7 +45,7 @@ public class PurchaseData implements Serializable {
         this.id = new PurchaseDataId(offering.getId(), order.getId());
         this.offering = offering;
         this.order = order;
-        this.expired = purchaseDateTime.plusMonths(offering.getTerm());
+        this.expired = purchaseDateTime.plusDays(offering.getTerm());
         this.price = MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount());
         this.name = offering.getName();
         this.type = offering.getType();
