@@ -23,6 +23,9 @@ spring:
 
 logging:
   level:
+    ua:
+      kazo:
+        dentalacademy: debug
     org:
       hibernate:
         SQL: debug

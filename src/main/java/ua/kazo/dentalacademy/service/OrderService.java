@@ -76,7 +76,7 @@ public class OrderService {
         return savedOrder;
     }
 
-    public void setStatus(String number, String status) {
+    public void changeStatus(String number, String status) {
         findByNumber(number).setStatus(LiqPayPaymentStatus.of(status));
     }
 
