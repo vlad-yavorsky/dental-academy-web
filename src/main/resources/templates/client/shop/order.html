@@ -19,15 +19,15 @@
     <div class="row">
         <div class="col-12">
             <ul>
-                <li><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
+                <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm')}"></span></li>
+                <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
                 <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span></li>
-                <li><strong th:text="#{order.totalPrice}"></strong>: <span th:text="${'$' + order.price}"></span></li>
             </ul>
 
             <table class="table table-sm">
                 <thead class="thead-light">
                 <tr>
-                    <th th:text="#{purchaseData.expired}"></th>
+                    <th th:if="${order.purchased}" th:text="#{purchaseData.expired}"></th>
                     <th th:text="#{purchaseData.offeringName}"></th>
                     <th th:text="#{purchaseData.package}"></th>
                     <th th:text="#{programs}">
@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="orderItem,iter : ${order.purchaseData}">
-                    <td th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${orderItem.name}"></td>
                     <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                     <td>
@@ -53,9 +53,15 @@
                     <td th:text="${'$' + orderItem.price}"></td>
                 </tr>
                 </tbody>
+                <tfoot>
+                <tr class="thead-light">
+                    <td th:colspan="${order.purchased} ? 5 : 4"></td>
+                    <td><span class="font-weight-bold" th:text="${'$' + order.price}"></span></td>
+                </tr>
+                </tfoot>
             </table>
 
-            <form th:if="${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).WAITING_FOR_PAYMENT.equals(order.status)}"
+            <form th:if="${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED.equals(order.status)}"
                   th:action="@{${T(com.liqpay.LiqPayApi).LIQPAY_API_CHECKOUT_URL}}" method="post" accept-charset="utf-8">
                 <input type="hidden" name="data" th:value="${liqpayData}" />
                 <input type="hidden" name="signature" th:value="${liqpaySignature}" />
@@ -71,14 +77,18 @@
 <script th:inline="javascript">
     $(function () {
         let id = [[${order.number}]];
+        let status = [[${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED}]];
         function refreshOrderStatus() {
             $.get("/api/order/" + id + "/status", function (data) {
                 $("#order-status").text(data);
+                if (data !== status) {
+                    $(".liqpay-button").hide();
+                    clearInterval(intervalId);
+                }
             });
         }
-
-        // todo: fix error when sending ajax api requests
-        // setInterval(refreshOrderStatus, 5000);
+        refreshOrderStatus();
+        let intervalId = setInterval(refreshOrderStatus, 5000);
     });
 </script>
 

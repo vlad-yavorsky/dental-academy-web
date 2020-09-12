@@ -26,6 +26,9 @@ databaseChangeLog:
         - createSequence:
             sequenceName: order_id_seq
 
+        - createSequence:
+            sequenceName: order_history_id_seq
+
         # tables
         - createTable:
             tableName: role
@@ -390,9 +393,6 @@ databaseChangeLog:
                   name: status
                   type: VARCHAR(20)
               - column:
-                  constraints:
-                    nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
                   name: purchased
                   type: TIMESTAMP
               - column:
@@ -400,6 +400,12 @@ databaseChangeLog:
                     nullable: false
                   name: price
                   type: NUMBER(6,2)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
 
         - createTable:
             tableName: purchase_data
@@ -436,8 +442,6 @@ databaseChangeLog:
                   name: type
                   type: VARCHAR(20)
               - column:
-                  constraints:
-                    nullable: false
                   name: expired
                   type: TIMESTAMP
               - column:
@@ -533,3 +537,37 @@ databaseChangeLog:
                     referencedColumnNames: id
                   name: offering_id
                   type: BIGINT
+
+        - createTable:
+            tableName: order_history
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: order_history_pk
+                  defaultValueComputed: nextval('order_history_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    foreignKeyName: order_history_order_id_fk
+                    referencedTableName: order
+                    referencedColumnNames: id
+                  name: order_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: data
+                  type: TEXT

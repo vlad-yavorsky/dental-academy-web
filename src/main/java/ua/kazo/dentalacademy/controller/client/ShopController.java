@@ -81,27 +81,20 @@ public class ShopController {
 
     @GetMapping("/create-order")
     public RedirectView createOrder(final Principal principal) {
-        return new RedirectView("/order/" + orderService.create(principal.getName(), liqPayProperties.getOrderPrefix()).getNumber());
+        Order order = orderService.create(principal.getName(), liqPayProperties.getOrderPrefix(), liqPay::createParamsAndConvertToJson);
+        return new RedirectView("/order/" + order.getNumber());
     }
 
     @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
     @GetMapping("/order/{orderNumber}")
-    public String orderGet(@PathVariable final String orderNumber, final ModelMap model) {
-        Order order = orderService.findByNumberFetchPurchaseData(orderNumber);
-        Map<String, String> params = liqPay.createParams(order.getPrice(), "", orderNumber, liqPayProperties.getCallbackHost());
+    public String order(@PathVariable final String orderNumber, final ModelMap model) {
+        Order order = orderService.findByNumberFetchCompletePurchaseData(orderNumber);
+        Map<String, String> params = liqPay.payParams(order);
         String data = liqPay.convertToJsonAndEncodeToBase64(params);
         String signature = liqPay.createSignature(data);
         model.addAttribute("order", orderMapper.toResponseDto(order));
         model.addAttribute("liqpayData", data);
         model.addAttribute("liqpaySignature", signature);
-        return "client/shop/order";
-    }
-
-    @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
-    @PostMapping("/order/{orderNumber}")
-    public String orderPost(@PathVariable String orderNumber, final ModelMap model) {
-        Order order = orderService.findByNumberFetchPurchaseData(orderNumber);
-        model.addAttribute("order", orderMapper.toResponseDto(order));
         return "client/shop/order";
     }
 

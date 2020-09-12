@@ -17,6 +17,7 @@ public class OrderResponseDto {
     private String number;
     private List<PurchaseDataResponseDto> purchaseData;
     private LiqPayPaymentStatus status;
+    private LocalDateTime created;
     private LocalDateTime purchased;
     private BigDecimal price;
 

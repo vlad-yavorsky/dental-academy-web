@@ -4,27 +4,37 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.constants.Graph;
 import ua.kazo.dentalacademy.entity.Order;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findByNumber(String number);
+
+    @EntityGraph(attributePaths = "purchaseData")
+    Optional<Order> findFetchPurchaseDataByNumber(String number);
 
     /**
      * Client / Order
      */
     @EntityGraph(Graph.ORDER_PURCHASE_DATA_OFFERING)
-    Optional<Order> findFetchPurchaseDataByNumber(String number);
+    Optional<Order> findFetchPurchaseDataAndOfferingByNumber(String number);
+
+    /**
+     * Client / Orders
+     */
+    Page<Order> findAllByUserEmail(String email, Pageable pageable);
 
     /**
      * Client / Orders
      */
     @EntityGraph(Graph.ORDER_PURCHASE_DATA_OFFERING)
-    Page<Order> findAllByUserEmail(String email, Pageable pageable);
+    List<Order> findAllByIdIn(List<Long> ids);
 
     /**
      * Client / Shop Item

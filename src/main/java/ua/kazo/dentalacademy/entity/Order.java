@@ -17,11 +17,11 @@ import java.util.List;
 @Table
 @NoArgsConstructor
 @Data
-@EqualsAndHashCode(of = {"user"})
+@EqualsAndHashCode(of = {"id"}, callSuper = false)
 @NamedEntityGraph(name = Graph.ORDER_PURCHASE_DATA_OFFERING,
         attributeNodes = @NamedAttributeNode(value = "purchaseData", subgraph = "purchaseData.offering"),
         subgraphs = @NamedSubgraph(name = "purchaseData.offering", attributeNodes = @NamedAttributeNode(value = "offering")))
-public class Order {
+public class Order extends TrackedDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")

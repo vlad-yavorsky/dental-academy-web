@@ -14,7 +14,7 @@ spring:
         default_schema: public
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         jdbc.lob.non_contextual_creation: true
-        format_sql: true
+        format_sql: false
     hibernate:
       ddl-auto: validate
     open-in-view: false
@@ -23,19 +23,13 @@ spring:
 
 logging:
   level:
-    ua:
-      kazo:
-        dentalacademy: debug
-    org:
-      hibernate:
-        SQL: debug
-        type:
-          descriptor:
-            sql:
-              BasicBinder: trace
+    ua.kazo.dentalacademy: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 liqpay:
   privateKey: ${LIQPAY_PRIVATE_KEY}
   publicKey: ${LIQPAY_PUBLIC_KEY}
   callbackHost: ${LIQPAY_CALLBACK_HOST}
   orderPrefix: ${LIQPAY_ORDER_PREFIX:}
+  paymentTime: 15

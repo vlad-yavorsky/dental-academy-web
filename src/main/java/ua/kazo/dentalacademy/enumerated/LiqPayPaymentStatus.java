@@ -5,10 +5,10 @@ import lombok.Getter;
 import java.util.Arrays;
 
 public enum LiqPayPaymentStatus {
-    // custom
-    WAITING_FOR_PAYMENT,
+    // Custom
+    CREATED,
 
-    // Конечные статусы платежа
+    // Final payment statuses
     ERROR,
     FAILURE,
     REVERSED,
@@ -16,7 +16,7 @@ public enum LiqPayPaymentStatus {
     SUCCESS,
     UNSUBSCRIBED,
 
-    // Статусы требующие подтверждения платежа
+    // Statuses that required payment confirmation
     _3DS_VERIFY("3ds_verify"),
     CAPTCHA_VERIFY,
     CVV_VERIFY,
@@ -31,7 +31,7 @@ public enum LiqPayPaymentStatus {
     WAIT_QR,
     WAIT_SENDER,
 
-    // Другие статусы платежа
+    // Other payment statuses
     CASH_WAIT,
     HOLD_WAIT,
     INVOICE_WAIT,

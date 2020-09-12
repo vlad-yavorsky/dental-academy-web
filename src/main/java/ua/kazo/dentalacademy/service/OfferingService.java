@@ -33,6 +33,10 @@ public class OfferingService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
     }
 
+    public List<Offering> findAllById(Set<Long> ids) {
+        return offeringRepository.findAllById(ids);
+    }
+
     public Offering findByIdFetchProgramsAndFolders(Long id) {
         Offering offering = offeringRepository.findFetchProgramsById(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));

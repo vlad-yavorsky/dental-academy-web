@@ -19,9 +19,11 @@ public enum ExceptionCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.user.NotFound"),
     PROGRAM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.program.NotFound"),
     OFFERING_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.offering.NotFound"),
+    OFFERING_NOT_AVAILABLE(HttpStatus.NOT_FOUND, "exception.offering.NotAvailable"),
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),
     FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound"),
-    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound");
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound"),
+    SIGNATURES_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.liqpay.SignaturesDoNotMatch");
 
     @Getter
     private final HttpStatus status;
