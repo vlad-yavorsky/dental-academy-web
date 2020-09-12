@@ -1,6 +1,7 @@
 package ua.kazo.dentalacademy.controller.client;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ShopController {
@@ -96,6 +98,25 @@ public class ShopController {
         model.addAttribute("liqpayData", data);
         model.addAttribute("liqpaySignature", signature);
         return "client/shop/order";
+    }
+
+    @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
+    @GetMapping("/order/{orderNumber}/receipt")
+    public String orderReceipt(@PathVariable final String orderNumber, final ModelMap model, final Principal principal) {
+        String userEmail = principal.getName();
+        Map<String, String> receiptParams = liqPay.receiptParams(orderNumber, userEmail);
+        try {
+            Map<String, Object> response = liqPay.api("request", receiptParams);
+            if (response.get("result").equals("ok")) {
+                log.info("Receipt of order {} successfully sent to user {}", orderNumber, userEmail);
+            } else if (response.get("result").equals("error")) {
+                log.info("Receipt of order {} did not send to user {}. Code: {}. Description: {}",
+                        orderNumber, userEmail, response.get("err_code"), response.get("err_description"));
+            }
+        } catch (Exception e) {
+            log.error("Can't send request to LiqPay server: ", e);
+        }
+        return order(orderNumber, model);
     }
 
     /* ---------------------------------------------- CART ---------------------------------------------- */

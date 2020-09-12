@@ -61,7 +61,7 @@
                 </tfoot>
             </table>
 
-            <form th:if="${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED.equals(order.status)}"
+            <form th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED}"
                   th:action="@{${T(com.liqpay.LiqPayApi).LIQPAY_API_CHECKOUT_URL}}" method="post" accept-charset="utf-8">
                 <input type="hidden" name="data" th:value="${liqpayData}" />
                 <input type="hidden" name="signature" th:value="${liqpaySignature}" />
@@ -70,6 +70,12 @@
                     <div class="liqpay-button-right" th:text="#{button.pay}"></div>
                 </button>
             </form>
+
+            <div class="text-center">
+                <a class="btn btn-primary"
+                   th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).SUCCESS}"
+                   th:href="@{/order/__${orderNumber}__/receipt}" th:text="#{button.sendReceipt}"></a>
+            </div>
         </div>
     </div>
 </div>

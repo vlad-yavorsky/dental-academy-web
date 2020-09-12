@@ -49,7 +49,7 @@ public class CustomLiqPay extends LiqPay {
         return params;
     }
 
-    public Map<String, String> ticketParams(String orderNumber, String userEmail) {
+    public Map<String, String> receiptParams(String orderNumber, String userEmail) {
         Map<String, String> params = new HashMap<>();
         params.put("action", "ticket");
         params.put("email", userEmail);
