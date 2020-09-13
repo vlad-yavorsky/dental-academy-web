@@ -7,9 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
-import ua.kazo.dentalacademy.config.CustomLiqPay;
+import ua.kazo.dentalacademy.service.payment.processor.Fondy;
+import ua.kazo.dentalacademy.service.payment.processor.LiqPay_;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.PaymentProvider;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.service.OrderService;
 
@@ -24,7 +27,6 @@ public class RestApi {
 
     private final OrderService orderService;
     private final ObjectMapper objectMapper;
-    private final CustomLiqPay liqPay;
     private final MessageSource messageSource;
 
     /**
@@ -34,7 +36,7 @@ public class RestApi {
      * @return LiqPay payment status
      */
     @GetMapping("/order/{id}/status")
-    public LiqPayPaymentStatus orderGet(@PathVariable final String id) {
+    public UnifiedPaymentStatus orderGet(@PathVariable final String id) {
         return orderService.findByNumber(id).getStatus();
     }
 
@@ -45,18 +47,42 @@ public class RestApi {
      * @param signature unique signature of each request, base64_encode(sha1(private_key + data + private_key))
      * @throws JsonProcessingException if problems encountered when processing JSON content
      */
-    @PostMapping("/liqpay-callback")
+    @PostMapping("/payment/liqpay-callback")
     public void liqPayCallback(final String data, final String signature) throws JsonProcessingException {
-        String appSignature = liqPay.createSignature(data);
-        if (!appSignature.equals(signature)) {
+        log.debug("LiqPay Data: {}; Signature: {}", data, signature);
+        LiqPay_ liqPay = (LiqPay_) PaymentProcessorHolder.get(PaymentProvider.LIQPAY);
+        if (!liqPay.isSignaturesEquals(data, signature)) {
             throw new ApplicationException(messageSource, ExceptionCode.SIGNATURES_DO_NOT_MATCH);
         }
         String decodedJsonString = new String(DatatypeConverter.parseBase64Binary(data));
-        log.debug("LiqPay Callback: " + decodedJsonString);
+        log.debug("LiqPay Decoded Data: " + decodedJsonString);
         Map<String, Object> dataMap = objectMapper.readValue(decodedJsonString, new TypeReference<>() {});
         String orderNumber = dataMap.get("order_id").toString();
         String orderStatus = dataMap.get("status").toString();
         orderService.updateOrder(orderNumber, orderStatus, decodedJsonString);
+    }
+
+    @PostMapping("/payment/portmone-success-url")
+    public void portmoneSuccessUrl(@RequestParam Map<String, String> response) {
+        log.info("Portmone Data: {}", response);
+    }
+
+    @PostMapping("/payment/portmone-failure-url")
+    public void portmoneFailureUrl(@RequestParam Map<String, String> response) {
+        log.info("Portmone Data: {}", response);
+    }
+
+    @PostMapping("/payment/fondy-callback")
+    public void fondyCallback(@RequestParam Map<String, String> response) {
+        log.info("Fondy Data: {}", response);
+        Fondy fondy = (Fondy) PaymentProcessorHolder.get(PaymentProvider.FONDY);
+        if (!fondy.isSignaturesEquals(response)) {
+            throw new ApplicationException(messageSource, ExceptionCode.SIGNATURES_DO_NOT_MATCH);
+        }
+        String data = response.toString();
+        String orderNumber = response.get("order_id");
+        String orderStatus = response.get("order_status");
+        orderService.updateOrder(orderNumber, orderStatus, data);
     }
 
 }

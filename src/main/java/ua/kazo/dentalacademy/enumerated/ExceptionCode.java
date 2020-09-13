@@ -23,7 +23,7 @@ public enum ExceptionCode {
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),
     FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound"),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound"),
-    SIGNATURES_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.liqpay.SignaturesDoNotMatch");
+    SIGNATURES_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.payment.SignaturesDoNotMatch");
 
     @Getter
     private final HttpStatus status;

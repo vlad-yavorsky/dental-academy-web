@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.entity.PurchaseDataId;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "join pd.offering o " +
             "join o.programs p " +
             "where p.id = :programId and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
-    boolean isProgramPurchasedAndNotExpired(Long programId, LocalDateTime dateTime, String email, LiqPayPaymentStatus status);
+    boolean isProgramPurchasedAndNotExpired(Long programId, LocalDateTime dateTime, String email, UnifiedPaymentStatus status);
 
     /**
      * Client / Permission Evaluator
@@ -30,6 +30,6 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
             "left join p.folders module " +
             "left join o.folders bonus " +
             "where (module.id = :folderId or bonus.id = :folderId) and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
-    boolean isFolderPurchasedAndNotExpired(Long folderId, LocalDateTime dateTime, String email, LiqPayPaymentStatus status);
+    boolean isFolderPurchasedAndNotExpired(Long folderId, LocalDateTime dateTime, String email, UnifiedPaymentStatus status);
 
 }

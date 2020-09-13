@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import javax.persistence.*;
 
@@ -25,7 +25,7 @@ public class OrderHistory extends TrackedDateEntity {
     private Order order;
 
     @Enumerated(EnumType.STRING)
-    private LiqPayPaymentStatus status;
+    private UnifiedPaymentStatus status;
 
     private String data;
 

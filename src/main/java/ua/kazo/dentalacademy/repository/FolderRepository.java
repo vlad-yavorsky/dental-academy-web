@@ -9,7 +9,7 @@ import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +63,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "join o.purchaseData pd " +
             "where pd.order.user.email = :userEmail and pd.order.status = :status " +
             "order by f.id")
-    Page<Folder> findAllByUserEmail(String userEmail, LiqPayPaymentStatus status, Pageable pageable);
+    Page<Folder> findAllByUserEmail(String userEmail, UnifiedPaymentStatus status, Pageable pageable);
 
     /**
      * Client / My Bonuses (search)
@@ -74,6 +74,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "where pd.order.user.email = :userEmail and pd.order.status = :status " +
             "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by f.id")
-    Page<Folder> findAllByUserEmailAndName(String userEmail, String name, LiqPayPaymentStatus status, Pageable pageable);
+    Page<Folder> findAllByUserEmailAndName(String userEmail, String name, UnifiedPaymentStatus status, Pageable pageable);
 
 }

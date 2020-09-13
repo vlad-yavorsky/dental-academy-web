@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.offering.*;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.User;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.util.MathUtil;
 
 import java.math.BigDecimal;
@@ -51,7 +51,7 @@ public interface OfferingMapper {
     @Named("isOfferingPurchasedByUser")
     default boolean isOfferingPurchasedByUser(Offering offering, @Context User user) {
         LocalDateTime now = LocalDateTime.now();
-        return user.getOrders().stream().anyMatch(order -> LiqPayPaymentStatus.SUCCESS.equals(order.getStatus())
+        return user.getOrders().stream().anyMatch(order -> UnifiedPaymentStatus.SUCCESS == order.getStatus()
                 && order.getPurchaseData().stream().anyMatch(purchaseData -> offering.getId().equals(purchaseData.getOffering().getId())
                 && now.isBefore(purchaseData.getExpired())));
     }

@@ -393,6 +393,11 @@ databaseChangeLog:
                   name: status
                   type: VARCHAR(20)
               - column:
+                  constraints:
+                    nullable: false
+                  name: provider
+                  type: VARCHAR(20)
+              - column:
                   name: purchased
                   type: TIMESTAMP
               - column:

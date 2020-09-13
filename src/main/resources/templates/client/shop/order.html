@@ -61,20 +61,25 @@
                 </tfoot>
             </table>
 
-            <form th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED}"
-                  th:action="@{${T(com.liqpay.LiqPayApi).LIQPAY_API_CHECKOUT_URL}}" method="post" accept-charset="utf-8">
-                <input type="hidden" name="data" th:value="${liqpayData}" />
-                <input type="hidden" name="signature" th:value="${liqpaySignature}" />
-                <button class="liqpay-button">
-                    <div class="liqpay-button-left"><img src="https://static.liqpay.ua/buttons/logo-small.png"/></div>
-                    <div class="liqpay-button-right" th:text="#{button.pay}"></div>
-                </button>
-            </form>
+            <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).CREATED}">
+                <form th:action="@{${checkoutUrl}}" method="post" accept-charset="utf-8">
+                    <input type="hidden" th:each="item : ${formData}" th:name="${item.key}" th:value="${item.value}"/>
 
-            <div class="text-center">
-                <a class="btn btn-primary"
-                   th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).SUCCESS}"
-                   th:href="@{/order/__${orderNumber}__/receipt}" th:text="#{button.sendReceipt}"></a>
+                    <button th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
+                            class="liqpay-button">
+                        <div class="liqpay-button-left"><img src="https://static.liqpay.ua/buttons/logo-small.png"/></div>
+                        <div class="liqpay-button-right" th:text="#{button.pay}"></div>
+                    </button>
+
+                    <input th:unless="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
+                           type="submit" class="btn btn-success" th:value="'Pay at ' + ${order.provider}"/>
+                </form>
+            </div>
+            <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).SUCCESS}">
+                <div th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
+                     class="text-center">
+                    <a class="btn btn-primary" th:href="@{/order/__${orderNumber}__/receipt}" th:text="#{button.sendReceipt}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -83,9 +88,10 @@
 <script th:inline="javascript">
     $(function () {
         let id = [[${order.number}]];
-        let status = [[${T(ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus).CREATED}]];
+        let status = [[${T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).CREATED}]];
         function refreshOrderStatus() {
             $.get("/api/order/" + id + "/status", function (data) {
+                // todo: onSuccess, onFail
                 $("#order-status").text(data);
                 if (data !== status) {
                     $(".liqpay-button").hide();

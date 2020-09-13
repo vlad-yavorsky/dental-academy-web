@@ -6,12 +6,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
+import ua.kazo.dentalacademy.config.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.service.payment.convertor.PaymentStatusConverterHolder;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.OrderRepository;
 
@@ -21,7 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +37,7 @@ public class OrderService {
     private final OrderHistoryService orderHistoryService;
     private final UserService userService;
     private final MessageSource messageSource;
+    private final PaymentProperties paymentProperties;
 
     public Order findByNumber(String number) {
         return orderRepository.findByNumber(number)
@@ -68,14 +72,14 @@ public class OrderService {
         return result;
     }
 
-    public Order create(String email, String orderPrefix, Function<Order, String> paymentParamsFunction) {
+    public Order create(String email) {
         User user = userService.findByEmailFetchCartItems(email);
         Order order = new Order();
         order.setNumber("");
         order.setCreated(LocalDateTime.now());
         order.setUser(user);
-        LiqPayPaymentStatus status = LiqPayPaymentStatus.CREATED;
-        order.setStatus(status);
+        order.setProvider(paymentProperties.getProvider());
+        order.setStatus(UnifiedPaymentStatus.CREATED);
         user.getCartItems().forEach(cartItem -> {
             if (cartItem.getDeactivated() != null) {
                 throw new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_AVAILABLE, cartItem.getName());
@@ -87,18 +91,20 @@ public class OrderService {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO));
         Order savedOrder = orderRepository.save(order);
-        savedOrder.setNumber(orderPrefix + savedOrder.getId());
+        savedOrder.setNumber(paymentProperties.getOrderPrefix() + savedOrder.getId());
         user.getCartItems().clear();
-        orderHistoryService.create(order, paymentParamsFunction.apply(savedOrder));
+        PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(paymentProperties.getProvider());
+        orderHistoryService.create(order, paymentProcessor.getParamsAsString(savedOrder));
         return savedOrder;
     }
 
     public void updateOrder(String number, String status, String data) {
-        LiqPayPaymentStatus liqPayStatus = LiqPayPaymentStatus.of(status);
         Order order = findByNumberFetchPurchaseData(number);
-        order.setStatus(liqPayStatus);
+        UnifiedPaymentStatus unifiedStatus = PaymentStatusConverterHolder.get(order.getProvider())
+                .convertToUnifiedStatus(status);
+        order.setStatus(unifiedStatus);
         orderHistoryService.create(order, data);
-        if (LiqPayPaymentStatus.SUCCESS.equals(liqPayStatus)) {
+        if (UnifiedPaymentStatus.SUCCESS == unifiedStatus) {
             LocalDateTime now = LocalDateTime.now();
             order.setPurchased(now);
             Set<Long> offeringIds = order.getPurchaseData().stream()

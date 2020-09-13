@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
-                .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/api/liqpay-callback").permitAll()
+                .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/api/payment/**").permitAll()
                 .antMatchers("/login", "/register").anonymous()
                 .antMatchers("/**").authenticated()
                 .and().formLogin().loginPage("/login")

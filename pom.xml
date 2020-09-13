@@ -168,6 +168,11 @@
             <artifactId>liqpay-sdk</artifactId>
             <version>0.7-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
     </dependencies>
 
     <repositories>

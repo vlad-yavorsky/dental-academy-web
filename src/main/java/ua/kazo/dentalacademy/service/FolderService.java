@@ -12,7 +12,7 @@ import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.FolderRepository;
 
@@ -45,9 +45,9 @@ public class FolderService {
 
     public Page<Folder> findAllByUserEmail(String userEmail, String search, Pageable pageable) {
         if (!StringUtils.isEmpty(search)) {
-            return folderRepository.findAllByUserEmailAndName(userEmail, search, LiqPayPaymentStatus.SUCCESS, pageable);
+            return folderRepository.findAllByUserEmailAndName(userEmail, search, UnifiedPaymentStatus.SUCCESS, pageable);
         }
-        return folderRepository.findAllByUserEmail(userEmail, LiqPayPaymentStatus.SUCCESS, pageable);
+        return folderRepository.findAllByUserEmail(userEmail, UnifiedPaymentStatus.SUCCESS, pageable);
     }
 
     public Folder findByIdFetchItems(Long id) {

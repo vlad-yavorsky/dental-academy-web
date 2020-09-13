@@ -8,10 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import ua.kazo.dentalacademy.config.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.ProgramRepository;
 
@@ -25,6 +26,7 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final MessageSource messageSource;
+    private final PaymentProperties paymentProperties;
 
     public Page<Program> findAll(Pageable pageable) {
         return programRepository.findAll(pageable);
@@ -73,9 +75,9 @@ public class ProgramService {
 
     public Page<Program> findAllByNotExpiredPurchase(String email, String search, Pageable pageable) {
         if (!StringUtils.isEmpty(search)) {
-            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, LiqPayPaymentStatus.SUCCESS);
+            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, UnifiedPaymentStatus.SUCCESS);
         }
-        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now(), pageable, LiqPayPaymentStatus.SUCCESS);
+        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now(), pageable, UnifiedPaymentStatus.SUCCESS);
     }
 
     public void delete(Long id) {

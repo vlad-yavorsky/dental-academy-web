@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ua.kazo.dentalacademy.constants.Graph;
-import ua.kazo.dentalacademy.enumerated.LiqPayPaymentStatus;
+import ua.kazo.dentalacademy.enumerated.PaymentProvider;
+import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -39,7 +40,10 @@ public class Order extends TrackedDateEntity {
     private List<PurchaseData> purchaseData = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private LiqPayPaymentStatus status;
+    private UnifiedPaymentStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentProvider provider;
 
     private LocalDateTime purchased;
 

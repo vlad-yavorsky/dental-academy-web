@@ -27,9 +27,17 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
-liqpay:
-  privateKey: ${LIQPAY_PRIVATE_KEY}
-  publicKey: ${LIQPAY_PUBLIC_KEY}
-  callbackHost: ${LIQPAY_CALLBACK_HOST}
-  orderPrefix: ${LIQPAY_ORDER_PREFIX:}
+payment:
+  provider: ${PAYMENT_PROVIDER}
+  orderPrefix: ${ORDER_PREFIX:}
   paymentTime: 15
+  currency: UAH
+  callbackHost: ${CALLBACK_HOST}
+  liqpay:
+    privateKey: ${LIQPAY_PRIVATE_KEY}
+    publicKey: ${LIQPAY_PUBLIC_KEY}
+  fondy:
+    merchantId: ${FONDY_MERCHANT_ID}
+    merchantPassword: ${FONDY_MERCHANT_PASSWORD}
+  portmone:
+    payeeId: ${PORTMONE_PAYEE_ID}

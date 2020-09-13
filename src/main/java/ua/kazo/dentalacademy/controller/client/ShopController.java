@@ -1,5 +1,6 @@
 package ua.kazo.dentalacademy.controller.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
-import ua.kazo.dentalacademy.config.CustomLiqPay;
-import ua.kazo.dentalacademy.config.LiqPayProperties;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.offering.ShopItemOfferingResponseDto;
@@ -47,15 +48,13 @@ public class ShopController {
     private final PurchaseDataService purchaseDataService;
     private final UserService userService;
     private final UserMapper userMapper;
-    private final LiqPayProperties liqPayProperties;
-    private final CustomLiqPay liqPay;
 
     /* ---------------------------------------------- SHOP ---------------------------------------------- */
 
     @GetMapping("/shop")
-    public String shop(final ModelMap model, @RequestParam(required = false) final String search,
-                       @RequestParam(defaultValue = "0") final int page,
-                       @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+    public String getShop(final ModelMap model, @RequestParam(required = false) final String search,
+                          @RequestParam(defaultValue = "0") final int page,
+                          @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         Page<Program> pageResult = programService.findAllByNotDeactivatedOfferings(search, PageRequest.of(page, size));
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
@@ -66,7 +65,7 @@ public class ShopController {
     /* ---------------------------------------------- SHOP ITEM ---------------------------------------------- */
 
     @GetMapping("/shop/program/{programId}")
-    public String shopItem(final ModelMap model, @PathVariable final Long programId, final Principal principal) {
+    public String getShopItem(final ModelMap model, @PathVariable final Long programId, final Principal principal) {
         List<Long> offeringIds = offeringService.findAllIdsByProgramId(programId);
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
         List<ShopItemOfferingResponseDto> shopItemOfferingDtos = offeringMapper.toShopItemResponseDto(
@@ -83,30 +82,30 @@ public class ShopController {
 
     @GetMapping("/create-order")
     public RedirectView createOrder(final Principal principal) {
-        Order order = orderService.create(principal.getName(), liqPayProperties.getOrderPrefix(), liqPay::createParamsAndConvertToJson);
+        Order order = orderService.create(principal.getName());
         return new RedirectView("/order/" + order.getNumber());
     }
 
     @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
     @GetMapping("/order/{orderNumber}")
-    public String order(@PathVariable final String orderNumber, final ModelMap model) {
+    public String findOrder(@PathVariable final String orderNumber, final ModelMap model) {
         Order order = orderService.findByNumberFetchCompletePurchaseData(orderNumber);
-        Map<String, String> params = liqPay.payParams(order);
-        String data = liqPay.convertToJsonAndEncodeToBase64(params);
-        String signature = liqPay.createSignature(data);
+        PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(order.getProvider());
+        model.addAttribute("checkoutUrl", paymentProcessor.getCheckoutUrl());
+        model.addAttribute("formData", paymentProcessor.getPayParameters(order));
         model.addAttribute("order", orderMapper.toResponseDto(order));
-        model.addAttribute("liqpayData", data);
-        model.addAttribute("liqpaySignature", signature);
         return "client/shop/order";
     }
 
     @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
     @GetMapping("/order/{orderNumber}/receipt")
-    public String orderReceipt(@PathVariable final String orderNumber, final ModelMap model, final Principal principal) {
+    public String sendOrderReceipt(@PathVariable final String orderNumber, final ModelMap model, final Principal principal) throws JsonProcessingException {
+        Order order = orderService.findByNumber(orderNumber);
+        PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(order.getProvider());
         String userEmail = principal.getName();
-        Map<String, String> receiptParams = liqPay.receiptParams(orderNumber, userEmail);
+        Map<String, String> receiptParams = paymentProcessor.getReceiptParameters(order, userEmail);
         try {
-            Map<String, Object> response = liqPay.api("request", receiptParams);
+            Map<String, Object> response = paymentProcessor.api("request", receiptParams);
             if (response.get("result").equals("ok")) {
                 log.info("Receipt of order {} successfully sent to user {}", orderNumber, userEmail);
             } else if (response.get("result").equals("error")) {
@@ -116,13 +115,13 @@ public class ShopController {
         } catch (Exception e) {
             log.error("Can't send request to LiqPay server: ", e);
         }
-        return order(orderNumber, model);
+        return findOrder(orderNumber, model);
     }
 
     /* ---------------------------------------------- CART ---------------------------------------------- */
 
     @GetMapping("/cart")
-    public String cart(final ModelMap model, final Principal principal) {
+    public String getCart(final ModelMap model, final Principal principal) {
         model.addAttribute("userCart", userMapper.toCartDto(userService.findByEmailFetchCartItems(principal.getName())));
         return "client/shop/cart";
     }
@@ -130,13 +129,13 @@ public class ShopController {
     @PostMapping(value = "/cart", params = {"addItem"})
     public String addItemToCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
         userService.addItemToCart(principal.getName(), offeringService.findByIdAndActive(cartItemDto.getOfferingId()));
-        return cart(model, principal);
+        return getCart(model, principal);
     }
 
     @PostMapping(value = "/cart", params = {"removeItem"})
     public String removeItemFromCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
         userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
-        return cart(model, principal);
+        return getCart(model, principal);
     }
 
 }
