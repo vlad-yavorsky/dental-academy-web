@@ -11,10 +11,12 @@ public class PaymentStatusConverterHolder {
 
     private final static Map<PaymentProvider, PaymentStatusConverter> map = new HashMap<>();
 
-    public PaymentStatusConverterHolder(LiqPayPaymentStatus liqPay, FondyPaymentStatus fondy, PortmonePaymentStatus portmone) {
+    public PaymentStatusConverterHolder(LiqPayPaymentStatus liqPay, FondyPaymentStatus fondy,
+                                        PortmonePaymentStatus portmone, WayForPayPaymentStatus wayForPay) {
         map.put(PaymentProvider.LIQPAY, liqPay);
         map.put(PaymentProvider.FONDY, fondy);
         map.put(PaymentProvider.PORTMONE, portmone);
+        map.put(PaymentProvider.WAYFORPAY, wayForPay);
     }
 
     public static PaymentStatusConverter get(PaymentProvider provider) {

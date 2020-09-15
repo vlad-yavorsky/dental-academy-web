@@ -10,7 +10,7 @@ public interface PaymentProcessor {
 
     Map<String, Object> api(String url, Map<String, String> parameters) throws Exception;
 
-    Map<String, String> getPayParameters(Order order);
+    Map<String, Object> getPayParameters(Order order);
 
     Map<String, String> getReceiptParameters(Order order, String userEmail);
 

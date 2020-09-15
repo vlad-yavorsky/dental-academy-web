@@ -41,3 +41,6 @@ payment:
     merchantPassword: ${FONDY_MERCHANT_PASSWORD}
   portmone:
     payeeId: ${PORTMONE_PAYEE_ID}
+  wayforpay:
+    merchantLogin: ${WAYFORPAY_LOGIN}
+    merchantSecretKey: ${WAYFORPAY_SECRET_KEY}

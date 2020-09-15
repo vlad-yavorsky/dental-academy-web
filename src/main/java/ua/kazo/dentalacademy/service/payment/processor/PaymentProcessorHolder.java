@@ -11,10 +11,11 @@ public class PaymentProcessorHolder {
 
     private final static Map<PaymentProvider, PaymentProcessor> map = new HashMap<>();
 
-    public PaymentProcessorHolder(LiqPay_ liqPay, Fondy fondy, Portmone portmone) {
+    public PaymentProcessorHolder(LiqPay liqPay, Fondy fondy, Portmone portmone, WayForPay wayForPay) {
         map.put(PaymentProvider.LIQPAY, liqPay);
         map.put(PaymentProvider.FONDY, fondy);
         map.put(PaymentProvider.PORTMONE, portmone);
+        map.put(PaymentProvider.WAYFORPAY, wayForPay);
     }
 
     public static PaymentProcessor get(PaymentProvider provider) {

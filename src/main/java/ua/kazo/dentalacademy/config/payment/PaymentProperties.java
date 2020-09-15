@@ -22,5 +22,7 @@ public class PaymentProperties {
     private FondyProperties fondy;
     @NestedConfigurationProperty
     private PortmoneProperties portmone;
+    @NestedConfigurationProperty
+    private WayForPayProperties wayforpay;
 
 }

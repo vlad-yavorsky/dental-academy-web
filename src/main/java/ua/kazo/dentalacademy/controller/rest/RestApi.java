@@ -4,17 +4,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
-import ua.kazo.dentalacademy.service.payment.processor.Fondy;
-import ua.kazo.dentalacademy.service.payment.processor.LiqPay_;
-import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.PaymentProvider;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.service.OrderService;
+import ua.kazo.dentalacademy.service.payment.convertor.PortmonePaymentStatus;
+import ua.kazo.dentalacademy.service.payment.processor.Fondy;
+import ua.kazo.dentalacademy.service.payment.processor.LiqPay;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
+import ua.kazo.dentalacademy.service.payment.processor.WayForPay;
 
 import javax.xml.bind.DatatypeConverter;
 import java.util.Map;
@@ -47,10 +50,11 @@ public class RestApi {
      * @param signature unique signature of each request, base64_encode(sha1(private_key + data + private_key))
      * @throws JsonProcessingException if problems encountered when processing JSON content
      */
+    @SneakyThrows
     @PostMapping("/payment/liqpay-callback")
-    public void liqPayCallback(final String data, final String signature) throws JsonProcessingException {
+    public void liqPayCallback(final String data, final String signature) {
         log.debug("LiqPay Data: {}; Signature: {}", data, signature);
-        LiqPay_ liqPay = (LiqPay_) PaymentProcessorHolder.get(PaymentProvider.LIQPAY);
+        LiqPay liqPay = (LiqPay) PaymentProcessorHolder.get(PaymentProvider.LIQPAY);
         if (!liqPay.isSignaturesEquals(data, signature)) {
             throw new ApplicationException(messageSource, ExceptionCode.SIGNATURES_DO_NOT_MATCH);
         }
@@ -62,12 +66,12 @@ public class RestApi {
         orderService.updateOrder(orderNumber, orderStatus, decodedJsonString);
     }
 
-    @PostMapping("/payment/portmone-success-url")
+    @PostMapping("/payment/portmone-success")
     public void portmoneSuccessUrl(@RequestParam Map<String, String> response) {
         log.info("Portmone Data: {}", response);
     }
 
-    @PostMapping("/payment/portmone-failure-url")
+    @PostMapping("/payment/portmone-failure")
     public void portmoneFailureUrl(@RequestParam Map<String, String> response) {
         log.info("Portmone Data: {}", response);
     }
@@ -82,6 +86,22 @@ public class RestApi {
         String data = response.toString();
         String orderNumber = response.get("order_id");
         String orderStatus = response.get("order_status");
+        orderService.updateOrder(orderNumber, orderStatus, data);
+    }
+
+    @SneakyThrows
+    @PostMapping(value = "/payment/wayforpay-callback")
+    public void wayForPayCallback(@RequestParam Map<String, String> response) {
+        String json = response.entrySet().iterator().next().getKey(); // Workaround for bad input parameters
+        Map<String, Object> responseMap = objectMapper.readValue(json, new TypeReference<>() {});
+        String data = responseMap.toString();
+        log.info("WayForPay Data: {}", data);
+        WayForPay wayForPay = (WayForPay) PaymentProcessorHolder.get(PaymentProvider.WAYFORPAY);
+        if (!wayForPay.isSignaturesEquals(responseMap)) {
+            throw new ApplicationException(messageSource, ExceptionCode.SIGNATURES_DO_NOT_MATCH);
+        }
+        String orderNumber = (String) responseMap.get("orderReference");
+        String orderStatus = (String) responseMap.get("transactionStatus");
         orderService.updateOrder(orderNumber, orderStatus, data);
     }
 

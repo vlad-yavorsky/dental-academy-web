@@ -62,8 +62,10 @@
             </table>
 
             <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).CREATED}">
-                <form th:action="@{${checkoutUrl}}" method="post" accept-charset="utf-8">
-                    <input type="hidden" th:each="item : ${formData}" th:name="${item.key}" th:value="${item.value}"/>
+                <form th:action="@{${checkoutUrl}}" method="post" accept-charset="utf-8" class="text-center">
+                    <th:block th:each="item : ${formData}">
+                        <input th:each="value : ${item.getValue()}" type="hidden" th:name="${item.getKey()} + (${item.getValue() instanceof T(java.util.List)} ? '[]' : '')" th:value="${value}"/>
+                    </th:block>
 
                     <button th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
                             class="liqpay-button">

@@ -2,10 +2,10 @@ package ua.kazo.dentalacademy.service.payment.processor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import ua.kazo.dentalacademy.config.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
-import ua.kazo.dentalacademy.util.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +29,8 @@ public class Portmone implements PaymentProcessor {
     }
 
     @Override
-    public Map<String, String> getPayParameters(Order order) {
-        Map<String, String> params = new HashMap<>();
+    public Map<String, Object> getPayParameters(Order order) {
+        Map<String, Object> params = new HashMap<>();
         params.put("payee_id", paymentProperties.getPortmone().getPayeeId());
         params.put("shop_order_number", order.getNumber());
         params.put("bill_amount", order.getPrice().toString());
@@ -41,6 +41,7 @@ public class Portmone implements PaymentProcessor {
         params.put("encoding", "UTF-8");
         params.put("exp_time", String.valueOf(paymentProperties.getPaymentTime() * 60));
         params.put("lang", LocaleContextHolder.getLocale().getLanguage());
+        params.put("email_address", SecurityContextHolder.getContext().getAuthentication().getName());
         return params;
     }
 
@@ -51,7 +52,7 @@ public class Portmone implements PaymentProcessor {
 
     @Override
     public String getParamsAsString(Order order) {
-        return LogUtils.getParamsAsString(getPayParameters(order));
+        return getPayParameters(order).toString();
     }
 
 }

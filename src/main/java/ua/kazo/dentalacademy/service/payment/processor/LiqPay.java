@@ -1,6 +1,5 @@
 package ua.kazo.dentalacademy.service.payment.processor;
 
-import com.liqpay.LiqPay;
 import com.liqpay.LiqPayUtil;
 import org.json.simple.JSONObject;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,11 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class LiqPay_ extends LiqPay implements PaymentProcessor {
+public class LiqPay extends com.liqpay.LiqPay implements PaymentProcessor {
 
     private final PaymentProperties paymentProperties;
 
-    public LiqPay_(PaymentProperties paymentProperties) {
+    public LiqPay(PaymentProperties paymentProperties) {
         super(paymentProperties.getLiqpay().getPublicKey(), paymentProperties.getLiqpay().getPrivateKey());
         this.paymentProperties = paymentProperties;
     }
@@ -38,10 +37,10 @@ public class LiqPay_ extends LiqPay implements PaymentProcessor {
     }
 
     @Override
-    public Map<String, String> getPayParameters(Order order) {
+    public Map<String, Object> getPayParameters(Order order) {
         String data = convertToJsonAndEncodeToBase64(payParamsInternal(order));
         String signature = createSignature(data);
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("data", data);
         params.put("signature", signature);
         return params;

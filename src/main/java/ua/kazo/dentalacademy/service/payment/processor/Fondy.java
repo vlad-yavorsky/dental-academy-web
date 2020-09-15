@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ua.kazo.dentalacademy.config.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
-import ua.kazo.dentalacademy.util.LogUtils;
 
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 
 @Component
@@ -18,9 +18,9 @@ import java.util.TreeMap;
 public class Fondy implements PaymentProcessor {
 
     private static final String FONDY_API_CHECKOUT_URL = "https://api.fondy.eu/api/checkout/redirect/";
-    private static final String SEPARATOR = "|";
-    private static final String SIGNATURE = "signature";
-    private static final String RESPONSE_SIGNATURE_STRING = "response_signature_string";
+    private static final String DELIMITER = "|";
+    private static final String SIGNATURE_KEY = "signature";
+    private static final String RESPONSE_SIGNATURE_STRING_KEY = "response_signature_string";
 
     private final PaymentProperties paymentProperties;
 
@@ -35,8 +35,8 @@ public class Fondy implements PaymentProcessor {
     }
 
     @Override
-    public Map<String, String> getPayParameters(Order order) {
-        Map<String, String> params = new TreeMap<>();
+    public Map<String, Object> getPayParameters(Order order) {
+        Map<String, Object> params = new TreeMap<>();
         params.put("amount", order.getPrice().toString().replace(".", ""));
         params.put("currency", paymentProperties.getCurrency());
         params.put("lang", LocaleContextHolder.getLocale().getLanguage());
@@ -48,23 +48,24 @@ public class Fondy implements PaymentProcessor {
         params.put("sender_email", SecurityContextHolder.getContext().getAuthentication().getName());
         params.put("server_callback_url", paymentProperties.getCallbackHost() + "/api/payment/fondy-callback");
         params.put("version", "1.0.1");
-        params.put("signature", generateSignature(params));
+        params.put(SIGNATURE_KEY, generateSignature(params));
         return params;
     }
 
-    private String generateSignature(Map<String, String> parameters) {
-        StringBuilder signature = new StringBuilder(paymentProperties.getFondy().getMerchantPassword());
+    private String generateSignature(Map<String, Object> parameters) {
+        StringJoiner signature = new StringJoiner(DELIMITER);
+        signature.add(paymentProperties.getFondy().getMerchantPassword());
         parameters.forEach((key, value) -> {
-            if (StringUtils.isEmpty(value) || SIGNATURE.equals(key) || RESPONSE_SIGNATURE_STRING.equals(key)) {
+            if (StringUtils.isEmpty(value) || SIGNATURE_KEY.equals(key) || RESPONSE_SIGNATURE_STRING_KEY.equals(key)) {
                 return;
             }
-            signature.append(SEPARATOR).append(value);
+            signature.add(value.toString());
         });
         return DigestUtils.sha1Hex(signature.toString());
     }
 
     public boolean isSignaturesEquals(Map<String, String> parameters) {
-        String signature1 = parameters.get(SIGNATURE);
+        String signature1 = parameters.get(SIGNATURE_KEY);
         String signature2 = generateSignature(new TreeMap<>(parameters));
         return signature1.equals(signature2);
     }
@@ -76,7 +77,7 @@ public class Fondy implements PaymentProcessor {
 
     @Override
     public String getParamsAsString(Order order) {
-        return LogUtils.getParamsAsString(getPayParameters(order));
+        return getPayParameters(order).toString();
     }
 
 }
