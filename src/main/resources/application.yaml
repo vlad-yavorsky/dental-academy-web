@@ -29,9 +29,9 @@ logging:
 
 payment:
   provider: ${PAYMENT_PROVIDER}
-  orderPrefix: ${ORDER_PREFIX:}
-  paymentTime: 15
-  currency: UAH
+  orderPrefix: ${ORDER_PREFIX:LOCAL-}
+  paymentTime: ${PAYMENT_TIME:15}
+  currency: ${CURRENCY:UAH}
   callbackHost: ${CALLBACK_HOST}
   liqpay:
     privateKey: ${LIQPAY_PRIVATE_KEY}
