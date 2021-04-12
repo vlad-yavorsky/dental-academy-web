@@ -19,7 +19,7 @@ Set next environment variables:
 </thead>
 <tbody>
 <tr>
-    <td colspan="3" style="text-align: center">Database - Localhost</td>
+    <td colspan="3" align="center"><strong><strong>Database - Localhost</strong></strong></td>
 </tr>
 <tr>
     <td>PORT</td>
@@ -42,15 +42,15 @@ Set next environment variables:
     <td></td>
 </tr>
 <tr>
-    <td colspan="3" style="text-align: center">Database - Heroku Test Environment</td>
+    <td colspan="3" align="center"><strong>Database - Heroku Test Environment</strong></td>
 </tr>
 <tr>
     <td>DATABASE_URL</td>
-    <td>(Usually added automatically)<br/>Database url in format:<br/>postgres://username:password@host:port/dbname  </td>
+    <td>(Usually added automatically)<br/>Database url in format:<br/>postgres://user:pass@host:port/dbname</td>
     <td></td>
 </tr>
 <tr>
-    <td colspan="3" style="text-align: center">Payment options</td>
+    <td colspan="3" align="center"><strong>Payment options</strong></td>
 </tr>
 <tr>
     <td>PAYMENT_PROVIDER</td>
@@ -78,7 +78,7 @@ Set next environment variables:
     <td>https://dental-academy.herokuapp.com</td>
 </tr>
 <tr>
-    <td colspan="3" style="text-align: center">Payment Providers Accounts Credentials</td>
+    <td colspan="3" align="center"><strong>Payment Providers Accounts Credentials</strong></td>
 </tr>
 <tr>
     <td>LIQPAY_PRIVATE_KEY</td>
