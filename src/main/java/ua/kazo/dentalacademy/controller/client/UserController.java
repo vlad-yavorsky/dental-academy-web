@@ -79,7 +79,7 @@ public class UserController {
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.user.add");
 
-        userService.create(user);
+        userService.create(user, userCreateDto.getNewPhoto());
         return "redirect:/login";
     }
 
@@ -107,7 +107,7 @@ public class UserController {
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.user.edit");
 
-        User savedUser = userService.update(user, principal.getName());
+        User savedUser = userService.update(user, userUpdateDto.getNewPhoto(), principal.getName());
         return loadUpdatePage(userMapper.toUpdateDto(savedUser), model);
     }
 

@@ -49,6 +49,8 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
 
     private LocalDate birthday;
 
+    private String photoName;
+
     @ToString.Exclude
     @ElementCollection(targetClass = Role.class)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

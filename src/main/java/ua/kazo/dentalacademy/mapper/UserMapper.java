@@ -1,5 +1,6 @@
 package ua.kazo.dentalacademy.mapper;
 
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(uses = OfferingMapper.class)
+@DecoratedWith(UserMapperDecorator.class)
 public interface UserMapper {
 
     User toEntity(UserCreateDto userCreateDto);

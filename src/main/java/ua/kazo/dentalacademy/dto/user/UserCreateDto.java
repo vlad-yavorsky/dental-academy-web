@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.dto.user;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,5 +28,6 @@ public class UserCreateDto {
     private String mobile;
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
+    private MultipartFile newPhoto;
 
 }

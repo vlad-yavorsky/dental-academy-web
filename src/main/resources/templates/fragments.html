@@ -144,7 +144,7 @@
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                            <i class="fas fa-user fa-fw"></i>
+                            <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/files/' + #authentication.principal.photoName}" class="rounded-circle menu-profile-pic" alt="avatar"/>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>

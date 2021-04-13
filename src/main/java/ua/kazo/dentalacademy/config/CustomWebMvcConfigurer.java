@@ -1,5 +1,6 @@
 package ua.kazo.dentalacademy.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,16 +10,21 @@ import org.springframework.ui.context.support.ResourceBundleThemeSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ThemeResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
+import ua.kazo.dentalacademy.service.storage.StorageProperties;
 
 import java.util.Locale;
 
 @Configuration
+@RequiredArgsConstructor
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
+
+    private final StorageProperties storageProperties;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -67,6 +73,12 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
         messageSource.setBasename("messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations("file:" + storageProperties.getLocation() + "\\");
     }
 
 }

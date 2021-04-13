@@ -20,6 +20,10 @@ spring:
     open-in-view: false
   thymeleaf:
     cache: false # enable hot swap for thymeleaf html files
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   level:
@@ -44,3 +48,6 @@ payment:
   wayforpay:
     merchantLogin: ${WAYFORPAY_LOGIN}
     merchantSecretKey: ${WAYFORPAY_SECRET_KEY}
+
+storage:
+  location: ${STORAGE_LOCATION:files}
