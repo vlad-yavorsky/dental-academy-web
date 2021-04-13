@@ -186,17 +186,14 @@
 </div>
 
 <footer th:fragment="footer">
-    <div class="bg-dark text-white">
+    <div class="bg-dark">
         <div class="container text-center pt-4 pb-3">
-            <div class="pb-3 text-white"><i class="fab "></i>
-                <a target="_blank" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube text-white fa-2x ml-4 mr-4"></i></a>
-                <a target="_blank" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram text-white fa-2x ml-4 mr-4"></i></a>
-<!--                <a target="_blank" href="#"><i class="fab fa-facebook-f text-white fa-2x mr-5"></i></a>-->
-<!--                <a target="_blank" href="#"><i class="fab fa-twitter text-white fa-2x mr-5"></i></a>-->
-<!--                <a target="_blank" href="#"><i class="fab fa-linkedin-in text-white fa-2x mr-5"></i></a>-->
-<!--                <a target="_blank" href="#"><i class="fab fa-telegram-plane text-white fa-2x"></i></a>-->
-            </div>
-            <div th:text="'&copy; 2020 ' + #{sitename}"></div>
+            <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline pb-3">
+                <li><a target="_blank" title="YouTube Channel" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube"></i></a></li>
+                <li><a target="_blank" title="Instagram Page" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram"></i></a></li>
+                <li><a target="_blank" title="Telegram Group" href="https://t.me/business_stomatology"><i class="fab fa-telegram"></i></a></li>
+            </ul>
+            <div class="text-white" th:text="'&copy; 2020 ' + #{sitename}"></div>
         </div>
     </div>
 </footer>
