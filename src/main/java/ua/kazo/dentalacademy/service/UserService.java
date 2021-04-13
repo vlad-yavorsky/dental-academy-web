@@ -2,6 +2,7 @@ package ua.kazo.dentalacademy.service;
 
 import liquibase.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import ua.kazo.dentalacademy.util.AuthUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
@@ -31,6 +33,7 @@ import java.util.function.Supplier;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -108,16 +111,18 @@ public class UserService implements UserDetailsService {
     private void handlePhotoChange(MultipartFile photo, User userFromDb) {
         if (!photo.isEmpty()) {
             String photoName = storageService.store(photo);
-            try {
-                if (StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
-                    Path rootLocation = Paths.get(storageProperties.getLocation());
-                    Path fileToDelete = rootLocation.resolve(Paths.get(userFromDb.getPhotoName()))
-                            .normalize()
-                            .toAbsolutePath();
+            if (StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
+                Path rootLocation = Paths.get(storageProperties.getLocation());
+                Path fileToDelete = rootLocation.resolve(Paths.get(userFromDb.getPhotoName()))
+                        .normalize()
+                        .toAbsolutePath();
+                try {
                     Files.delete(fileToDelete);
+                } catch (NoSuchFileException ex) {
+                    log.warn("No such file or directory: {}", fileToDelete);
+                } catch (IOException ex) {
+                    log.warn("File: {}, permission problems: {}", fileToDelete, ex.getMessage());
                 }
-            } catch (IOException e) {
-                throw new RuntimeException("Cannot remove old avatar");
             }
             userFromDb.setPhotoName(photoName);
         }
