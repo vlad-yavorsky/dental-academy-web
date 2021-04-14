@@ -69,6 +69,9 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
             inverseJoinColumns = {@JoinColumn(name = "offeringId")})
     private List<Offering> cartItems = new ArrayList<>();
 
+    @Transient
+    private int cartItemsCount;
+
     @Override
     public Collection<Role> getAuthorities() {
         return roles;

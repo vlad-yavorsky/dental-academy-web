@@ -37,7 +37,9 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        return findByEmailFetchRoles(email);
+        User user = findByEmailFetchRoles(email);
+        user.setCartItemsCount(countCartItems(user.getEmail()));
+        return user;
     }
 
     public User findByEmailFetchRoles(String email) {
@@ -46,8 +48,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User findByEmailFetchCartItems(String email) {
-        return userRepository.findFetchCartItemsByEmail(email)
+        User user = userRepository.findFetchCartItemsByEmail(email)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, email));
+        user.setCartItemsCount(user.getCartItems().size());
+        return user;
     }
 
     public User findByEmailFetchCartItemsAndOrders(String email, Supplier<?> supplier) {
@@ -58,14 +62,20 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void addItemToCart(String email, Offering offering) {
+    public int addItemToCart(String email, Offering offering) {
         User user = findByEmailFetchCartItems(email);
         user.getCartItems().add(offering);
+        return user.getCartItems().size();
     }
 
-    public void removeItemFromCart(String email, Long offeringId) {
+    public int removeItemFromCart(String email, Long offeringId) {
         User user = findByEmailFetchCartItems(email);
         user.getCartItems().removeIf(offering -> offering.getId().equals(offeringId));
+        return user.getCartItems().size();
+    }
+
+    public int countCartItems(String email) {
+        return userRepository.countCartItems(email);
     }
 
     public Page<User> findAll(Pageable pageable) {
@@ -98,6 +108,7 @@ public class UserService implements UserDetailsService {
         handlePhotoChange(photo, isRemoveExistingPhoto, userFromDb);
         User savedUser = userRepository.save(userFromDb);
         AuthUtils.updateAuthenticationAfterCredentialsChange(savedUser);
+        userFromDb.setCartItemsCount(userFromDb.getCartItems().size());
         return savedUser;
     }
 

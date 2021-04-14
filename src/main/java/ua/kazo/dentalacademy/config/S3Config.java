@@ -3,7 +3,8 @@ package ua.kazo.dentalacademy.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import ua.kazo.dentalacademy.properties.AWSProperties;
@@ -24,7 +25,9 @@ public class S3Config {
     @Bean
     public S3Client s3Client(Region region) {
         return S3Client.builder()
-                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+                .credentialsProvider(StaticCredentialsProvider
+                        .create(AwsBasicCredentials
+                                .create(awsProperties.getAccessKeyId(), awsProperties.getSecretKey())))
                 .region(region)
                 .build();
     }

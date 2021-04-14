@@ -7,19 +7,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import ua.kazo.dentalacademy.dto.user.UserResponseDto;
+import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.PaymentProvider;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
+import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.service.OrderService;
-import ua.kazo.dentalacademy.service.payment.convertor.PortmonePaymentStatus;
 import ua.kazo.dentalacademy.service.payment.processor.Fondy;
 import ua.kazo.dentalacademy.service.payment.processor.LiqPay;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.service.payment.processor.WayForPay;
 
 import javax.xml.bind.DatatypeConverter;
+import java.security.Principal;
 import java.util.Map;
 
 @RestController
@@ -31,6 +35,7 @@ public class RestApi {
     private final OrderService orderService;
     private final ObjectMapper objectMapper;
     private final MessageSource messageSource;
+    private final UserMapper userMapper;
 
     /**
      * Refresh order status via ajax request
@@ -90,7 +95,7 @@ public class RestApi {
     }
 
     @SneakyThrows
-    @PostMapping(value = "/payment/wayforpay-callback")
+    @PostMapping("/payment/wayforpay-callback")
     public void wayForPayCallback(@RequestParam Map<String, String> response) {
         String json = response.entrySet().iterator().next().getKey(); // Workaround for bad input parameters
         Map<String, Object> responseMap = objectMapper.readValue(json, new TypeReference<>() {});
@@ -103,6 +108,12 @@ public class RestApi {
         String orderNumber = (String) responseMap.get("orderReference");
         String orderStatus = (String) responseMap.get("transactionStatus");
         orderService.updateOrder(orderNumber, orderStatus, data);
+    }
+
+    @GetMapping("/me")
+    public UserResponseDto getPrincipal(Principal principal) {
+        User user = (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        return userMapper.toResponseDto(user);
     }
 
 }

@@ -21,5 +21,7 @@ public class UserResponseDto {
     private String mobile;
     private LocalDate birthday;
     private Set<Role> roles;
+    private String existingPhotoPath;
+    private int cartItemsCount;
 
 }

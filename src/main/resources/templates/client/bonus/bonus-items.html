@@ -11,6 +11,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3><a th:href="@{/bonuses}" th:text="#{nav.myBonuses}"></a> / <a th:href="@{/bonus/__${bonus.id}__}" th:text="${bonus.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
             <hr/>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>

@@ -21,6 +21,7 @@
     <script type="text/javascript" th:src="@{/vendor/jquery-sortable/js/jquery-sortable.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/air-datepicker/2.2.3/js/datepicker.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/settings.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 <body>
 
@@ -111,7 +112,7 @@
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">
-                        <a class="nav-link" th:href="@{/cart}"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{nav.cart}"></span></a>
+                        <a class="nav-link" th:href="@{/cart}"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{nav.cart}"></span> <span class="badge badge-secondary" id="cart-items"></span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -144,8 +145,7 @@
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-<!--                            <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : #authentication.principal.photoName}" class="rounded-circle menu-profile-pic" alt="avatar"/>-->
-                            <img src="/img/default-user-icon.jpg" class="rounded-circle menu-profile-pic" alt="avatar"/> <!-- todo add user photo -->
+                            <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/img/transparent-pixel.png'}" class="rounded-circle menu-profile-pic" id="avatar"/>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
@@ -160,6 +160,7 @@
             </div>
         </div>
     </nav>
+    <div class="d-none d-xl-block social-bar-left" th:include="~{fragments :: social}"></div>
 </header>
 
 <div th:fragment="alerts (errors, success, exception)">
@@ -188,17 +189,25 @@
 
 <footer th:fragment="footer">
     <div class="bg-dark">
-        <div class="container text-center pt-4 pb-3">
-            <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline pb-3">
-                <li><a target="_blank" title="YouTube Channel" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube"></i></a></li>
-                <li><a target="_blank" title="Instagram Page" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram"></i></a></li>
-                <li><a target="_blank" title="Telegram Group" href="https://t.me/business_stomatology"><i class="fab fa-telegram"></i></a></li>
-                <li><a target="_blank" title="Facebook Group" href="https://www.facebook.com/business.stomatology/"><i class="fab fa-facebook"></i></a></li>
-            </ul>
-            <div class="text-white" th:text="'&copy; 2020 ' + #{sitename}"></div>
+        <div class="container text-center pt-3 pb-3">
+            <div class="d-block d-xl-none list-inline" th:include="~{fragments :: social}"></div>
+            <div class="text-white" th:text="'2020 &copy; ' + #{sitename}"></div>
         </div>
     </div>
 </footer>
+
+<div th:fragment="social-near-heading">
+    <div class="d-none d-sm-block d-xl-none float-right list-inline" th:include="~{fragments :: social}"></div>
+</div>
+
+<div th:fragment="social">
+    <ul class="social-icons icon-circle icon-zoom list-unstyled ">
+        <li><a target="_blank" title="YouTube Channel" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube"></i></a></li>
+        <li><a target="_blank" title="Instagram Page" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram"></i></a></li>
+        <li><a target="_blank" title="Telegram Group" href="https://t.me/business_stomatology"><i class="fab fa-telegram"></i></a></li>
+        <li><a target="_blank" title="Facebook Group" href="https://www.facebook.com/business.stomatology/"><i class="fab fa-facebook"></i></a></li>
+    </ul>
+</div>
 
 <div th:fragment="search-form (search, count)" th:remove="tag">
     <form th:action="@{__${#httpServletRequest.requestURI}__}" method="get">

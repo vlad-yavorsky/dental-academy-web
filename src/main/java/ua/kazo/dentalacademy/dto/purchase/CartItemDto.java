@@ -8,5 +8,6 @@ import lombok.Setter;
 public class CartItemDto {
 
     private Long offeringId;
+    private Long programId;
 
 }

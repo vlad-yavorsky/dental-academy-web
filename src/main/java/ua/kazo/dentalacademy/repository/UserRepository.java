@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.User;
 
@@ -32,5 +33,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @EntityGraph(attributePaths = "orders")
     Optional<User> findFetchOrdersByEmail(String email);
+
+    /**
+     * Rest API / Whole website
+     */
+    @Query("select count(ci.id) from User u join u.cartItems ci where u.email = :email")
+    int countCartItems(String email);
 
 }

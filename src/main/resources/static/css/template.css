@@ -66,16 +66,23 @@
 
 /* CSS Color Definitions for Font-Awesome Social Icons */
 /*----- General Classes start ------*/
+.social-bar-left {
+    position: fixed;
+    margin: 10px;
+}
+
 .list-unstyled {
     padding-left: 0;
     list-style: none;
 }
+.list-unstyled li {
+    margin-bottom: 5px;
+}
 
 .list-inline li {
     display: inline-block;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-bottom: 0px;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 .list-inline li > a {
     color: white;
@@ -85,9 +92,9 @@
     font-size: 2.0em;
 }
 .social-icons .fab {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
     text-align: center;
     color: #FFF;
     /*color: rgba(255, 255, 255, 0.8);*/
@@ -97,6 +104,22 @@
     -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
+
+@media screen and (max-width: 1199px) {
+    .social-icons .fab {
+        font-size: 1.4em;
+    }
+    .social-icons .fab {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+    .list-inline li {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
 .social-icons.icon-circle .fab {border-radius: 50%; }
 .social-icons.icon-rounded .fab { border-radius:5px; }
 .social-icons.icon-flat .fab { border-radius: 0; }

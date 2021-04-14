@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
-import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
-import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.offering.ShopItemOfferingResponseDto;
 import ua.kazo.dentalacademy.dto.purchase.CartItemDto;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.entity.Program;
+import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.mapper.OfferingMapper;
 import ua.kazo.dentalacademy.mapper.OrderMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
@@ -28,6 +27,9 @@ import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.security.Permission;
 import ua.kazo.dentalacademy.security.TargetType;
 import ua.kazo.dentalacademy.service.*;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
+import ua.kazo.dentalacademy.util.AuthUtils;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -122,19 +124,23 @@ public class ShopController {
 
     @GetMapping("/cart")
     public String getCart(final ModelMap model, final Principal principal) {
-        model.addAttribute("userCart", userMapper.toCartDto(userService.findByEmailFetchCartItems(principal.getName())));
+        User user = userService.findByEmailFetchCartItems(principal.getName());
+        model.addAttribute("userCart", userMapper.toCartDto(user));
+        AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
         return "client/shop/cart";
     }
 
     @PostMapping(value = "/cart", params = {"addItem"})
     public String addItemToCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        userService.addItemToCart(principal.getName(), offeringService.findByIdAndActive(cartItemDto.getOfferingId()));
-        return getCart(model, principal);
+        int cartItemsCount = userService.addItemToCart(principal.getName(), offeringService.findByIdAndActive(cartItemDto.getOfferingId()));
+        AuthUtils.updateCartItemsCount(principal, cartItemsCount);
+        return getShopItem(model, cartItemDto.getProgramId(), principal);
     }
 
     @PostMapping(value = "/cart", params = {"removeItem"})
     public String removeItemFromCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
+        int cartItemsCount = userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
+        AuthUtils.updateCartItemsCount(principal, cartItemsCount);
         return getCart(model, principal);
     }
 
