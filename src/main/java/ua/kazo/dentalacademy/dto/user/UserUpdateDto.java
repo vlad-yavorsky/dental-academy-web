@@ -27,5 +27,6 @@ public class UserUpdateDto {
     private LocalDate birthday;
     private MultipartFile newPhoto;
     private String existingPhotoPath;
+    private boolean removeExistingPhoto;
 
 }

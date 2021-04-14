@@ -107,7 +107,7 @@ public class UserController {
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.user.edit");
 
-        User savedUser = userService.update(user, userUpdateDto.getNewPhoto(), principal.getName());
+        User savedUser = userService.update(user, userUpdateDto.getNewPhoto(), userUpdateDto.isRemoveExistingPhoto(), principal.getName());
         return loadUpdatePage(userMapper.toUpdateDto(savedUser), model);
     }
 

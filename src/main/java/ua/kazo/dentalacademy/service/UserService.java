@@ -92,39 +92,45 @@ public class UserService implements UserDetailsService {
         user.setEnabled(true);
         user.setRoles(Set.of(Role.USER));
         User userFromDb = userRepository.save(user);
-        handlePhotoChange(photo, userFromDb);
+        handlePhotoChange(photo, false, userFromDb);
     }
 
-    public User update(User user, MultipartFile photo, String userEmail) {
+    public User update(User user, MultipartFile photo, boolean isRemoveExistingPhoto, String userEmail) {
         User userFromDb = findByEmailFetchRoles(userEmail);
         userFromDb.setEmail(user.getEmail());
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setMobile(user.getMobile());
         userFromDb.setBirthday(user.getBirthday());
-        handlePhotoChange(photo, userFromDb);
+        handlePhotoChange(photo, isRemoveExistingPhoto, userFromDb);
         User savedUser = userRepository.save(userFromDb);
         AuthUtils.updateAuthenticationAfterCredentialsChange(savedUser);
         return savedUser;
     }
 
-    private void handlePhotoChange(MultipartFile photo, User userFromDb) {
-        if (!photo.isEmpty()) {
-            String photoName = storageService.store(photo);
-            if (StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
-                Path rootLocation = Paths.get(storageProperties.getLocation());
-                Path fileToDelete = rootLocation.resolve(Paths.get(userFromDb.getPhotoName()))
-                        .normalize()
-                        .toAbsolutePath();
-                try {
-                    Files.delete(fileToDelete);
-                } catch (NoSuchFileException ex) {
-                    log.warn("No such file or directory: {}", fileToDelete);
-                } catch (IOException ex) {
-                    log.warn("File: {}, permission problems: {}", fileToDelete, ex.getMessage());
-                }
+    private void handlePhotoChange(MultipartFile newPhoto, boolean isRemoveExistingPhoto, User userFromDb) {
+        boolean uploadNewPhoto = !newPhoto.isEmpty();
+        handleExistingPhotoRemove(uploadNewPhoto || isRemoveExistingPhoto, userFromDb);
+        if (uploadNewPhoto) {
+            String newPhotoName = storageService.store(newPhoto);
+            userFromDb.setPhotoName(newPhotoName);
+        }
+    }
+
+    private void handleExistingPhotoRemove(boolean isRemoveExistingPhoto, User userFromDb) {
+        if (isRemoveExistingPhoto && StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
+            Path rootLocation = Paths.get(storageProperties.getLocation());
+            Path fileToDelete = rootLocation.resolve(Paths.get(userFromDb.getPhotoName()))
+                    .normalize()
+                    .toAbsolutePath();
+            try {
+                Files.delete(fileToDelete);
+            } catch (NoSuchFileException ex) {
+                log.warn("No such file or directory: {}", fileToDelete);
+            } catch (IOException ex) {
+                log.warn("File: {}, permission problems: {}", fileToDelete, ex.getMessage());
             }
-            userFromDb.setPhotoName(photoName);
+            userFromDb.setPhotoName(null);
         }
     }
 

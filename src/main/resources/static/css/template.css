@@ -57,7 +57,6 @@
 .profile-pic {
     max-width: 100%;
     max-height: 250px;
-    object-fit: cover;
 }
 .menu-profile-pic {
     width: 50px;
