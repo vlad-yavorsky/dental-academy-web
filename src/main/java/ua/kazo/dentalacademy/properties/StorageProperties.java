@@ -1,7 +1,11 @@
-package ua.kazo.dentalacademy.service.storage;
+package ua.kazo.dentalacademy.properties;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+@Getter
+@Setter
 @ConfigurationProperties("storage")
 public class StorageProperties {
 
@@ -9,13 +13,5 @@ public class StorageProperties {
      * Folder location for storing files
      */
     private String location = "files";
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
 }

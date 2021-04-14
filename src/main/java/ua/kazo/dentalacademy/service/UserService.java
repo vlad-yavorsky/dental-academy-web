@@ -18,15 +18,9 @@ import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.Role;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.UserRepository;
-import ua.kazo.dentalacademy.service.storage.FileSystemStorageService;
-import ua.kazo.dentalacademy.service.storage.StorageProperties;
+import ua.kazo.dentalacademy.service.storage.StorageService;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -39,8 +33,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
-    private final FileSystemStorageService storageService;
-    private final StorageProperties storageProperties;
+    private final StorageService storageService;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -110,27 +103,13 @@ public class UserService implements UserDetailsService {
 
     private void handlePhotoChange(MultipartFile newPhoto, boolean isRemoveExistingPhoto, User userFromDb) {
         boolean uploadNewPhoto = !newPhoto.isEmpty();
-        handleExistingPhotoRemove(uploadNewPhoto || isRemoveExistingPhoto, userFromDb);
+        if ((uploadNewPhoto || isRemoveExistingPhoto) && StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
+            storageService.delete(userFromDb.getPhotoName());
+            userFromDb.setPhotoName(null);
+        }
         if (uploadNewPhoto) {
             String newPhotoName = storageService.store(newPhoto);
             userFromDb.setPhotoName(newPhotoName);
-        }
-    }
-
-    private void handleExistingPhotoRemove(boolean isRemoveExistingPhoto, User userFromDb) {
-        if (isRemoveExistingPhoto && StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
-            Path rootLocation = Paths.get(storageProperties.getLocation());
-            Path fileToDelete = rootLocation.resolve(Paths.get(userFromDb.getPhotoName()))
-                    .normalize()
-                    .toAbsolutePath();
-            try {
-                Files.delete(fileToDelete);
-            } catch (NoSuchFileException ex) {
-                log.warn("No such file or directory: {}", fileToDelete);
-            } catch (IOException ex) {
-                log.warn("File: {}, permission problems: {}", fileToDelete, ex.getMessage());
-            }
-            userFromDb.setPhotoName(null);
         }
     }
 

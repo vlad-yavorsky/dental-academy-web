@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import ua.kazo.dentalacademy.config.payment.PaymentProperties;
+import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package ua.kazo.dentalacademy.config.payment;
+package ua.kazo.dentalacademy.properties.payment;
 
 import lombok.Getter;
 import lombok.Setter;

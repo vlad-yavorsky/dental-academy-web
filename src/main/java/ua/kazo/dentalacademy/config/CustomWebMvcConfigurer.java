@@ -16,7 +16,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.theme.CookieThemeResolver;
 import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
-import ua.kazo.dentalacademy.service.storage.StorageProperties;
+import ua.kazo.dentalacademy.service.storage.StorageService;
 
 import java.util.Locale;
 
@@ -24,7 +24,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
-    private final StorageProperties storageProperties;
+    private final StorageService storageService;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -77,8 +77,8 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**")
-                .addResourceLocations("file:" + storageProperties.getLocation() + "\\");
+        registry.addResourceHandler(storageService.getResourceHandler())
+                .addResourceLocations(storageService.getResourcesLocation());
     }
 
 }

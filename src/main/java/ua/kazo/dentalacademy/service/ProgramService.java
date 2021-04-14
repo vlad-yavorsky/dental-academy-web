@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ua.kazo.dentalacademy.config.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
@@ -26,7 +25,6 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final MessageSource messageSource;
-    private final PaymentProperties paymentProperties;
 
     public Page<Program> findAll(Pageable pageable) {
         return programRepository.findAll(pageable);

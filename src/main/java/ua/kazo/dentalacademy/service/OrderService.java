@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
-import ua.kazo.dentalacademy.config.payment.PaymentProperties;
+import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.entity.PurchaseData;

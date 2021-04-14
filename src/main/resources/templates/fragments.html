@@ -144,7 +144,8 @@
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                            <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/files/' + #authentication.principal.photoName}" class="rounded-circle menu-profile-pic" alt="avatar"/>
+<!--                            <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : #authentication.principal.photoName}" class="rounded-circle menu-profile-pic" alt="avatar"/>-->
+                            <img src="/img/default-user-icon.jpg" class="rounded-circle menu-profile-pic" alt="avatar"/> <!-- todo add user photo -->
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
@@ -192,6 +193,7 @@
                 <li><a target="_blank" title="YouTube Channel" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube"></i></a></li>
                 <li><a target="_blank" title="Instagram Page" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram"></i></a></li>
                 <li><a target="_blank" title="Telegram Group" href="https://t.me/business_stomatology"><i class="fab fa-telegram"></i></a></li>
+                <li><a target="_blank" title="Facebook Group" href="https://www.facebook.com/business.stomatology/"><i class="fab fa-facebook"></i></a></li>
             </ul>
             <div class="text-white" th:text="'&copy; 2020 ' + #{sitename}"></div>
         </div>

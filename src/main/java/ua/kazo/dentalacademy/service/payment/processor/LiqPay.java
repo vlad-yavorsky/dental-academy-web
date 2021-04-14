@@ -4,7 +4,7 @@ import com.liqpay.LiqPayUtil;
 import org.json.simple.JSONObject;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
-import ua.kazo.dentalacademy.config.payment.PaymentProperties;
+import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
 
 import java.time.ZoneId;
