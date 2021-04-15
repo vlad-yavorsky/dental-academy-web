@@ -13,7 +13,9 @@ import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
+import ua.kazo.dentalacademy.mapper.OrderHistoryMapper;
 import ua.kazo.dentalacademy.mapper.OrderMapper;
+import ua.kazo.dentalacademy.service.OrderHistoryService;
 import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.payment.OrderManualUpdateLogItem;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
@@ -28,6 +30,8 @@ public class AdminOrderController {
 
     private final OrderService orderService;
     private final OrderMapper orderMapper;
+    private final OrderHistoryService orderHistoryService;
+    private final OrderHistoryMapper orderHistoryMapper;
 
     @GetMapping("/orders")
     public String orders(final ModelMap model,
@@ -46,6 +50,7 @@ public class AdminOrderController {
         model.addAttribute("checkoutUrl", paymentProcessor.getCheckoutUrl());
         model.addAttribute("formData", paymentProcessor.getPayParameters(order));
         model.addAttribute("order", orderMapper.toUserPurchaseDataResponseDto(order));
+        model.addAttribute("orderHistory", orderHistoryMapper.toResponseDto(orderHistoryService.findAllByOrderId(order.getId())));
         return "admin/order/order";
     }
 

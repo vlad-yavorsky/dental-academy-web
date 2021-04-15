@@ -63,7 +63,7 @@
                 </tfoot>
             </table>
 
-            <div  class="alert alert-danger mt-3" role="alert" sec:authorize="hasAuthority('ADMIN')">
+            <div class="alert alert-danger mt-3" role="alert" sec:authorize="hasAuthority('ADMIN')">
                 <h4 class="alert-heading">Danger zone!</h4>
                 <hr>
                 <p>Here you can change the status of order</p>
@@ -83,6 +83,24 @@
                     </div>
                 </form>
             </div>
+
+            <h3 class="mt-5" th:text="#{actionLogs}"></h3>
+            <table class="table table-sm table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{actionLogs.date}"></th>
+                    <th th:text="#{actionLogs.status}"></th>
+                    <th th:text="#{actionLogs.data}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="logItem: ${orderHistory}">
+                    <td th:text="${#temporals.format(logItem.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                    <td th:text="${logItem.status}"></td>
+                    <td th:utext="${logItem.data}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

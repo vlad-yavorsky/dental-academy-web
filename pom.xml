@@ -178,6 +178,11 @@
             <artifactId>s3</artifactId>
             <version>2.16.41</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.11.2</version>
+        </dependency>
     </dependencies>
 
     <repositories>

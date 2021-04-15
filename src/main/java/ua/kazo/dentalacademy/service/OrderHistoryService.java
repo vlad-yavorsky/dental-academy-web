@@ -25,7 +25,7 @@ public class OrderHistoryService {
     }
 
     public List<OrderHistory> findAllByOrderId(Long orderId) {
-        return orderHistoryRepository.findAllByOrderId(orderId);
+        return orderHistoryRepository.findAllByOrderIdOrderByCreatedAsc(orderId);
     }
 
 }
