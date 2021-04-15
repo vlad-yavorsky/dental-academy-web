@@ -6,18 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
-import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.entity.PurchaseData;
 import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
-import ua.kazo.dentalacademy.service.payment.convertor.PaymentStatusConverterHolder;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
+import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.repository.OrderRepository;
+import ua.kazo.dentalacademy.service.payment.convertor.PaymentStatusConverterHolder;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
+import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -53,8 +53,13 @@ public class OrderService {
         return orderRepository.findAllByUserEmail(email);
     }
 
-    public Order findByNumberFetchCompletePurchaseData(String number) {
-        Order order = orderRepository.findFetchPurchaseDataAndOfferingByNumber(number)
+    public Page<Order> findAllFetchUserRoles(Pageable pageable) {
+        return orderRepository.findAllFetchUserRolesBy(pageable);
+    }
+
+    public Order findByNumberFetchCompletePurchaseData(String number, boolean fetchUser) {
+        Order order = (fetchUser ? orderRepository.findFetchPurchaseDataAndOfferingAndUserWithRolesByNumber(number) :
+                orderRepository.findFetchPurchaseDataAndOfferingByNumber(number))
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, number));
         Set<Long> offeringIds = order.getPurchaseData().stream()
                 .map(purchaseData -> purchaseData.getOffering().getId()).collect(Collectors.toSet());
@@ -98,10 +103,23 @@ public class OrderService {
         return savedOrder;
     }
 
+    public void manualUpdateOrder(String number, UnifiedPaymentStatus unifiedStatus, String data) {
+        Order order = findByNumberFetchPurchaseData(number);
+        updateOrderInternal(unifiedStatus, data, order);
+        if (UnifiedPaymentStatus.SUCCESS != unifiedStatus) {
+            order.setPurchased(null);
+            order.getPurchaseData().forEach(purchaseData -> purchaseData.setExpired(null));
+        }
+    }
+
     public void updateOrder(String number, String status, String data) {
         Order order = findByNumberFetchPurchaseData(number);
         UnifiedPaymentStatus unifiedStatus = PaymentStatusConverterHolder.get(order.getProvider())
                 .convertToUnifiedStatus(status);
+        updateOrderInternal(unifiedStatus, data, order);
+    }
+
+    private void updateOrderInternal(UnifiedPaymentStatus unifiedStatus, String data, Order order) {
         order.setStatus(unifiedStatus);
         orderHistoryService.create(order, data);
         if (UnifiedPaymentStatus.SUCCESS == unifiedStatus) {

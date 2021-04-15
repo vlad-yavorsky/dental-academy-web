@@ -91,11 +91,11 @@ public class ShopController {
     @PreAuthorize("hasPermission(#orderNumber, '" + TargetType.ORDER + "', '" + Permission.READ + "')")
     @GetMapping("/order/{orderNumber}")
     public String findOrder(@PathVariable final String orderNumber, final ModelMap model) {
-        Order order = orderService.findByNumberFetchCompletePurchaseData(orderNumber);
+        Order order = orderService.findByNumberFetchCompletePurchaseData(orderNumber, false);
         PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(order.getProvider());
         model.addAttribute("checkoutUrl", paymentProcessor.getCheckoutUrl());
         model.addAttribute("formData", paymentProcessor.getPayParameters(order));
-        model.addAttribute("order", orderMapper.toResponseDto(order));
+        model.addAttribute("order", orderMapper.toPurchaseDataResponseDto(order));
         return "client/shop/order";
     }
 

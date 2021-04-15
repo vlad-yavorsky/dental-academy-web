@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:lang="${#locale}">
 <head>
     <title th:replace="~{fragments :: head (#{nav.order} + ' #' + ${order.number})}"></title>
 </head>
@@ -20,6 +20,7 @@
     <div class="row">
         <div class="col-12">
             <ul>
+                <li><strong th:text="#{user}"></strong>: <span th:text="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></span></li>
                 <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm')}"></span></li>
                 <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
                 <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span> <span class="badge badge-success" id="order-status-badge"></span></li>
@@ -62,27 +63,25 @@
                 </tfoot>
             </table>
 
-            <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).CREATED}">
-                <form th:action="@{${checkoutUrl}}" method="post" accept-charset="utf-8" class="text-center">
-                    <th:block th:each="item : ${formData}">
-                        <input th:each="value : ${item.getValue()}" type="hidden" th:name="${item.getKey()} + (${item.getValue() instanceof T(java.util.List)} ? '[]' : '')" th:value="${value}"/>
-                    </th:block>
-
-                    <button th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
-                            class="liqpay-button">
-                        <div class="liqpay-button-left"><img src="https://static.liqpay.ua/buttons/logo-small.png"/></div>
-                        <div class="liqpay-button-right" th:text="#{button.pay}"></div>
-                    </button>
-
-                    <input th:unless="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
-                           type="submit" class="btn btn-success" th:value="'Pay at ' + ${order.provider}"/>
+            <div  class="alert alert-danger mt-3" role="alert" sec:authorize="hasAuthority('ADMIN')">
+                <h4 class="alert-heading">Danger zone!</h4>
+                <hr>
+                <p>Here you can change the status of order</p>
+                <form th:action="@{/admin/order/__${order.number}__/status}" method="post" accept-charset="utf-8">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto my-1">
+                            <label class="mr-sm-2 sr-only" for="orderStatus">Order status: </label>
+                            <select class="form-control selectpicker" id="orderStatus" name="orderStatus">
+                                <option th:each="unifiedPaymentStatus: ${T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).values()}"
+                                        th:value="${unifiedPaymentStatus}" th:text="${unifiedPaymentStatus}"
+                                        th:selected="${unifiedPaymentStatus == order.status}"></option>
+                            </select>
+                        </div>
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary">Change</button>
+                        </div>
+                    </div>
                 </form>
-            </div>
-            <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).SUCCESS}">
-                <div th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
-                     class="text-center">
-                    <a class="btn btn-primary" th:href="@{/order/__${orderNumber}__/receipt}" th:text="#{button.sendReceipt}"></a>
-                </div>
             </div>
         </div>
     </div>

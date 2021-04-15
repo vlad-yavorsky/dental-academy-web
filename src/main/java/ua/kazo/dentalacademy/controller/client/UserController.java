@@ -154,7 +154,7 @@ public class UserController {
                          @RequestParam(defaultValue = "0") final int page,
                          @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         Page<Order> pageResult = orderService.findAllByUserEmail(principal.getName(), PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
-        model.addAttribute(ModelMapConstants.ORDERS, orderMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.ORDERS, orderMapper.toPurchaseDataResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "client/user/orders";
     }

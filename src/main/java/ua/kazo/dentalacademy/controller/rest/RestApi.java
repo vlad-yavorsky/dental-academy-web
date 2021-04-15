@@ -43,9 +43,9 @@ public class RestApi {
      * @param id order ID
      * @return LiqPay payment status
      */
-    @GetMapping("/order/{id}/status")
-    public UnifiedPaymentStatus orderGet(@PathVariable final String id) {
-        return orderService.findByNumber(id).getStatus();
+    @GetMapping("/order/{orderNumber}/status")
+    public UnifiedPaymentStatus orderGet(@PathVariable final String orderNumber) {
+        return orderService.findByNumber(orderNumber).getStatus();
     }
 
     /**

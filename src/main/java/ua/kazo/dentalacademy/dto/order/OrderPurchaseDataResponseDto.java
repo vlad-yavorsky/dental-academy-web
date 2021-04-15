@@ -12,15 +12,15 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderResponseDto {
+public class OrderPurchaseDataResponseDto {
 
     private Long id;
     private String number;
-    private List<PurchaseDataResponseDto> purchaseData;
     private UnifiedPaymentStatus status;
     private PaymentProvider provider;
     private LocalDateTime created;
     private LocalDateTime purchased;
     private BigDecimal price;
+    private List<PurchaseDataResponseDto> purchaseData;
 
 }

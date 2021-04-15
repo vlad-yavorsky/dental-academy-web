@@ -19,9 +19,24 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-@NamedEntityGraph(name = Graph.ORDER_PURCHASE_DATA_OFFERING,
-        attributeNodes = @NamedAttributeNode(value = "purchaseData", subgraph = "purchaseData.offering"),
-        subgraphs = @NamedSubgraph(name = "purchaseData.offering", attributeNodes = @NamedAttributeNode(value = "offering")))
+@NamedEntityGraph(
+        name = Graph.ORDER_PURCHASE_DATA_OFFERING,
+        attributeNodes = {
+                @NamedAttributeNode(value = "purchaseData", subgraph = "purchaseData.offering")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "purchaseData.offering", attributeNodes = @NamedAttributeNode(value = "offering"))
+        })
+@NamedEntityGraph(
+        name = Graph.ORDER_PURCHASE_DATA_OFFERING_AND_USER_WITH_ROLES,
+        attributeNodes = {
+                @NamedAttributeNode(value = "purchaseData", subgraph = "purchaseData.offering"),
+                @NamedAttributeNode(value = "user", subgraph = "user.roles")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "purchaseData.offering", attributeNodes = @NamedAttributeNode(value = "offering")),
+                @NamedSubgraph(name = "user.roles", attributeNodes = @NamedAttributeNode(value = "roles"))
+        })
 public class Order extends TrackedDateEntity {
 
     @Id

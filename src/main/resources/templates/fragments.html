@@ -97,6 +97,12 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
+                               th:href="@{/admin/orders}"
+                               th:classappend="${#httpServletRequest.requestURI == '/admin/orders'} ? 'active'">
+                                <i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
                                th:href="@{/admin/users}"
                                th:classappend="${#httpServletRequest.requestURI == '/admin/users'} ? 'active'">
                                 <i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span>
@@ -191,7 +197,7 @@
     <div class="bg-dark">
         <div class="container text-center pt-3 pb-3">
             <div class="d-block d-xl-none list-inline" th:include="~{fragments :: social}"></div>
-            <div class="text-white" th:text="'2020 &copy; ' + #{sitename}"></div>
+            <div class="text-white" th:text="'2021 &copy; ' + #{sitename}"></div>
         </div>
     </div>
 </footer>

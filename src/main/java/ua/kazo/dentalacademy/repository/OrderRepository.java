@@ -26,6 +26,18 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> findFetchPurchaseDataAndOfferingByNumber(String number);
 
     /**
+     * Admin / Orders
+     */
+    @EntityGraph(attributePaths = {"user.roles"})
+    Page<Order> findAllFetchUserRolesBy(Pageable pageable);
+
+    /**
+     * Admin / Order
+     */
+    @EntityGraph(value = Graph.ORDER_PURCHASE_DATA_OFFERING_AND_USER_WITH_ROLES)
+    Optional<Order> findFetchPurchaseDataAndOfferingAndUserWithRolesByNumber(String number);
+
+    /**
      * Client / Orders
      */
     Page<Order> findAllByUserEmail(String email, Pageable pageable);
