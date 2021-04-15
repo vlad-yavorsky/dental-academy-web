@@ -33,6 +33,8 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${program.name}"></h5>
                         <p class="card-text" th:utext="${program.description}"></p>
+                        <span th:text="#{shop.item.from}"></span>
+                        <h3 th:text="${'$' + program.startingPrice}"></h3>
                         <a th:href="@{/shop/program/__${program.id}__}" class="btn btn-success" th:text="#{button.WatchDetails}"></a>
                     </div>
                 </div>

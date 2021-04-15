@@ -2,6 +2,7 @@ package ua.kazo.dentalacademy.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     /**
      * Client / Shop
      */
+    @EntityGraph(attributePaths = "offerings")
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "where (o.deactivated is null or :dateTime < o.deactivated) " +
@@ -37,6 +39,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     /**
      * Client / Shop (search)
      */
+    @EntityGraph(attributePaths = "offerings")
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "where (o.deactivated is null or :dateTime < o.deactivated) " +

@@ -36,7 +36,7 @@
                     <td th:text="#{${cartItem.type.toString().toLowerCase()}}"></td>
                     <td>
                         <span th:classappend="${cartItem.discount != null} ? 'line-through'" th:text="${'$' + cartItem.price}"></span>
-                        <br/><span th:if="${cartItem.discount != null}" th:text="${'-' + cartItem.discount + '%'}"></span>
+                        <span class="badge badge-success" th:if="${cartItem.discount != null}" th:text="${'-' + cartItem.discount + '%'}"></span>
                         <br/><span th:if="${cartItem.discount != null}" th:text="${'$' + cartItem.discountPrice}"></span>
                     </td>
                     <td>

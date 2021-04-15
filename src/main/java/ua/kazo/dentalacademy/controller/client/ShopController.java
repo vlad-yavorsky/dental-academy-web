@@ -58,7 +58,7 @@ public class ShopController {
                           @RequestParam(defaultValue = "0") final int page,
                           @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         Page<Program> pageResult = programService.findAllByNotDeactivatedOfferings(search, PageRequest.of(page, size));
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toOfferingsResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "client/shop/shop";

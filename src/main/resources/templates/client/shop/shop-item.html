@@ -55,9 +55,9 @@
                             <li th:each="folder: ${offering.folders}" th:text="${folder.name}"></li>
                         </ul>
                     </td>
-                    <td class="text-center">
+                    <td>
                         <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
-                        <br/><span th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
+                        <span class="badge badge-success" th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
                         <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
                     </td>
                     <td class="text-center" th:text="${offering.term}"></td>

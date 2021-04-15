@@ -21,7 +21,7 @@
     <script type="text/javascript" th:src="@{/vendor/jquery-sortable/js/jquery-sortable.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/air-datepicker/2.2.3/js/datepicker.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/settings.js}"></script>
-    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+    <script sec:authorize="isAuthenticated()" type="text/javascript" th:src="@{/js/common-authenticated.js}"></script>
 </head>
 <body>
 
