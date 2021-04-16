@@ -1,9 +1,6 @@
 package ua.kazo.dentalacademy.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.kazo.dentalacademy.enumerated.Role;
 
@@ -68,6 +65,11 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
             joinColumns = {@JoinColumn(name = "userId")},
             inverseJoinColumns = {@JoinColumn(name = "offeringId")})
     private List<Offering> cartItems = new ArrayList<>();
+
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<ViewedFolderItem> viewedFolderItems = new ArrayList<>();
 
     @Transient
     private int cartItemsCount;

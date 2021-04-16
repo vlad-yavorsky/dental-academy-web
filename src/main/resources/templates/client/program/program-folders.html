@@ -20,6 +20,7 @@
     <div class="row">
         <div class="col-12">
 
+            <div class="mb-3"><a class="btn btn-danger float-right" th:href="@{/program/__${program.id}__/reset}" th:text="#{button.resetProgress}"></a></div>
             <p th:utext="${program.description}"></p>
 
             <div class="card">

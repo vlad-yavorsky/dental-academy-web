@@ -22,4 +22,8 @@ public class AuthUtils {
         ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).setCartItemsCount(counter);
     }
 
+    public User getUser(final Principal principal) {
+         return (User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    }
+
 }

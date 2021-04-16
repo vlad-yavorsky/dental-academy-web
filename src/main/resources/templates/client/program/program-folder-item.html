@@ -40,12 +40,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-md-12 col-lg-3 mb-4">
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar"
+                                     th:style="${'width:' + folder.folderCompletePercentage + '%;'}"
+                                     th:text="${folder.folderCompletePercentage + '%'}"
+                                     th:aria-valuenow="${folder.folderCompletePercentage}"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            </div>
                             <div class="list-group">
-                                <a class="list-group-item list-group-item-action"
+                                <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
                                    th:each="folderItem: ${folder.items}"
                                    th:href="@{/program/__${program.id}__/folder/__${folder.id}__/item/__${folderItem.id}__}"
-                                   th:text="${folderItem.name}"
-                                   th:classappend="${selectedItem.id == folderItem.id} ? 'active'"></a>
+                                   th:classappend="${selectedItem.id == folderItem.id} ? 'active'">
+                                    <span th:text="${folderItem.name}"></span>
+                                    <i th:if="${folderItem.viewedByUser}" class="fas fa-check-circle"
+                                       th:classappend="${selectedItem.id != folderItem.id} ? 'text-primary'"></i>
+                                </a>
                             </div>
                         </div>
                         <div class="col-12 col-md-12 col-lg-9">

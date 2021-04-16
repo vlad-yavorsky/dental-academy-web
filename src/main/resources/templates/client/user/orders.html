@@ -29,8 +29,8 @@
             <div th:if="${orders.size() > 0}" th:each="order: ${orders}">
                 <ul>
                     <li><a th:href="@{/order/__${order.number}__}"><strong th:text="#{nav.order}"></strong> #<span th:text="${order.number}"></span></a></li>
-                    <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm')}"></span></li>
-                    <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
+                    <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
+                    <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                     <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}"></span></li>
                 </ul>
                 <table class="table table-sm">
@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="orderItem: ${order.purchaseData}">
-                        <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
                         <td th:text="${orderItem.name}"></td>
                         <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                         <td>

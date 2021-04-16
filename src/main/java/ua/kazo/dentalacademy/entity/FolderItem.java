@@ -1,14 +1,13 @@
 package ua.kazo.dentalacademy.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ua.kazo.dentalacademy.enumerated.FolderItemType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -37,5 +36,10 @@ public class FolderItem extends TrackedDateEntity implements Serializable {
     private Folder folder;
 
     private int ordering;
+
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "folderItem")
+    private List<ViewedFolderItem> viewedFolderItems = new ArrayList<>();
 
 }

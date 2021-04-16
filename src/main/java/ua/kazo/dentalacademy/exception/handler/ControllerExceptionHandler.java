@@ -24,6 +24,10 @@ public class ControllerExceptionHandler {
     public ModelAndView exceptionHandler(final Exception e, final HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         log.error("Exception", e);
         ModelAndView modelAndView = new ModelAndView();
+        /*
+          todo: check if we need this redirect, because its sick, when exception appears
+          Check if additional redirect attributes passed when editing entities on admin site
+        */
         String referer = request.getHeader("Referer");
         if (referer != null) {
             modelAndView.setViewName("redirect:" + referer); // todo: status do not work with redirect

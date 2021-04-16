@@ -75,7 +75,7 @@
                                 </form>
                             </span>
 
-                            <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
+                            <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm:ss')}"></span>
                         </span>
                     </td>
                 </tr>

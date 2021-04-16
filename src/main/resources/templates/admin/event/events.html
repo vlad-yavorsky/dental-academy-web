@@ -31,7 +31,7 @@
                 <tbody>
                 <tr th:each="event: ${events}">
                     <td><img class="rounded" style="max-width: 100px;" th:if="${event.image}" th:src="${event.image}"></td>
-                    <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm:ss')}"></td>
                     <td th:text="${event.name}"></td>
 <!--                    <td th:text="${event.description}"></td>-->
                     <td>

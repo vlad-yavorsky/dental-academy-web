@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
@@ -27,6 +28,8 @@ import ua.kazo.dentalacademy.security.TargetType;
 import ua.kazo.dentalacademy.service.FolderItemService;
 import ua.kazo.dentalacademy.service.FolderService;
 import ua.kazo.dentalacademy.service.ProgramService;
+import ua.kazo.dentalacademy.service.ViewedFolderItemService;
+import ua.kazo.dentalacademy.util.AuthUtils;
 
 import java.security.Principal;
 
@@ -39,6 +42,7 @@ public class ProgramController {
     private final FolderService folderService;
     private final FolderMapper folderMapper;
     private final FolderItemService folderItemService;
+    private final ViewedFolderItemService viewedFolderItemService;
     private final FolderItemMapper folderItemMapper;
     private final MessageSource messageSource;
 
@@ -100,11 +104,17 @@ public class ProgramController {
 
     @PreAuthorize("hasPermission(#folderId, '" + TargetType.FOLDER + "', '" + Permission.READ + "')")
     @GetMapping({"/program/{programId}/folder/{folderId}", "/program/{programId}/folder/{folderId}/item/{itemId}"})
-    public String folderItems(final ModelMap model, final @PathVariable Long programId, final @PathVariable Long folderId, final @PathVariable(required = false) Long itemId) {
+    public String folderItems(final ModelMap model, final @PathVariable Long programId, final @PathVariable Long folderId,
+                              @PathVariable(required = false) Long itemId, final Principal principal) {
+        Long userId = AuthUtils.getUser(principal).getId();
         Folder folder = folderService.findByIdFetchItems(folderId);
+        if (itemId == null) {
+            itemId = folder.getItems().get(0).getId();
+        }
+        viewedFolderItemService.setFolderItemIsViewedByUser(userId, itemId);
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
-        model.addAttribute(ModelMapConstants.FOLDER, folderMapper.toItemsResponseDto(folder));
-        model.addAttribute(ModelMapConstants.SELECTED_ITEM, folderItemMapper.toResponseDto(itemId == null ? folder.getItems().get(0) : folderItemService.findById(itemId)));
+        model.addAttribute(ModelMapConstants.FOLDER, folderMapper.toViewedItemsResponseDto(folder, userId));
+        model.addAttribute(ModelMapConstants.SELECTED_ITEM, folderItemMapper.toResponseDto(folderItemService.findById(itemId)));
         addFolderCategoriesExistence(programId, model, folder.getCategory());
         return "client/program/program-folder-item";
     }
@@ -126,11 +136,37 @@ public class ProgramController {
 
     @PreAuthorize("hasPermission(#folderId, '" + TargetType.FOLDER + "', '" + Permission.READ + "')")
     @GetMapping({"/bonus/{folderId}", "/bonus/{folderId}/item/{itemId}"})
-    public String myBonuses(final @PathVariable Long folderId, final @PathVariable(required = false) Long itemId, final ModelMap model) {
+    public String bonusItems(final @PathVariable Long folderId, @PathVariable(required = false) Long itemId,
+                            final ModelMap model, final Principal principal) {
+        Long userId = AuthUtils.getUser(principal).getId();
         Folder folder = folderService.findByIdFetchItems(folderId);
-        model.addAttribute(ModelMapConstants.SELECTED_ITEM, folderItemMapper.toResponseDto(itemId == null ? folder.getItems().get(0) : folderItemService.findById(itemId)));
-        model.addAttribute(ModelMapConstants.BONUS, folderMapper.toItemsResponseDto(folder));
-        return "client/bonus/bonus-items";
+        if (itemId == null) {
+            itemId = folder.getItems().get(0).getId();
+        }
+        viewedFolderItemService.setFolderItemIsViewedByUser(userId, itemId);
+        model.addAttribute(ModelMapConstants.BONUS, folderMapper.toViewedItemsResponseDto(folder, userId));
+        model.addAttribute(ModelMapConstants.SELECTED_ITEM, folderItemMapper.toResponseDto(folderItemService.findById(itemId)));
+        return "client/bonus/bonus-item";
+    }
+
+    /* ---------------------------------------------- RESET PROGRESS ---------------------------------------------- */
+
+    @PreAuthorize("hasPermission(#folderId, '" + TargetType.FOLDER + "', '" + Permission.READ + "')")
+    @GetMapping({"/bonus/{folderId}/reset"})
+    public RedirectView resetFolderProgress(final @PathVariable Long folderId, final RedirectAttributes redirectAttributes, final Principal principal) {
+        Long userId = AuthUtils.getUser(principal).getId();
+        folderService.resetFolderProgress(userId, folderId);
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.progress.reset");
+        return new RedirectView("/bonus/" + folderId);
+    }
+
+    @PreAuthorize("hasPermission(#programId, '" + TargetType.PROGRAM + "', '" + Permission.READ + "')")
+    @GetMapping({"/program/{programId}/reset"})
+    public RedirectView resetProgramProgress(final @PathVariable Long programId, final RedirectAttributes redirectAttributes, final Principal principal) {
+        Long userId = AuthUtils.getUser(principal).getId();
+        programService.resetProgramProgress(userId, programId);
+        redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.progress.reset");
+        return program(programId);
     }
 
 }

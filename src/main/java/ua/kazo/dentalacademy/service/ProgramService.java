@@ -25,6 +25,7 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
     private final MessageSource messageSource;
+    private final FolderService folderService;
 
     public Page<Program> findAll(Pageable pageable) {
         return programRepository.findAll(pageable);
@@ -80,6 +81,12 @@ public class ProgramService {
 
     public void delete(Long id) {
         programRepository.deleteById(id);
+    }
+
+    public void resetProgramProgress(Long userId, Long programId) {
+        Program program = programRepository.findFetchFoldersById(programId)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, programId));
+        program.getFolders().forEach(folder -> folderService.resetFolderProgress(userId, folder.getId()));
     }
 
 }

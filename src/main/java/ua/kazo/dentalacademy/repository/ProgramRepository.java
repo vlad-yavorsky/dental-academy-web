@@ -64,6 +64,9 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "order by f.id")
     Optional<Program> findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category);
 
+    @EntityGraph(attributePaths = "folders")
+    Optional<Program> findFetchFoldersById(Long id);
+
     /**
      * Client / My Programs
      */

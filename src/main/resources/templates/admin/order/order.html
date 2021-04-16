@@ -21,8 +21,8 @@
         <div class="col-12">
             <ul>
                 <li><strong th:text="#{user}"></strong>: <span th:text="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></span></li>
-                <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm')}"></span></li>
-                <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm')}"></span></li>
+                <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
+                <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                 <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span> <span class="badge badge-success" id="order-status-badge"></span></li>
             </ul>
 
@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="orderItem,iter : ${order.purchaseData}">
-                    <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
                     <td th:text="${orderItem.name}"></td>
                     <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                     <td>

@@ -582,3 +582,30 @@ databaseChangeLog:
                     nullable: false
                   name: data
                   type: TEXT
+
+        - createTable:
+            tableName: viewed_folder_item
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: viewed_folder_item_pk
+                    foreignKeyName: viewed_folder_item_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: viewed_folder_item_pk
+                    foreignKeyName: viewed_folder_item_folder_item_id_fk
+                    referencedTableName: folder_item
+                    referencedColumnNames: id
+                  name: folder_item_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: last_view
+                  type: TIMESTAMP

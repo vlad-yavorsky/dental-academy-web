@@ -7,9 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ua.kazo.dentalacademy.entity.Folder;
-import ua.kazo.dentalacademy.entity.Offering;
-import ua.kazo.dentalacademy.entity.Program;
+import ua.kazo.dentalacademy.entity.*;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
@@ -17,6 +15,7 @@ import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.FolderRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +24,8 @@ public class FolderService {
 
     private final FolderRepository folderRepository;
     private final MessageSource messageSource;
+    private final FolderItemService folderItemService;
+    private final ViewedFolderItemService viewedFolderItemService;
 
     public List<Folder> findAllByProgramId(Long programId) {
         return folderRepository.findAllByPrograms_Id(programId);
@@ -51,8 +52,13 @@ public class FolderService {
     }
 
     public Folder findByIdFetchItems(Long id) {
-        return folderRepository.findByIdFetchItems(id)
+        Folder folder = folderRepository.findByIdFetchItems(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
+        List<Long> folderItemIds = folder.getItems().stream()
+                .map(FolderItem::getId)
+                .collect(Collectors.toList());
+        folderItemService.findAllFetchViewedFolderItemsByIdIn(folderItemIds);
+        return folder;
     }
 
     public Folder findByIdFetchItemsAndPrograms(Long id) {
@@ -69,18 +75,33 @@ public class FolderService {
     public boolean existsByNameAndPrograms(String name, List<Program> programs) {
         return folderRepository.existsByNameAndProgramsIn(name, programs);
     }
+
     public boolean existsByNameAndProgramsAndIdNot(String name, List<Program> programs, Long folderId) {
         return folderRepository.existsByNameAndProgramsInAndIdNot(name, programs, folderId);
     }
+
     public boolean existsByNameAndOfferings(String name, List<Offering> offerings) {
         return folderRepository.existsByNameAndOfferingsIn(name, offerings);
     }
+
     public boolean existsByNameAndOfferingsAndIdNot(String name, List<Offering> offerings, Long folderId) {
         return folderRepository.existsByNameAndOfferingsInAndIdNot(name, offerings, folderId);
     }
 
     public void delete(Long id) {
         folderRepository.deleteById(id);
+    }
+
+    public void resetFolderProgress(Long userId, Long folderId) {
+        Folder folder = folderRepository.findByIdFetchItems(folderId)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, folderId));
+        List<Long> folderItemIds = folder.getItems().stream()
+                .map(FolderItem::getId)
+                .collect(Collectors.toList());
+        List<ViewedFolderItem> viewedFolderItems = folderItemIds.stream()
+                .map(folderItemId -> ViewedFolderItem.of(userId, folderItemId))
+                .collect(Collectors.toList());
+        viewedFolderItemService.deleteAll(viewedFolderItems);
     }
 
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter // for MapStruct
 public class TrackedDateEntity {
 
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false) // value is set by database column default value
     private LocalDateTime created;
 
 }

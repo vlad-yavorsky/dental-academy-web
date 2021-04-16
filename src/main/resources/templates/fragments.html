@@ -166,7 +166,6 @@
             </div>
         </div>
     </nav>
-    <div class="d-none d-xl-block social-bar-left" th:include="~{fragments :: social}"></div>
 </header>
 
 <div th:fragment="alerts (errors, success, exception)">
@@ -196,18 +195,18 @@
 <footer th:fragment="footer">
     <div class="bg-dark">
         <div class="container text-center pt-3 pb-3">
-            <div class="d-block d-xl-none list-inline" th:include="~{fragments :: social}"></div>
+            <div class="mb-2" th:include="~{fragments :: social}"></div>
             <div class="text-white" th:text="'2021 &copy; ' + #{sitename}"></div>
         </div>
     </div>
 </footer>
 
 <div th:fragment="social-near-heading">
-    <div class="d-none d-sm-block d-xl-none float-right list-inline" th:include="~{fragments :: social}"></div>
+    <div class="social-icons-top-right d-none d-sm-block float-right" th:include="~{fragments :: social}"></div>
 </div>
 
 <div th:fragment="social">
-    <ul class="social-icons icon-circle icon-zoom list-unstyled ">
+    <ul class="social-icons icon-circle icon-zoom list-inline list-unstyled">
         <li><a target="_blank" title="YouTube Channel" href="https://www.youtube.com/channel/UC5Fsc-THl_lpzTuja-EOyrg"><i class="fab fa-youtube"></i></a></li>
         <li><a target="_blank" title="Instagram Page" href="https://www.instagram.com/business.stomatology/"><i class="fab fa-instagram"></i></a></li>
         <li><a target="_blank" title="Telegram Group" href="https://t.me/business_stomatology"><i class="fab fa-telegram"></i></a></li>

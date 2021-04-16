@@ -40,8 +40,8 @@
                         <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
                     </td>
                     <td th:text="${offering.term}"></td>
-                    <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></td>
-                    <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm:ss')}"></td>
                     <td>
                         <div class="btn-group">
                             <a th:href="@{/admin/offering/edit/__${offering.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>

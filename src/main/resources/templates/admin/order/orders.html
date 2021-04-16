@@ -40,7 +40,7 @@
                 <tbody>
                 <tr th:each="order: ${orders}">
                     <td th:text="${order.number}"></td>
-                    <td th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
                     <td th:text="${order.status}"></td>
                     <td th:utext="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></td>
                     <td>

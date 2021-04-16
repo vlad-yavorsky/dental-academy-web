@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="user: ${users}">
-                    <td th:text="${#temporals.format(user.created, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(user.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.firstName}"></td>
                     <td th:text="${user.lastName}"></td>
