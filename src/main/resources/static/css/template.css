@@ -72,8 +72,10 @@
 }
 
 .list-unstyled {
-    padding-left: 0;
     list-style: none;
+    padding-left: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 .list-unstyled li {
     margin-bottom: 5px;
@@ -107,7 +109,7 @@
 
 @media screen and (max-width: 1199px) {
     .social-icons .fab {
-        font-size: 1.4em;
+        font-size: 1.65em;
     }
     .social-icons .fab {
         width: 40px;

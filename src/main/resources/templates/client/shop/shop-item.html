@@ -10,6 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3><a th:href="@{/shop}" th:text="#{nav.shop}"></a> / <span th:text="${program.name}"></span></h3>
             <hr/>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
