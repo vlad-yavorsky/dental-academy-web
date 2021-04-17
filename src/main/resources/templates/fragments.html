@@ -27,7 +27,7 @@
 
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/}" th:text="#{sitename}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="fas fa-palette fa-fw"></i>
                         </a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="theme : ${T(ua.kazo.dentalacademy.enumerated.BootswatchTheme).values()}"
                                th:classappend="${#strings.equals(#themes.code('stylesheet'), theme.name().toLowerCase())} ? 'active'"
                                th:href="@{__${#httpServletRequest.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
@@ -139,7 +139,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="fas fa-flag fa-fw"></i>
                         </a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="lang : ${T(ua.kazo.dentalacademy.enumerated.Languages).values()}"
                                th:classappend="${#strings.equals(#locale, lang.getLanguage())} ? 'active'"
                                th:href="@{__${#httpServletRequest.requestURI}__(lang=__${lang.getLanguage()}__)}">
@@ -153,7 +153,7 @@
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/img/transparent-pixel.png'}" class="rounded-circle menu-profile-pic" id="avatar"/>
                         </a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/orders'} ? 'active'" th:href="@{/orders}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.ordersHistory}"></span></a>
                             <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile/password'} ? 'active'" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
@@ -193,11 +193,32 @@
 </div>
 
 <footer th:fragment="footer">
-    <div class="bg-dark">
-        <div class="container text-center pt-3 pb-3">
-            <div class="mb-2" th:include="~{fragments :: social}"></div>
-            <div class="text-white" th:text="'2021 &copy; ' + #{sitename}"></div>
-        </div>
+    <div class="container">
+        <footer class="pt-4 my-md-4 pt-md-4 border-top">
+            <div class="row">
+                <div class="col-12 col-sm-4 col-md">
+                    <div th:text="#{sitename}"></div>
+                    <small class="d-block mb-3 text-muted">© 2020-2021</small>
+                    <div class="mb-2" th:include="~{fragments :: social}"></div>
+                </div>
+                <div class="col-12 col-sm-4 col-md">
+                    <h5>Ресурси</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="#">Умови бронювання та відміни</a></li>
+                        <li><a class="text-muted" href="#">Часті питання</a></li>
+                        <li><a class="text-muted" href="#">Зворотній зв’язок</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-sm-4 col-md">
+                    <h5>Про нас</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="#">Команда</a></li>
+                        <li><a class="text-muted" href="#">Місцезнаходження</a></li>
+                        <li><a class="text-muted" href="#">Конфіденційність та умови</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </div>
 </footer>
 

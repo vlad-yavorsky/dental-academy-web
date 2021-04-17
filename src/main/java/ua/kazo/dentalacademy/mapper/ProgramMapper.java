@@ -19,6 +19,7 @@ public interface ProgramMapper {
     Program toEntity(ProgramUpdateDto programUpdateDto);
 
     ProgramFoldersResponseDto toFoldersResponseDto(Program program);
+    ProgramFoldersItemsResponseDto toFoldersItemsResponseDto(Program program);
 
     @Mapping(target = "startingPrice", source = "offerings", qualifiedByName = "setStartingPrice")
     ProgramOfferingsResponseDto toOfferingsResponseDto(Program program);

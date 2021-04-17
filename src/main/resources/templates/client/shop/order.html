@@ -11,15 +11,14 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 th:text="#{nav.order} + ' #' + ${order.number}"></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3" th:text="#{nav.order} + ' #' + ${order.number}"></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-            <ul>
+            <ul class="list-unstyled">
                 <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                 <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                 <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span> <span class="badge badge-success" id="order-status-badge"></span></li>

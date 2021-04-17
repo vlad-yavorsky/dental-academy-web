@@ -61,11 +61,11 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("select distinct p from Program p " +
             "join fetch p.folders f " +
             "where p.id = :id and f.category = :category " +
-            "order by f.id")
+            "order by f.id") // todo: change ordering here
     Optional<Program> findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category);
 
     @EntityGraph(attributePaths = "folders")
-    Optional<Program> findFetchFoldersById(Long id);
+    Optional<Program> findFetchFoldersByIdOrderByFolders(Long id); // todo: change ordering here
 
     /**
      * Client / My Programs

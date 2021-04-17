@@ -11,8 +11,7 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 th:text="#{nav.ordersHistory}"></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3" th:text="#{nav.ordersHistory}"></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
@@ -27,8 +26,8 @@
                 </div>
             </div>
             <div th:if="${orders.size() > 0}" th:each="order: ${orders}">
-                <ul>
-                    <li><a th:href="@{/order/__${order.number}__}"><strong th:text="#{nav.order}"></strong> #<span th:text="${order.number}"></span></a></li>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/order/__${order.number}__}"><h4 th:text="#{nav.order} + ' #' + ${order.number}"></h4></a></li>
                     <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                     <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                     <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}"></span></li>
@@ -69,7 +68,6 @@
                     </tr>
                     </tfoot>
                 </table>
-                <hr/>
             </div>
 
             <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>

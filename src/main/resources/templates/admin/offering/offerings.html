@@ -10,8 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.offerings}"></span></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.offerings}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
@@ -40,8 +39,8 @@
                         <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
                     </td>
                     <td th:text="${offering.term}"></td>
-                    <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                    <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></td>
                     <td>
                         <div class="btn-group">
                             <a th:href="@{/admin/offering/edit/__${offering.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>

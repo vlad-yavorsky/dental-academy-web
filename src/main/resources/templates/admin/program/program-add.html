@@ -10,8 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.addProgram}"></span></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.addProgram}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>

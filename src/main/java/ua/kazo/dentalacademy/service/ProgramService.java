@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
@@ -17,6 +18,7 @@ import ua.kazo.dentalacademy.repository.ProgramRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +51,20 @@ public class ProgramService {
     public Program findById(Long id) {
         return programRepository.findById(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
+    }
+
+    public Program findByIdFetchFolders(Long id) {
+        return programRepository.findFetchFoldersByIdOrderByFolders(id)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
+    }
+
+    public Program findByIdFetchFoldersAndItems(Long id) {
+        Program program = findByIdFetchFolders(id);
+        List<Long> folderIds = program.getFolders().stream()
+                .map(Folder::getId)
+                .collect(Collectors.toList());
+        folderIds.forEach(folderService::findByIdFetchItems);
+        return program;
     }
 
     public Program findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category) {
@@ -84,9 +100,8 @@ public class ProgramService {
     }
 
     public void resetProgramProgress(Long userId, Long programId) {
-        Program program = programRepository.findFetchFoldersById(programId)
-                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, programId));
-        program.getFolders().forEach(folder -> folderService.resetFolderProgress(userId, folder.getId()));
+        findByIdFetchFolders(programId)
+                .getFolders().forEach(folder -> folderService.resetFolderProgress(userId, folder.getId()));
     }
 
 }

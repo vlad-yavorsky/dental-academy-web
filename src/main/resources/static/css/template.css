@@ -59,29 +59,29 @@
     max-height: 250px;
 }
 .menu-profile-pic {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
 }
 
 /* CSS Color Definitions for Font-Awesome Social Icons */
 /*----- General Classes start ------*/
-.list-unstyled {
+.social-icons.list-unstyled {
     list-style: none;
     padding-left: 0;
     margin-block-start: 0;
     margin-block-end: 0;
 }
-.list-unstyled li {
+.social-icons.list-unstyled li {
     margin-bottom: 5px;
 }
 
-.list-inline li {
+.social-icons.list-inline li {
     display: inline-block;
-    padding-right: 3px;
-    padding-left: 3px;
+    padding-right: 2px;
+    padding-left: 2px;
 }
-.list-inline li > a {
+.social-icons.list-inline li > a {
     color: white;
 }
 /*---- General classes end -------*/
@@ -90,8 +90,6 @@
 }
 .social-icons .fab {
     font-size: 2.0em;
-}
-.social-icons .fab {
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -104,22 +102,15 @@
     -o-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
-
 @media screen and (max-width: 1199px) {
     .social-icons-top-right {
         margin-top: 0;
     }
     .social-icons .fab {
         font-size: 1.65em;
-    }
-    .social-icons .fab {
         width: 40px;
         height: 40px;
         line-height: 40px;
-    }
-    .list-inline li {
-        padding-right: 0;
-        padding-left: 0;
     }
 }
 
@@ -159,3 +150,17 @@
 .social-icons .fa-telegram{background-color:#0088cc;}
 .social-icons .fa-youtube,.social-icons .fa-youtube-play,.social-icons .fa-youtube-square{background-color:#C52F30;}
 
+/* Card columns */
+.card-columns {
+    column-count: 3;
+}
+@media screen and (max-width: 768px) {
+    .card-columns {
+        column-count: 2;
+    }
+}
+@media screen and (max-width: 576px) {
+    .card-columns {
+        column-count: 1;
+    }
+}

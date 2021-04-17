@@ -10,8 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.editProgram}"></span></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.editProgram}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
@@ -40,8 +39,6 @@
                         <textarea class="form-control" id="description" th:field="*{description}" maxlength="2000"></textarea>
                     </div>
                 </div>
-
-                <hr/>
 
                 <h4 th:text="#{folders}"></h4>
                 <table class="table">

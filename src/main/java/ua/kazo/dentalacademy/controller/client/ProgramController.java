@@ -169,4 +169,12 @@ public class ProgramController {
         return program(programId);
     }
 
+    /* ---------------------------------------------- PROGRAM CONTENTS ---------------------------------------------- */
+
+    @GetMapping({"/program/{programId}/preview"})
+    public String programPreview(final @PathVariable Long programId, final ModelMap model) {
+        model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toFoldersItemsResponseDto(programService.findByIdFetchFoldersAndItems(programId)));
+        return "client/program/preview";
+    }
+
 }

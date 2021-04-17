@@ -10,8 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <h3><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.events}"></span></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <span th:text="#{nav.events}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
@@ -31,7 +30,7 @@
                 <tbody>
                 <tr th:each="event: ${events}">
                     <td><img class="rounded" style="max-width: 100px;" th:if="${event.image}" th:src="${event.image}"></td>
-                    <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${event.name}"></td>
 <!--                    <td th:text="${event.description}"></td>-->
                     <td>

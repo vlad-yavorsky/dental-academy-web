@@ -27,9 +27,9 @@ public class OfferingCreateDto {
     private Byte discount;
     @Positive
     private byte term;
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime activated;
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime deactivated;
     @NotEmpty
     private List<Long> programs = new ArrayList<>();

@@ -11,8 +11,7 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 th:text="#{nav.cart}"></h3>
-            <hr/>
+            <h3 class="border-bottom pb-3" th:text="#{nav.cart}"></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
