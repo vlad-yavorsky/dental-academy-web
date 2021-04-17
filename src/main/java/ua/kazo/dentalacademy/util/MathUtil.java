@@ -16,4 +16,13 @@ public class MathUtil {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
+    public BigDecimal calculateDiscount(final BigDecimal price, final BigDecimal discountPrice) {
+        if (price.equals(discountPrice)) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal hundred = BigDecimal.valueOf(100);
+        return hundred.subtract(discountPrice.divide(price, 2, RoundingMode.HALF_UP).multiply(hundred))
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
 }

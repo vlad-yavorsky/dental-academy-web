@@ -34,6 +34,11 @@ public interface OfferingMapper {
     List<OfferingResponseDto> toResponseDto(List<Offering> offerings);
     List<OfferingResponseDto> toResponseDto(Page<Offering> offerings);
 
+    @Mapping(target = "discountPrice", source = "offering", qualifiedByName = "calculateDiscountPrice")
+    OfferingProgramsBonusesResponseDto toProgramsBonusesResponseDto(Offering offering);
+    List<OfferingProgramsBonusesResponseDto> toProgramsBonusesResponseDto(List<Offering> offerings);
+    List<OfferingProgramsBonusesResponseDto> toProgramsBonusesResponseDto(Page<Offering> offerings);
+
     PurchaseDataOfferingResponseDto toPurchaseDataResponseDto(Offering offering);
     List<PurchaseDataOfferingResponseDto> toPurchaseDataResponseDto(List<Offering> offerings);
 

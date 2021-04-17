@@ -29,12 +29,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/}" th:text="#{sitename}"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+                    aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="mainMenu">
                 <ul class="navbar-nav mr-auto" sec:authorize="isAnonymous()"></ul>
                 <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
                     <li class="nav-item" th:classappend="${#request.requestURI == '/'} ? 'active'">
@@ -171,6 +171,91 @@
     </nav>
 </header>
 
+<div th:fragment="admin-menu">
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-3">
+        <a class="navbar-brand d-block d-md-none" th:text="#{nav.adminMenu}"></a>
+        <button class="navbar-toggler d-block d-md-none" type="button" data-toggle="collapse" data-target="#navbarAdminPanel" aria-controls="navbarAdminPanel" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse mt-2" id="navbarAdminPanel">
+            <ul class="nav nav-pills flex-column w-100">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"
+                       th:classappend="${#request.requestURI == '/admin'} ? 'active'"><i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.statistics}"></span></a>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link" th:href="@{/admin/programs}"
+                               th:classappend="${#request.requestURI == '/admin/programs'} ? 'active'"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/program/add}"
+                               th:classappend="${#request.requestURI == '/admin/program/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link text-muted"><i class="fas fa-folder fa-fw"></i> <span th:text="#{modules}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/folder/add(category=MODULE)}"
+                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=MODULE'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link" th:href="@{/admin/bonuses}"
+                               th:classappend="${#request.requestURI == '/admin/bonuses'} ? 'active'"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/folder/add(category=BONUS)}"
+                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=BONUS'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link" th:href="@{/admin/offerings}"
+                               th:classappend="${#request.requestURI == '/admin/offerings'} ? 'active'"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/offering/add}"
+                               th:classappend="${#request.requestURI == '/admin/offering/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/orders}"
+                       th:classappend="${#request.requestURI == '/admin/orders'} ? 'active'"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/users}"
+                       th:classappend="${#request.requestURI == '/admin/users'} ? 'active'"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link" th:href="@{/admin/events}"
+                               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{events}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/event/add}"
+                               th:classappend="${#request.requestURI == '/admin/event/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
 <div th:fragment="alerts (errors, success, exception)">
     <div th:if="${errors}" class="alert alert-danger" th:fragment="alert-errors (errors)">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -278,60 +363,6 @@
         </li>
     </ul>
 </nav>
-
-<div th:fragment="admin-menu">
-    <h3 class="border-bottom pb-3" th:text="#{nav.adminMenu}"></h3>
-    <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/programs}"
-               th:classappend="${#request.requestURI == '/admin/programs'} ? 'active'"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
-
-            <ul class="nav nav-pills flex-column ml-4">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/program/add}"
-                       th:classappend="${#request.requestURI == '/admin/program/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addProgram}"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/folder/add(category=MODULE)}"
-                       th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=MODULE'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addModule}"></span></a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/bonuses}"
-               th:classappend="${#request.requestURI == '/admin/bonuses'} ? 'active'"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
-            <ul class="nav nav-pills flex-column ml-4">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/folder/add(category=BONUS)}"
-                       th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=BONUS'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addBonus}"></span></a>
-                </li>
-
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/offerings}"
-               th:classappend="${#request.requestURI == '/admin/offerings'} ? 'active'"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
-            <ul class="nav nav-pills flex-column ml-4">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/admin/offering/add}"
-                       th:classappend="${#request.requestURI == '/admin/offering/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/orders}"
-               th:classappend="${#request.requestURI == '/admin/orders'} ? 'active'"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/users}"
-               th:classappend="${#request.requestURI == '/admin/users'} ? 'active'"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/events}"
-               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{events}"></span></a>
-        </li>
-    </ul>
-</div>
 
 <!--<div th:fragment="modal">-->
 <!--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">-->

@@ -24,6 +24,8 @@
                     <th th:text="#{purchaseData.no}" style="width: 1%;"></th>
                     <th th:text="#{purchaseData.offeringName}"></th>
                     <th th:text="#{purchaseData.package}"></th>
+                    <th th:text="#{purchaseData.programs}"></th>
+                    <th th:text="#{purchaseData.bonuses}"></th>
                     <th th:text="#{purchaseData.price}"></th>
                     <th th:text="#{button.actions}" style="width: 1%;"></th>
                 </tr>
@@ -33,6 +35,20 @@
                     <td th:text="${iter.index + 1}"></td>
                     <td th:text="${cartItem.name}"></td>
                     <td th:text="#{${cartItem.type.toString().toLowerCase()}}"></td>
+                    <td>
+                        <ol>
+                            <li th:each="program: ${cartItem.programs}">
+                                <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                            </li>
+                        </ol>
+                    </td>
+                    <td>
+                        <ol th:if="${!cartItem.folders.isEmpty()}">
+                            <li th:each="bonus: ${cartItem.folders}">
+                                <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
+                            </li>
+                        </ol>
+                    </td>
                     <td>
                         <span th:classappend="${cartItem.discount != null} ? 'line-through'" th:text="${'$' + cartItem.price}"></span>
                         <span class="badge badge-success" th:if="${cartItem.discount != null}" th:text="${'-' + cartItem.discount + '%'}"></span>
@@ -50,6 +66,7 @@
                 <tr>
                     <td colspan="4"><strong th:text="#{order.totalPrice}"></strong>:
                         <span th:classappend="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)} ? 'line-through'" th:text="${'$' + userCart.totalPrice}"></span>
+                        <span class="badge badge-success" th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'-' + userCart.totalDiscount + '%'}"></span>
                         <span th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'$' + userCart.totalDiscountPrice}"></span>
                     </td>
                 </tr>

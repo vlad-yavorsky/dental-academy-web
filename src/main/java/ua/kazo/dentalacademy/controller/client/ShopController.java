@@ -124,7 +124,7 @@ public class ShopController {
 
     @GetMapping("/cart")
     public String getCart(final ModelMap model, final Principal principal) {
-        User user = userService.findByEmailFetchCartItems(principal.getName());
+        User user = userService.findByEmailFetchCartItemsAndProgramsAndBonuses(principal.getName());
         model.addAttribute("userCart", userMapper.toCartDto(user));
         AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
         return "client/shop/cart";
@@ -132,15 +132,15 @@ public class ShopController {
 
     @PostMapping(value = "/cart", params = {"addItem"})
     public String addItemToCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        int cartItemsCount = userService.addItemToCart(principal.getName(), offeringService.findByIdAndActive(cartItemDto.getOfferingId()));
-        AuthUtils.updateCartItemsCount(principal, cartItemsCount);
+        User user = userService.addItemToCart(principal.getName(), cartItemDto.getOfferingId());
+        AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
         return getShopItem(model, cartItemDto.getProgramId(), principal);
     }
 
     @PostMapping(value = "/cart", params = {"removeItem"})
     public String removeItemFromCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        int cartItemsCount = userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
-        AuthUtils.updateCartItemsCount(principal, cartItemsCount);
+        User user = userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
+        AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
         return getCart(model, principal);
     }
 

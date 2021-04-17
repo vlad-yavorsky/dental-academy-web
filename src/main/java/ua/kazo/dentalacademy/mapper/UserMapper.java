@@ -1,9 +1,6 @@
 package ua.kazo.dentalacademy.mapper;
 
-import org.mapstruct.DecoratedWith;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.purchase.UserCartDto;
 import ua.kazo.dentalacademy.dto.user.UserCreateDto;
@@ -52,6 +49,11 @@ public interface UserMapper {
                 .map(offering -> MathUtil.calculateDiscountPrice(offering.getPrice(), offering.getDiscount()))
                 .reduce(BigDecimal::add)
                 .get();
+    }
+
+    @AfterMapping
+    default void calculateTotalDiscount(@MappingTarget UserCartDto dto) {
+        dto.setTotalDiscount(MathUtil.calculateDiscount(dto.getTotalPrice(), dto.getTotalDiscountPrice()));
     }
 
 }

@@ -2,7 +2,7 @@ package ua.kazo.dentalacademy.dto.purchase;
 
 import lombok.Getter;
 import lombok.Setter;
-import ua.kazo.dentalacademy.dto.offering.OfferingResponseDto;
+import ua.kazo.dentalacademy.dto.offering.OfferingProgramsBonusesResponseDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,8 +11,9 @@ import java.util.List;
 @Setter
 public class UserCartDto {
 
-    private List<OfferingResponseDto> cartItems;
+    private List<OfferingProgramsBonusesResponseDto> cartItems;
     private BigDecimal totalPrice;
     private BigDecimal totalDiscountPrice;
+    private BigDecimal totalDiscount;
 
 }

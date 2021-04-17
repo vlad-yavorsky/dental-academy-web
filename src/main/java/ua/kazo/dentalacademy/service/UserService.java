@@ -23,6 +23,7 @@ import ua.kazo.dentalacademy.util.AuthUtils;
 
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
     private final StorageService storageService;
+    private final OfferingService offeringService;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -54,6 +56,15 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public User findByEmailFetchCartItemsAndProgramsAndBonuses(String email) {
+        User user = userRepository.findFetchCartItemsByEmail(email)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, email));
+        Set<Long> offeringIds = user.getCartItems().stream().map(Offering::getId).collect(Collectors.toSet());
+        offeringService.findAllByIdInFetchProgramsAndFolders(offeringIds);
+        user.setCartItemsCount(user.getCartItems().size());
+        return user;
+    }
+
     public User findByEmailFetchCartItemsAndOrders(String email, Supplier<?> supplier) {
         User user = userRepository.findFetchCartItemsByEmail(email)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, email));
@@ -62,16 +73,17 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public int addItemToCart(String email, Offering offering) {
+    public User addItemToCart(String email, Long offeringId) {
+        Offering offering = offeringService.findByIdAndActive(offeringId);
         User user = findByEmailFetchCartItems(email);
         user.getCartItems().add(offering);
-        return user.getCartItems().size();
+        return user;
     }
 
-    public int removeItemFromCart(String email, Long offeringId) {
+    public User removeItemFromCart(String email, Long offeringId) {
         User user = findByEmailFetchCartItems(email);
         user.getCartItems().removeIf(offering -> offering.getId().equals(offeringId));
-        return user.getCartItems().size();
+        return user;
     }
 
     public int countCartItems(String email) {
