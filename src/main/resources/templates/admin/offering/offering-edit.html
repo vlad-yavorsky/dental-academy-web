@@ -7,16 +7,16 @@
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container py-4">
+<div class="container-fluid py-4">
     <div class="row">
-        <div class="col-12">
-            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminpanel}"></a> / <a th:href="@{/admin/offerings}" th:text="#{nav.offerings}"></a> / <span th:text="#{nav.editOffering}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+            <div th:replace="~{fragments :: admin-menu}"></div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12">
+        <div class="col-12 col-md-8 col-lg-9 col-xl-10">
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/offerings}" th:text="#{nav.offerings}"></a> / <span th:text="#{nav.editOffering}"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+
             <form method="post" th:object="${offering}" th:action="@{/admin/offering/edit/__${offering.id}__}">
                 <h4 th:text="#{header.MainInfo}"></h4>
 

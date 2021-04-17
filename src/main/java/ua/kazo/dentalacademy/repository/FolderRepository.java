@@ -2,6 +2,7 @@ package ua.kazo.dentalacademy.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,9 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "where f.id = :id " +
             "order by i.ordering")
     Optional<Folder> findByIdFetchItems(Long id);
+
+    @EntityGraph(attributePaths = "items")
+    Optional<Folder> findFetchItemsByIdAndCategory(Long id, FolderCategory category);
 
     /**
      * Admin / Edit Folder
@@ -75,5 +79,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
             "and lower(f.name) like lower(concat('%', concat(:name, '%'))) " +
             "order by f.id")
     Page<Folder> findAllByUserEmailAndName(String userEmail, String name, UnifiedPaymentStatus status, Pageable pageable);
+
+    long countByCategory(FolderCategory category);
 
 }

@@ -25,11 +25,11 @@ public interface FolderMapper {
     List<FolderResponseDto> toResponseDto(List<Folder> folders);
     List<FolderResponseDto> toResponseDto(Page<Folder> folders);
 
+    FolderItemsResponseDto toItemsResponseDto(Folder folder);
+    List<FolderItemsResponseDto> toItemsResponseDto(List<Folder> folder);
+
     @Mapping(target = "folderCompletePercentage", source = "items", qualifiedByName = "setFolderCompletePercentage")
     FolderViewedItemsResponseDto toViewedItemsResponseDto(Folder folder, @Context Long userId);
-
-    FolderItemsResponseDto toFolderItemsResponseDto(FolderItem folderItem);
-    List<FolderItemsResponseDto> toFolderItemsResponseDto(List<FolderItem> folderItem);
 
     default int setFolderCompletePercentage(List<FolderItem> items, @Context Long userId) {
         Integer viewedItemsCount = items.stream()

@@ -28,17 +28,17 @@
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
                             <a class="nav-link"
-                               th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/videos'} ? 'active'"
+                               th:classappend="${#request.requestURI == '/bonus/' + bonus.id + '/videos'} ? 'active'"
                                th:href="@{/bonus/__${bonus.id}__/videos}">Videos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/links'} ? 'active'"
+                               th:classappend="${#request.requestURI == '/bonus/' + bonus.id + '/links'} ? 'active'"
                                th:href="@{/bonus/__${bonus.id}__/links}">Links</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                               th:classappend="${#httpServletRequest.requestURI == '/bonus/' + bonus.id + '/files'} ? 'active'"
+                               th:classappend="${#request.requestURI == '/bonus/' + bonus.id + '/files'} ? 'active'"
                                th:href="@{/bonus/__${bonus.id}__/files}">Files</a>
                         </li>
                     </ul>

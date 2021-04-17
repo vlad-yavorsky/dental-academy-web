@@ -7,41 +7,67 @@
 
 <header th:replace="~{fragments :: header}"></header>
 
-<div class="container py-4">
+<div class="container-fluid py-4">
     <div class="row">
-        <div class="col-12">
-            <h3 class="border-bottom pb-3" th:text="#{nav.adminpanel}"></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+            <div th:replace="~{fragments :: admin-menu}"></div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="pb-2">
-                <a th:href="@{/admin/programs}" class="btn btn-primary"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
-                <a th:href="@{/admin/program/add}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{program}"></span></a>
-                <a th:href="@{/admin/folder/add(category=MODULE)}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{module}"></span></a>
-            </div>
-            <div class="pb-2">
-                <a th:href="@{/admin/bonuses}" class="btn btn-primary"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
-                <a th:href="@{/admin/folder/add(category=BONUS)}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
-            </div>
-            <div class="pb-2">
-                <a th:href="@{/admin/offerings}" class="btn btn-primary"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
-                <a th:href="@{/admin/offering/add}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
-            </div>
-            <div class="pb-2">
-                <a th:href="@{/admin/orders}" class="btn btn-primary"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
-<!--            <a th:href="@{/admin/order/add}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>-->
-            </div>
-            <div class="pb-2">
-                <a th:href="@{/admin/users}" class="btn btn-primary"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
-<!--            <a th:href="@{/admin/user/add}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>-->
-            </div>
-            <div class="pb-2">
-                <a th:href="@{/admin/events}" class="btn btn-primary"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{events}"></span></a>
-<!--            <a th:href="@{/admin/event/add}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>-->
-            </div>
+        <div class="col-12 col-md-8 col-lg-9 col-xl-10">
+            <h3 class="border-bottom pb-3" th:text="#{nav.adminPanel}"></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+
+            <h4 th:text="#{nav.statistics}"></h4>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{statistics.entity}" style="width: 50%;"></th>
+                    <th th:text="#{statistics.quantity}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="#{programs}"></td>
+                    <td th:text="${programs_count}"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div th:text="#{folders} + ':'"></div>
+                        <div style="padding-left: 25px;">
+                            <div th:text="#{modules}"></div>
+                            <div th:text="#{bonuses}"></div>
+                            <div th:text="#{qas}"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:text="${folders_count}"></div>
+                        <div>
+                            <div th:text="${modules_count}"></div>
+                            <div th:text="${bonuses_count}"></div>
+                            <div th:text="${qa_count}"></div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td th:text="#{offerings}"></td>
+                    <td th:text="${offerings_count}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{orders}"></td>
+                    <td th:text="${orders_count}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{users}"></td>
+                    <td th:text="${users_count}"></td>
+                </tr>
+                <tr>
+                    <td th:text="#{events}"></td>
+                    <td th:text="${events_count}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+
         </div>
     </div>
 </div>

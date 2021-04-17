@@ -49,23 +49,19 @@
                     <td th:text="${offering.name}"></td>
                     <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
                     <td>
-                        <ol th:if="${offering.programs.size() > 1}">
+                        <ol>
                             <li th:each="program: ${offering.programs}">
                                 <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
                             </li>
                         </ol>
-                        <div th:if="${offering.programs.size() == 1}">
-                            <a th:href="@{/program/__${program.id}__/preview}" th:text="${offering.programs.get(0).name}"></a>
-                        </div>
                     </td>
                     <td>
                         <div th:if="${!offering.folders.isEmpty()}">
-                            <ol th:if="${offering.folders.size() > 1}">
-                                <li th:each="folder: ${offering.folders}" th:text="${folder.name}"></li>
+                            <ol>
+                                <li th:each="folder: ${offering.folders}">
+                                    <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                </li>
                             </ol>
-                            <div th:if="${offering.folders.size() == 1}">
-                                <span th:text="${offering.folders.get(0).name}"></span>
-                            </div>
                         </div>
                     </td>
                     <td>

@@ -41,13 +41,17 @@
                     <td th:text="${orderItem.name}"></td>
                     <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                     <td>
-                        <ul>
-                            <li th:each="program: ${orderItem.offering.programs}" th:text="${program.name}"></li>
-                        </ul>
+                        <ol>
+                            <li th:each="program: ${orderItem.offering.programs}">
+                                <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                            </li>
+                        </ol>
                     </td>
                     <td>
                         <ul th:if="${!orderItem.offering.folders.isEmpty()}">
-                            <li th:each="bonus: ${orderItem.offering.folders}" th:text="${bonus.name}"></li>
+                            <li th:each="bonus: ${orderItem.offering.folders}">
+                                <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
+                            </li>
                         </ul>
                     </td>
                     <td th:text="${'$' + orderItem.price}"></td>

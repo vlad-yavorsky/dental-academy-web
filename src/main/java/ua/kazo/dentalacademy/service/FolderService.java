@@ -36,6 +36,11 @@ public class FolderService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
     }
 
+    public Folder findByIdAndCategoryFetchItems(Long id, FolderCategory category) {
+        return folderRepository.findFetchItemsByIdAndCategory(id, category)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
+    }
+
     public List<Folder> findAllByCategory(FolderCategory category) {
         return folderRepository.findAllByCategory(category);
     }

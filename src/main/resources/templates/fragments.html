@@ -37,14 +37,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto" sec:authorize="isAnonymous()"></ul>
                 <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-                    <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/'} ? 'active'">
                         <a class="nav-link" th:href="@{/}"><i class="fas fa-book fa-fw"></i>  <span th:text="#{nav.myPrograms}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/bonuses'} ? 'active'">
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/bonuses'} ? 'active'">
                         <a class="nav-link" th:href="@{/bonuses}"><i class="fas fa-gift fa-fw"></i>  <span th:text="#{nav.myBonuses}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/shop'} ? 'active'">
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/shop'} ? 'active'">
                         <a class="nav-link" th:href="@{/shop}"><i class="fas fa-shopping-basket fa-fw"></i> <span th:text="#{nav.shop}"></span></a>
+                    </li>
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/events'} ? 'active'">
+                        <a class="nav-link" th:href="@{/events}"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
                     </li>
 
                     <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
@@ -54,70 +57,70 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item"
                                th:href="@{/admin}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin'} ? 'active'">
-                                <i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.adminpanel}"></span>
+                               th:classappend="${#request.requestURI == '/admin'} ? 'active'">
+                                <i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.statistics}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/programs}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/programs'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/programs'} ? 'active'">
                                 <i class="fas fa-book fa-fw"></i> <span th:text="#{nav.programs}"></span>
                             </a>
                             <a class="dropdown-item"
                                th:href="@{/admin/program/add}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/program/add'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/program/add'} ? 'active'">
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addProgram}"></span>
                             </a>
                             <a class="dropdown-item"
                                th:href="@{/admin/folder/add(category='MODULE')}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/folder/add'} ? 'active'">
+                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=MODULE'} ? 'active'">
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addModule}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/bonuses}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/bonuses'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/bonuses'} ? 'active'">
                                 <i class="fas fa-gift fa-fw"></i> <span th:text="#{nav.bonuses}"></span>
                             </a>
                             <a class="dropdown-item"
                                th:href="@{/admin/folder/add(category='BONUS')}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/folder/add'} ? 'active'">
+                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=BONUS'} ? 'active'">
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddBonus}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/offerings}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/offerings'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/offerings'} ? 'active'">
                                 <i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{nav.offerings}"></span>
                             </a>
                             <a class="dropdown-item"
                                th:href="@{/admin/offering/add}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/offering/add'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/offering/add'} ? 'active'">
                                 <i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/orders}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/orders'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/orders'} ? 'active'">
                                 <i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/users}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/users'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/users'} ? 'active'">
                                 <i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"
                                th:href="@{/admin/events}"
-                               th:classappend="${#httpServletRequest.requestURI == '/admin/events'} ? 'active'">
+                               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'">
                                 <i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span>
                             </a>
                         </div>
                     </li>
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
-                    <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/'} ? 'active'">
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/'} ? 'active'">
                         <a class="nav-link" th:href="@{/cart}"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{nav.cart}"></span> <span class="badge badge-secondary" id="cart-items"></span></a>
                     </li>
                 </ul>
@@ -129,7 +132,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="theme : ${T(ua.kazo.dentalacademy.enumerated.BootswatchTheme).values()}"
                                th:classappend="${#strings.equals(#themes.code('stylesheet'), theme.name().toLowerCase())} ? 'active'"
-                               th:href="@{__${#httpServletRequest.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
+                               th:href="@{__${#request.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
                                th:text="${theme.name().toLowerCase()}"></a>
                         </div>
                     </li>
@@ -142,7 +145,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="lang : ${T(ua.kazo.dentalacademy.enumerated.Languages).values()}"
                                th:classappend="${#strings.equals(#locale, lang.getLanguage())} ? 'active'"
-                               th:href="@{__${#httpServletRequest.requestURI}__(lang=__${lang.getLanguage()}__)}">
+                               th:href="@{__${#request.requestURI}__(lang=__${lang.getLanguage()}__)}">
                                 <span th:class="${'flag-icon flag-icon-' + lang.getCountry()}"></span> <span th:text="#{${'lang.' + lang.getLanguage()}}"></span>
                             </a>
                         </div>
@@ -154,9 +157,9 @@
                             <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/img/transparent-pixel.png'}" class="rounded-circle menu-profile-pic" id="avatar"/>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
-                            <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/orders'} ? 'active'" th:href="@{/orders}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.ordersHistory}"></span></a>
-                            <a class="dropdown-item" th:classappend="${#httpServletRequest.requestURI == '/profile/password'} ? 'active'" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
+                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
+                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/orders'} ? 'active'" th:href="@{/orders}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.ordersHistory}"></span></a>
+                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/profile/password'} ? 'active'" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
                             <form method="post" th:action="@{/logout}">
                                 <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-fw"></i> <span th:text="#{nav.logout}"></span></button>
                             </form>
@@ -236,7 +239,7 @@
 </div>
 
 <div th:fragment="search-form (search, count)" th:remove="tag">
-    <form th:action="@{__${#httpServletRequest.requestURI}__}" method="get">
+    <form th:action="@{__${#request.requestURI}__}" method="get">
         <div class="form-row justify-content-between align-items-center" th:classappend="${#strings.isEmpty(search)} ? 'flex-row-reverse'">
             <div class="col-auto" th:if="${!#strings.isEmpty(search)}">
                 <h6 th:text="#{info.searchResults} + ': ' + ${count}"></h6>
@@ -247,7 +250,7 @@
                     <input type="text" class="form-control" id="search" name="search" autofocus th:placeholder="#{button.search}" th:value="${search}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search fa-fw"></i></button>
-                        <a th:href="@{__${#httpServletRequest.requestURI}__}" class="btn btn-danger"><i class="fas fa-times-circle fa-fw"></i></a>
+                        <a th:href="@{__${#request.requestURI}__}" class="btn btn-danger"><i class="fas fa-times-circle fa-fw"></i></a>
                     </div>
                 </div>
             </div>
@@ -258,23 +261,77 @@
 <nav th:if="${result.totalPages > 1}" th:fragment="pagination (result, search)">
     <ul class="pagination justify-content-center">
         <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#httpServletRequest.requestURI}__(page=0,size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.first}"></a>
+            <a th:href="@{__${#request.requestURI}__(page=0,size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.first}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.pageable.pageNumber - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.previous}"></a>
+            <a th:href="@{__${#request.requestURI}__(page=${result.pageable.pageNumber - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.previous}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == i} ? 'active'" th:each="i : ${#numbers.sequence(0, result.totalPages - 1)}" class="page-item">
             <span th:if="${result.pageable.pageNumber == i}" class="page-link" th:text="${i + 1}"></span>
-            <a th:unless="${result.pageable.pageNumber == i}" th:href="@{__${#httpServletRequest.requestURI}__(page=${i},size=${result.pageable.pageSize},search=${search})}" th:text="${i + 1}" class="page-link"></a>
+            <a th:unless="${result.pageable.pageNumber == i}" th:href="@{__${#request.requestURI}__(page=${i},size=${result.pageable.pageSize},search=${search})}" th:text="${i + 1}" class="page-link"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.pageable.pageNumber + 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.next}"></a>
+            <a th:href="@{__${#request.requestURI}__(page=${result.pageable.pageNumber + 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.next}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#httpServletRequest.requestURI}__(page=${result.totalPages - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.last}"></a>
+            <a th:href="@{__${#request.requestURI}__(page=${result.totalPages - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.last}"></a>
         </li>
     </ul>
 </nav>
+
+<div th:fragment="admin-menu">
+    <h3 class="border-bottom pb-3" th:text="#{nav.adminMenu}"></h3>
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/programs}"
+               th:classappend="${#request.requestURI == '/admin/programs'} ? 'active'"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
+
+            <ul class="nav nav-pills flex-column ml-4">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/program/add}"
+                       th:classappend="${#request.requestURI == '/admin/program/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addProgram}"></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/folder/add(category=MODULE)}"
+                       th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=MODULE'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addModule}"></span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/bonuses}"
+               th:classappend="${#request.requestURI == '/admin/bonuses'} ? 'active'"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
+            <ul class="nav nav-pills flex-column ml-4">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/folder/add(category=BONUS)}"
+                       th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/folder/add?category=BONUS'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addBonus}"></span></a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/offerings}"
+               th:classappend="${#request.requestURI == '/admin/offerings'} ? 'active'"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
+            <ul class="nav nav-pills flex-column ml-4">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/offering/add}"
+                       th:classappend="${#request.requestURI == '/admin/offering/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/orders}"
+               th:classappend="${#request.requestURI == '/admin/orders'} ? 'active'"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/users}"
+               th:classappend="${#request.requestURI == '/admin/users'} ? 'active'"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/events}"
+               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{events}"></span></a>
+        </li>
+    </ul>
+</div>
 
 <!--<div th:fragment="modal">-->
 <!--    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">-->

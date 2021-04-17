@@ -49,14 +49,18 @@
                         <td th:text="${orderItem.name}"></td>
                         <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                         <td>
-                            <ul>
-                                <li th:each="program: ${orderItem.offering.programs}" th:text="${program.name}"></li>
-                            </ul>
+                            <ol>
+                                <li th:each="program: ${orderItem.offering.programs}">
+                                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                                </li>
+                            </ol>
                         </td>
                         <td>
-                            <ul th:if="${!orderItem.offering.folders.isEmpty()}">
-                                <li th:each="folder: ${orderItem.offering.folders}" th:text="${folder.name}"></li>
-                            </ul>
+                            <ol th:if="${!orderItem.offering.folders.isEmpty()}">
+                                <li th:each="folder: ${orderItem.offering.folders}">
+                                    <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                </li>
+                            </ol>
                         </td>
                         <td th:text="${'$' + orderItem.price}"></td>
                     </tr>
