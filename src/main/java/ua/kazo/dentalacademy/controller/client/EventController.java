@@ -18,7 +18,6 @@ import ua.kazo.dentalacademy.service.EventService;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,11 +27,11 @@ public class EventController {
     private final EventMapper eventMapper;
 
     @GetMapping("/events")
-    public String events(final ModelMap model, @RequestParam(required = false) final String search,
+    public String events(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search,
                           @RequestParam(defaultValue = "0") final int page,
                           @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
-        Page<Event> pageResult = eventService.findAllFutureEventsOrderByDate(search, PageRequest.of(page, size)); // todo: search
-        model.addAttribute(ModelMapConstants.EVENTS, eventMapper.toResponseDto(pageResult));
+        Page<Event> pageResult = eventService.findAllFutureEventsOrderByDate(search, PageRequest.of(page, size));
+        model.addAttribute(ModelMapConstants.EVENTS, eventMapper.toUserRegisteredResponseDto(pageResult, AuthUtils.getUser(principal).getId()));
         model.addAttribute(ModelMapConstants.SEARCH, search);
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "client/event/events";
@@ -40,10 +39,8 @@ public class EventController {
 
     @GetMapping({"/event/{eventId}",})
     public String event(final @PathVariable Long eventId, final ModelMap model, final Principal principal) {
-        Event event = eventService.findById(eventId);
-        model.addAttribute(ModelMapConstants.EVENT, eventMapper.toResponseDto(event));
-        model.addAttribute("isFutureDate", event.getDate().isAfter(LocalDateTime.now()));
-        model.addAttribute("isUserRegisteredForEvent", eventService.isUserRegisteredForEvent(eventId, AuthUtils.getUser(principal).getId()));
+        Event event = eventService.findByIdFetchRegisteredUsers(eventId);
+        model.addAttribute(ModelMapConstants.EVENT, eventMapper.toUserRegisteredResponseDto(event, AuthUtils.getUser(principal).getId()));
         return "client/event/event";
     }
 

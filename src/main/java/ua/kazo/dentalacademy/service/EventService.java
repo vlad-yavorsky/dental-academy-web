@@ -8,25 +8,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.kazo.dentalacademy.entity.Event;
 import ua.kazo.dentalacademy.entity.EventUser;
-import ua.kazo.dentalacademy.entity.EventUserId;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.EventRepository;
 import ua.kazo.dentalacademy.repository.EventUserRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EventService {
 
     private final EventRepository eventRepository;
     private final EventUserRepository eventUserRepository;
     private final MessageSource messageSource;
 
-    public Event findById(Long id) {
-        return eventRepository.findById(id)
+    public Event findByIdFetchRegisteredUsers(Long id) {
+        return eventRepository.findFetchRegisteredUsersById(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.EVENT_NOT_FOUND, id));
     }
 
@@ -52,10 +53,6 @@ public class EventService {
             return true;
         }
         return false;
-    }
-
-    public boolean isUserRegisteredForEvent(Long eventId, Long userId) {
-        return eventUserRepository.findById(new EventUserId(eventId, userId)).isPresent();
     }
 
 }

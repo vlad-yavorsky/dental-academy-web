@@ -3,11 +3,14 @@ package ua.kazo.dentalacademy.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -29,5 +32,9 @@ public class Event extends TrackedDateEntity implements Serializable {
     private String image;
 
     private LocalDateTime date;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventUser> registeredUsers = new ArrayList<>();
 
 }

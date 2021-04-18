@@ -2,6 +2,7 @@ package ua.kazo.dentalacademy.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,10 +14,15 @@ import java.util.Optional;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
+    @EntityGraph(attributePaths = "registeredUsers")
+    Optional<Event> findFetchRegisteredUsersById(Long id);
+
     Optional<Event> findByIdAndDateAfter(Long id, LocalDateTime date);
 
+    @EntityGraph(attributePaths = "registeredUsers")
     Page<Event> findAllByDateAfterOrderByDate(Pageable pageable, LocalDateTime date);
 
+    @EntityGraph(attributePaths = "registeredUsers")
     @Query("select distinct e from Event e " +
             "where (:date < e.date) " +
             "and lower(e.name) like lower(concat('%', concat(:search, '%'))) " +

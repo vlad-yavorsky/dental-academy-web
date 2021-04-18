@@ -34,7 +34,10 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${event.name}"></h5>
                         <p class="card-text" th:text="${event.description}"></p>
-                        <a th:href="@{/event/__${event.id}__}" class="btn btn-primary" th:text="#{button.WatchDetails}"></a>
+                        <a th:href="@{/event/__${event.id}__}" class="btn btn-primary mb-2" th:text="#{button.WatchDetails}"></a>
+                        <div class="btn btn-success" th:if="${event.userRegistered}">
+                            <i class="fas fa-check-circle fa-fw"></i> <span th:text="#{info.RegisteredForEvent}"></span>
+                        </div>
                     </div>
                     <div class="card-footer text-muted" th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></div>
                 </div>

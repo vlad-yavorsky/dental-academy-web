@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.controller.admin.AdminUserController;
 import ua.kazo.dentalacademy.controller.client.UserController;
 import ua.kazo.dentalacademy.exception.ApplicationException;
@@ -24,25 +23,15 @@ public class ControllerExceptionHandler {
     public ModelAndView exceptionHandler(final Exception e, final HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         log.error("Exception", e);
         ModelAndView modelAndView = new ModelAndView();
-        /*
-          todo: check if we need this redirect, because its sick, when exception appears
-          Check if additional redirect attributes passed when editing entities on admin site
-        */
-        String referer = request.getHeader("Referer");
-        if (referer != null) {
-            modelAndView.setViewName("redirect:" + referer); // todo: status do not work with redirect
-            redirectAttributes.addFlashAttribute(ModelMapConstants.EXCEPTION, e.getMessage());
+        if (e instanceof ApplicationException) {
+            modelAndView.setStatus(((ApplicationException) e).getExceptionCode().getStatus());
+        } else if (e instanceof AccessDeniedException) {
+            modelAndView.setStatus(HttpStatus.FORBIDDEN);
         } else {
-            if (e instanceof ApplicationException) {
-                modelAndView.setStatus(((ApplicationException) e).getExceptionCode().getStatus());
-            } else if (e instanceof AccessDeniedException) {
-                modelAndView.setStatus(HttpStatus.FORBIDDEN);
-            } else {
-                modelAndView.setStatus(HttpStatus.NOT_FOUND);
-            }
-            modelAndView.setViewName(ERROR_PAGE);
-            modelAndView.addObject("message", e.getMessage());
+            modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        modelAndView.setViewName(ERROR_PAGE);
+        modelAndView.addObject("message", e.getMessage());
         return modelAndView;
     }
 
