@@ -27,8 +27,16 @@
             <h5 th:text="#{event.description}"></h5>
             <p th:utext="${event.description}"></p>
 
-            <a th:if="${isFutureDate}" href="#" class="btn btn-success" th:text="#{button.participate}"></a>
-            <span th:unless="${isFutureDate}" class="btn btn-secondary" th:text="#{info.EventEnded}"></span>
+            <div class="btn btn-success mb-2" th:if="${isUserRegisteredForEvent}">
+                <i class="fas fa-check-circle fa-fw"></i> <span th:text="#{info.RegisteredForEvent}"></span>
+            </div>
+            <a class="btn btn-danger mb-2" th:if="${isUserRegisteredForEvent and isFutureDate}" th:href="@{/event/__${event.id}__/unregister}">
+                <i class="fas fa-minus-circle fa-fw"></i> <span th:text="#{button.unregister}"></span>
+            </a>
+            <a class="btn btn-success mb-2" th:if="${!isUserRegisteredForEvent and isFutureDate}" th:href="@{/event/__${event.id}__/register}">
+                <span th:text="#{button.register}"></span>
+            </a>
+            <div class="btn btn-secondary mb-2" th:unless="${isFutureDate}" th:text="#{info.EventEnded}"></div>
         </div>
     </div>
 </div>

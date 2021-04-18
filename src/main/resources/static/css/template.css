@@ -152,16 +152,16 @@ label.required:after {
 
 /* Card columns */
 .card-columns {
-    column-count: 3;
+    column-count: 1;
 }
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
     .card-columns {
         column-count: 2;
     }
 }
-@media screen and (max-width: 576px) {
+@media screen and (min-width: 992px) {
     .card-columns {
-        column-count: 1;
+        column-count: 3;
     }
 }
 

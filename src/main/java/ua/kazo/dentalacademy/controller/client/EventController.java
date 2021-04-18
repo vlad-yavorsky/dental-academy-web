@@ -8,12 +8,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.entity.Event;
 import ua.kazo.dentalacademy.mapper.EventMapper;
 import ua.kazo.dentalacademy.service.EventService;
+import ua.kazo.dentalacademy.util.AuthUtils;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Controller
@@ -35,11 +39,34 @@ public class EventController {
     }
 
     @GetMapping({"/event/{eventId}",})
-    public String event(final @PathVariable Long eventId, final ModelMap model) {
+    public String event(final @PathVariable Long eventId, final ModelMap model, final Principal principal) {
         Event event = eventService.findById(eventId);
         model.addAttribute(ModelMapConstants.EVENT, eventMapper.toResponseDto(event));
         model.addAttribute("isFutureDate", event.getDate().isAfter(LocalDateTime.now()));
+        model.addAttribute("isUserRegisteredForEvent", eventService.isUserRegisteredForEvent(eventId, AuthUtils.getUser(principal).getId()));
         return "client/event/event";
+    }
+
+    @GetMapping({"/event/{eventId}/register",})
+    public RedirectView register(final @PathVariable Long eventId, final RedirectAttributes redirectAttributes, final Principal principal) {
+        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal).getId(), false);
+        if (registered) {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.registered");
+        } else {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.ERRORS, "exception.event.NotFound");
+        }
+        return new RedirectView("/event/" + eventId);
+    }
+
+    @GetMapping({"/event/{eventId}/unregister",})
+    public RedirectView unregister(final @PathVariable Long eventId, final RedirectAttributes redirectAttributes, final Principal principal) {
+        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal).getId(), true);
+        if (registered) {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.unregistered");
+        } else {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.ERRORS, "exception.event.NotFound");
+        }
+        return new RedirectView("/event/" + eventId);
     }
 
 }

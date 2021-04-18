@@ -8,9 +8,12 @@ import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.Event;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
+
+    Optional<Event> findByIdAndDateAfter(Long id, LocalDateTime date);
 
     Page<Event> findAllByDateAfterOrderByDate(Pageable pageable, LocalDateTime date);
 

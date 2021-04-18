@@ -7,17 +7,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.kazo.dentalacademy.entity.Event;
+import ua.kazo.dentalacademy.entity.EventUser;
+import ua.kazo.dentalacademy.entity.EventUserId;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.EventRepository;
+import ua.kazo.dentalacademy.repository.EventUserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final EventUserRepository eventUserRepository;
     private final MessageSource messageSource;
 
     public Event findById(Long id) {
@@ -34,6 +39,23 @@ public class EventService {
             return eventRepository.findAllByNameAndDateAfterOrderByDate(search, pageable, LocalDateTime.now());
         }
         return eventRepository.findAllByDateAfterOrderByDate(pageable, LocalDateTime.now());
+    }
+
+    public boolean register(Long eventId, Long userId, boolean unregister) {
+        Optional<Event> event = eventRepository.findByIdAndDateAfter(eventId, LocalDateTime.now());
+        if (event.isPresent()) {
+            if (unregister) {
+                eventUserRepository.delete(EventUser.of(event.get().getId(), userId));
+            } else {
+                eventUserRepository.save(EventUser.of(event.get().getId(), userId));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUserRegisteredForEvent(Long eventId, Long userId) {
+        return eventUserRepository.findById(new EventUserId(eventId, userId)).isPresent();
     }
 
 }

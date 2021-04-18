@@ -609,3 +609,31 @@ databaseChangeLog:
                     nullable: false
                   name: last_view
                   type: TIMESTAMP
+
+        - createTable:
+            tableName: event_user
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: event_user_pk
+                    foreignKeyName: event_user_event_id_fk
+                    referencedTableName: event
+                    referencedColumnNames: id
+                  name: event_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: event_user_pk
+                    foreignKeyName: event_user_user_id_fk
+                    referencedTableName: user
+                    referencedColumnNames: id
+                  name: user_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
