@@ -21,6 +21,7 @@ public class ModelMapConstants {
     public final String BONUS = "bonus";
     public final String PASSWORD = "password";
     public final String EVENTS = "events";
+    public final String EVENT = "event";
     public final String ORDERS = "orders";
     public final String NOW = "now";
     public final String IS_MODULES_EXIST = "isModulesExist";

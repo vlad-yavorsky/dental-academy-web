@@ -46,9 +46,14 @@ public class ProgramController {
     private final FolderItemMapper folderItemMapper;
     private final MessageSource messageSource;
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/shop";
+    }
+
     /* ---------------------------------------------- MY PROGRAMS ---------------------------------------------- */
 
-    @GetMapping("/")
+    @GetMapping("/programs")
     public String myPrograms(final ModelMap model, final Principal principal, @RequestParam(required = false) final String search,
                              @RequestParam(defaultValue = "0") final int page,
                              @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
@@ -56,7 +61,7 @@ public class ProgramController {
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.SEARCH, search);
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
-        return "index";
+        return "client/program/programs";
     }
 
     /* ---------------------------------------------- FOLDERS ---------------------------------------------- */

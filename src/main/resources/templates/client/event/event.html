@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (${event.name})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
+            <h3 class="border-bottom pb-3"><a th:href="@{/events}" th:text="#{nav.events}"></a> / <span th:text="${event.name}"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <img class="img-thumbnail " th:if="${event.image}" th:src="${event.image}">
+        </div>
+        <div class="col-12 col-md-8">
+            <h5 th:text="#{event.date}"></h5>
+            <p th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></p>
+
+            <h5 th:text="#{event.description}"></h5>
+            <p th:utext="${event.description}"></p>
+
+            <a th:if="${isFutureDate}" href="#" class="btn btn-success" th:text="#{button.participate}"></a>
+            <span th:unless="${isFutureDate}" class="btn btn-secondary" th:text="#{info.EventEnded}"></span>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

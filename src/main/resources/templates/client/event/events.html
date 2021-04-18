@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{nav.events})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
+            <h3 class="border-bottom pb-3" th:text="#{nav.events}"></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="fragments :: search-form (${search}, ${pageResult.totalPages})"></div>
+
+            <div class="card text-center" th:if="${#strings.isEmpty(search) and events.isEmpty()}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="#{info.NoneEvents.Header}"></h5>
+                    <p class="card-text" th:text="#{info.NoneEvents.Description}"></p>
+                    <a th:href="@{/shop}" class="btn btn-primary" th:text="#{button.VisitShop}"></a>
+                </div>
+            </div>
+
+            <div th:if="${events.size() > 0}" class="card-columns">
+                <div class="card text-center" th:each="event: ${events}">
+                    <img class="card-img-top" th:if="${event.image}" th:src="${event.image}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${event.name}"></h5>
+                        <p class="card-text" th:text="${event.description}"></p>
+                        <a th:href="@{/event/__${event.id}__}" class="btn btn-primary" th:text="#{button.WatchDetails}"></a>
+                    </div>
+                    <div class="card-footer text-muted" th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

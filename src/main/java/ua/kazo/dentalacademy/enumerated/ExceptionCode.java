@@ -18,6 +18,7 @@ public enum ExceptionCode {
     NAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "exception.global.NameAlreadyExists"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.user.NotFound"),
     PROGRAM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.program.NotFound"),
+    EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.event.NotFound"),
     OFFERING_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.offering.NotFound"),
     OFFERING_NOT_AVAILABLE(HttpStatus.NOT_FOUND, "exception.offering.NotAvailable"),
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),

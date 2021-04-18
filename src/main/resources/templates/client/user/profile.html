@@ -52,7 +52,10 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="photo" th:text="#{user.photo}"></label>
-                        <input type="file" class="form-control-file" id="photo" th:field="*{newPhoto}" accept="image/*"/>
+                        <div class="custom-file" id="photo">
+                            <input type="file" class="custom-file-input" id="file" accept="image/*" th:field="*{newPhoto}">
+                            <label class="custom-file-label" for="file"></label>
+                        </div>
                     </div>
                 </div>
 
