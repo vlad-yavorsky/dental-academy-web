@@ -32,11 +32,12 @@ public class AdminOrderController {
     private final OrderMapper orderMapper;
     private final OrderHistoryService orderHistoryService;
     private final OrderHistoryMapper orderHistoryMapper;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/orders")
     public String orders(final ModelMap model,
-                        @RequestParam(defaultValue = "0") final int page,
-                        @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+                         @RequestParam(defaultValue = "0") final int page,
+                         @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
         Page<Order> pageResult = orderService.findAllFetchUserRoles(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
         model.addAttribute(ModelMapConstants.ORDERS, orderMapper.toUserResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
@@ -50,17 +51,22 @@ public class AdminOrderController {
         model.addAttribute("checkoutUrl", paymentProcessor.getCheckoutUrl());
         model.addAttribute("formData", paymentProcessor.getPayParameters(order));
         model.addAttribute("order", orderMapper.toUserPurchaseDataResponseDto(order));
-        model.addAttribute("orderHistory", orderHistoryMapper.toResponseDto(orderHistoryService.findAllByOrderId(order.getId())));
+        model.addAttribute("orderHistory", orderHistoryMapper.toResponseDto(orderHistoryService.findAllByOrderId(order.getId()), objectMapper));
         return "admin/order/order";
     }
 
     @PostMapping("/order/{orderNumber}/status")
     public String manualUpdateOrderStatus(@PathVariable final String orderNumber,
                                           @RequestParam("orderStatus") final UnifiedPaymentStatus orderStatus,
+                                          @RequestParam("changeReason") final String changeReason,
                                           final Principal principal) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         orderService.manualUpdateOrder(orderNumber, orderStatus,
-                mapper.writeValueAsString(new OrderManualUpdateLogItem("manual_update", principal.getName(), orderStatus)));
+                objectMapper.writeValueAsString(OrderManualUpdateLogItem.builder()
+                        .type("manual_update")
+                        .user(principal.getName())
+                        .status(orderStatus)
+                        .changeReason(changeReason)
+                        .build()));
         return "redirect:/admin/order/" + orderNumber;
     }
 

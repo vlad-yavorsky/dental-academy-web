@@ -72,19 +72,19 @@
                 <div class="form-group row">
                     <label for="activated" class="col-2 col-form-label" th:text="#{offering.activated}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control datetimepicker" id="activated" th:field="*{activated}"/>
+                        <input type="text" class="form-control air-datetimepicker" id="activated" th:field="*{activated}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="deactivated" class="col-2 col-form-label" th:text="#{offering.deactivated}"></label>
                     <div class="col-10">
-                        <input type="text" class="form-control datetimepicker" id="deactivated" th:field="*{deactivated}"/>
+                        <input type="text" class="form-control air-datetimepicker" id="deactivated" th:field="*{deactivated}"/>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="description" class="col-2 col-form-label" th:text="#{offering.description}"></label>
                     <div class="col-10">
-                        <textarea class="form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
                     </div>
                 </div>
 

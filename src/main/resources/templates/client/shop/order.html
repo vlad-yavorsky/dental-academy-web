@@ -84,7 +84,7 @@
             <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).SUCCESS}">
                 <div th:if="${order.provider == T(ua.kazo.dentalacademy.enumerated.PaymentProvider).LIQPAY}"
                      class="text-center">
-                    <a class="btn btn-primary" th:href="@{/order/__${orderNumber}__/receipt}" th:text="#{button.sendReceipt}"></a>
+                    <a class="btn btn-primary" th:href="@{/order/__${orderNumber}__/receipt}"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{button.sendReceipt}"></span></a>
                 </div>
             </div>
         </div>

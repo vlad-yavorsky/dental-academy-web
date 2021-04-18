@@ -66,23 +66,26 @@
             </table>
 
             <div class="alert alert-danger mt-3" role="alert" sec:authorize="hasAuthority('ADMIN')">
-                <h4 class="alert-heading">Danger zone!</h4>
+                <h4 class="alert-heading">Danger zone</h4>
                 <hr>
                 <p>Here you can change the status of order</p>
-                <form th:action="@{/admin/order/__${order.number}__/status}" method="post" accept-charset="utf-8">
-                    <div class="form-row align-items-center">
-                        <div class="col-auto my-1">
-                            <label class="mr-sm-2 sr-only" for="orderStatus">Order status: </label>
-                            <select class="form-control selectpicker" id="orderStatus" name="orderStatus">
+                <form class="needs-validation" novalidate th:action="@{/admin/order/__${order.number}__/status}" method="post" accept-charset="utf-8">
+                    <div class="form-row">
+                        <div class="col-12 mb-3">
+                            <label for="orderStatus">Order Status</label>
+                            <select class="form-control selectpicker" id="orderStatus" name="orderStatus" required>
                                 <option th:each="unifiedPaymentStatus: ${T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).values()}"
                                         th:value="${unifiedPaymentStatus}" th:text="${unifiedPaymentStatus}"
                                         th:selected="${unifiedPaymentStatus == order.status}"></option>
                             </select>
                         </div>
-                        <div class="col-auto my-1">
-                            <button type="submit" class="btn btn-primary">Change</button>
+                        <div class="col-12 mb-3">
+                            <label for="changeReason">Change Reason</label>
+                            <textarea class="form-control" id="changeReason" name="changeReason" rows="3" required></textarea>
+                            <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                         </div>
                     </div>
+                    <button class="btn btn-danger" type="submit">Change Status</button>
                 </form>
             </div>
 

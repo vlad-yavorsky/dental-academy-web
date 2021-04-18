@@ -38,7 +38,6 @@ public class FolderItem extends TrackedDateEntity implements Serializable {
     private int ordering;
 
     @ToString.Exclude
-    @Builder.Default
     @OneToMany(mappedBy = "folderItem")
     private List<ViewedFolderItem> viewedFolderItems = new ArrayList<>();
 

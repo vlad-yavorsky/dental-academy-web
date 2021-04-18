@@ -9,12 +9,12 @@ $(function() {
         liveSearchPlaceholder: 'Search...',
         liveSearchStyle: 'contains'
     });
-    $('.datetimepicker').datepicker({
+    $('.air-datepicker').datepicker();
+    $('.air-datetimepicker').datepicker({
         timepicker: true
     });
-    $('.air-datepicker').datepicker();
     tinymce.init({
-        selector: 'textarea',
+        selector: '.tinymce',
         plugins: 'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
         imagetools_cors_hosts: ['picsum.photos'],
         menubar: 'file edit view insert format tools table help',
@@ -35,4 +35,5 @@ $(function() {
         toolbar_mode: 'sliding',
         contextmenu: "link image imagetools table",
     });
+    bsCustomFileInput.init(); // Bootstrap 4 - File Browser
 });

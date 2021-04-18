@@ -77,12 +77,15 @@ public class UserService implements UserDetailsService {
         Offering offering = offeringService.findByIdAndActive(offeringId);
         User user = findByEmailFetchCartItems(email);
         user.getCartItems().add(offering);
+        user.incCartItemsCount();
         return user;
     }
 
     public User removeItemFromCart(String email, Long offeringId) {
         User user = findByEmailFetchCartItems(email);
-        user.getCartItems().removeIf(offering -> offering.getId().equals(offeringId));
+        if (user.getCartItems().removeIf(offering -> offering.getId().equals(offeringId))) {
+            user.decCartItemsCount();
+        }
         return user;
     }
 

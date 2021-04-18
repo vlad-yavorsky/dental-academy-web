@@ -2,11 +2,11 @@
     cursor: grab;
 }
 
-.form-group.required {
+label.required {
     font-weight: bold;
 }
-.form-group.required .col-form-label:after {
-    content: "*";
+label.required:after {
+    content: " *";
     color: red;
 }
 
@@ -163,4 +163,15 @@
     .card-columns {
         column-count: 1;
     }
+}
+
+/* Bootstrap 4 - File Browser */
+.custom-file-input:lang(en)~.custom-file-label::after {
+    content: "Choose";
+}
+.custom-file-input:lang(uk)~.custom-file-label::after {
+    content: "Обрати";
+}
+.custom-file-input:lang(ru)~.custom-file-label::after {
+    content: "Выбрать";
 }

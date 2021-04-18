@@ -18,58 +18,58 @@
 
     <div class="row">
         <div class="col-12">
-            <form method="post" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
-                <div class="form-group row required">
-                    <label for="email" class="col-2 col-form-label" th:text="#{user.email}"></label>
-                    <div class="col-10">
-                        <input type="email" class="form-control" id="email" th:field="*{email}" maxlength="50" required/>
+            <form class="needs-validation" novalidate method="post" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="firstName" th:text="#{user.firstName}"></label>
+                        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" maxlength="50" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="lastName" th:text="#{user.lastName}"></label>
+                        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" maxlength="50" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="password" class="col-2 col-form-label" th:text="#{user.password}"></label>
-                    <div class="col-10">
-                        <input type="password" class="form-control" id="password" th:field="*{password}" maxlength="50" required/>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="email" th:text="#{user.email}"></label>
+                        <input type="text" class="form-control" id="email" th:field="*{email}" maxlength="50" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="mobile" th:text="#{user.mobile}"></label>
+                        <input type="text" class="form-control" id="mobile" th:field="*{mobile}" maxlength="30" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="confirmPassword" class="col-2 col-form-label" th:text="#{user.confirmPassword}"></label>
-                    <div class="col-10">
-                        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}" maxlength="50" required/>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="password" th:text="#{user.password}"></label>
+                        <input type="password" class="form-control" id="password" th:field="*{password}" maxlength="30" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="confirmPassword" th:text="#{user.confirmPassword}"></label>
+                        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}" maxlength="30" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="firstName" class="col-2 col-form-label" th:text="#{user.firstName}"></label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" maxlength="50" required/>
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label for="lastName" class="col-2 col-form-label" th:text="#{user.lastName}"></label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" maxlength="50" required/>
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label for="mobile" class="col-2 col-form-label" th:text="#{user.mobile}"></label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="mobile" th:field="*{mobile}" maxlength="30" required/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="birthday" class="col-2 col-form-label" th:text="#{user.birthday}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="birthday" th:text="#{user.birthday}"></label>
                         <input type="text" class="form-control air-datepicker" id="birthday" th:field="*{birthday}"/>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="photo" class="col-2 col-form-label" th:text="#{user.photo}"></label>
-                    <div class="col-10">
-                        <input type="file" class="form-control-file" id="photo" th:field="*{newPhoto}" accept="image/*"/>
+                    <div class="col-md-6 mb-3">
+                        <label for="photo" th:text="#{user.photo}"></label>
+                        <div class="custom-file" id="photo">
+                            <input type="file" class="custom-file-input" id="file" accept="image/*" th:field="*{newPhoto}">
+                            <label class="custom-file-label" for="file"></label>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-12 text-center">
-                        <a th:href="@{/}" class="btn btn-primary"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.login}"></span></a>
+                <div class="form-row">
+                    <div class="col-12 mb-3 text-center">
                         <button type="submit" class="btn btn-success"><i class="fas fa-user-plus fa-fw"></i> <span th:text="#{nav.register}"></span></button>
                     </div>
                 </div>

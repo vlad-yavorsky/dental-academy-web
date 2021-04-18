@@ -183,6 +183,11 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>2.11.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bs-custom-file-input</artifactId>
+            <version>1.3.4</version>
+        </dependency>
     </dependencies>
 
     <repositories>

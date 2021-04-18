@@ -67,12 +67,19 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
     private List<Offering> cartItems = new ArrayList<>();
 
     @ToString.Exclude
-    @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<ViewedFolderItem> viewedFolderItems = new ArrayList<>();
 
     @Transient
     private int cartItemsCount;
+
+    public void incCartItemsCount() {
+        cartItemsCount++;
+    }
+
+    public void decCartItemsCount() {
+        cartItemsCount--;
+    }
 
     @Override
     public Collection<Role> getAuthorities() {
