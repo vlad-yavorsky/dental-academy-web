@@ -45,7 +45,7 @@
                 <div class="form-group row required">
                     <label for="category" class="col-2 col-form-label" th:text="#{offering.package}"></label>
                     <div class="col-10">
-                        <select class="form-control" id="category" th:field="*{type}" required>
+                        <select class="form-control selectpicker" id="category" th:field="*{type}" required>
                             <option th:each="package: ${T(ua.kazo.dentalacademy.enumerated.OfferingType).values()}"
                                     th:value="${package.name()}" th:text="#{${package.name().toLowerCase()}}"></option>
                         </select>

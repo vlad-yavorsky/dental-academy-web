@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -18,16 +18,27 @@
 
     <properties>
         <java.version>11</java.version>
-        <mapstruct.version>1.3.1.Final</mapstruct.version>
-        <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
-        <jquery.version>3.4.1</jquery.version>
-        <bootstrap.version>4.4.1</bootstrap.version>
-        <bootswatch.version>4.4.1</bootswatch.version>
-        <font-awesome.version>5.12.0</font-awesome.version>
-        <tinymce.version>5.0.9</tinymce.version>
-        <sortablejs.version>1.10.1</sortablejs.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <liqpay-sdk.version>0.7-SNAPSHOT</liqpay-sdk.version>
+        <aws-sdk.version>2.16.43</aws-sdk.version>
+        <jackson-dataformat-yaml.version>2.11.4</jackson-dataformat-yaml.version>
+        <apache-commons-codec.version>1.15</apache-commons-codec.version>
+
+        <!-- webjars -->
+        <jquery.version>3.6.0</jquery.version>
+        <bootstrap.version>4.6.0</bootstrap.version>
+        <bootstrap-custom-file-input.version>1.3.4</bootstrap-custom-file-input.version>
         <bootstrap-select.version>1.13.11</bootstrap-select.version>
+        <popper-js.version>1.16.1</popper-js.version>
+        <bootswatch.version>4.6.0</bootswatch.version>
+        <font-awesome.version>5.15.2</font-awesome.version>
+        <tinymce.version>5.7.0</tinymce.version>
+        <sortablejs.version>1.10.1</sortablejs.version>
         <flag-icon-css.version>3.4.6</flag-icon-css.version>
+
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <spring-boot-configuration-processor.version>2.4.5</spring-boot-configuration-processor.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
     </properties>
 
@@ -35,20 +46,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <!-- todo: remove exclusion, when bug will be fixed in next spring boot version -->
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- todo: remove dependency, when bug will be fixed in next spring boot version -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.4.18.Final</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,6 +89,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -104,25 +102,31 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.liqpay</groupId>
+            <artifactId>liqpay-sdk</artifactId>
+            <version>${liqpay-sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${apache-commons-codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${aws-sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-dataformat-yaml.version}</version>
+        </dependency>
+
+        <!-- webjars -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
@@ -135,6 +139,21 @@
         </dependency>
         <dependency>
             <groupId>org.webjars.npm</groupId>
+            <artifactId>bs-custom-file-input</artifactId>
+            <version>${bootstrap-custom-file-input.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-select</artifactId>
+            <version>${bootstrap-select.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>popper.js</artifactId>
+            <version>${popper-js.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
             <artifactId>bootswatch</artifactId>
             <version>${bootswatch.version}</version>
         </dependency>
@@ -144,7 +163,7 @@
             <version>${font-awesome.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.webjars</groupId>
+            <groupId>org.webjars.bower</groupId>
             <artifactId>tinymce</artifactId>
             <version>${tinymce.version}</version>
         </dependency>
@@ -154,39 +173,9 @@
             <version>${sortablejs.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap-select</artifactId>
-            <version>${bootstrap-select.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>flag-icon-css</artifactId>
             <version>${flag-icon-css.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.liqpay</groupId>
-            <artifactId>liqpay-sdk</artifactId>
-            <version>0.7-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.15</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
-            <version>2.16.41</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.11.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>bs-custom-file-input</artifactId>
-            <version>1.3.4</version>
         </dependency>
     </dependencies>
 
@@ -204,9 +193,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-maven-plugin.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.liquibase</groupId>
@@ -233,24 +221,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
                         <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
-                            <version>${spring-boot.version}</version>
+                            <version>${spring-boot-configuration-processor.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>
@@ -259,8 +248,9 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>

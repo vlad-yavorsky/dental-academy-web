@@ -24,7 +24,7 @@
                 <div class="form-group row required">
                     <label for="category" class="col-2 col-form-label" th:text="#{folder.category}"></label>
                     <div class="col-10">
-                        <select class="form-control" id="category" th:field="*{category}" required>
+                        <select class="form-control selectpicker" id="category" th:field="*{category}" required>
                             <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.FolderCategory).values()}"
                                     th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
                         </select>
@@ -86,7 +86,7 @@
                         </td>
                         <td>
                             <div class="input-group">
-                                <select class="custom-select" th:field="*{items[__${iter.index}__].type}" required>
+                                <select class="form-control selectpicker" th:field="*{items[__${iter.index}__].type}" required>
                                     <option th:each="type: ${T(ua.kazo.dentalacademy.enumerated.FolderItemType).values()}"
                                             th:value="${type.name()}" th:text="#{${type.name().toLowerCase()}}"></option>
                                 </select>

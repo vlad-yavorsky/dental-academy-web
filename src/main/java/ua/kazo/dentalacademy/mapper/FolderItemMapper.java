@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.mapper;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import ua.kazo.dentalacademy.dto.folder.item.FolderItemCreateDto;
 import ua.kazo.dentalacademy.dto.folder.item.FolderItemResponseDto;
 import ua.kazo.dentalacademy.dto.folder.item.FolderItemUpdateDto;
@@ -29,6 +30,7 @@ public interface FolderItemMapper {
     @Mapping(target = "viewedByUser", source = "viewedFolderItems", qualifiedByName = "isViewedByUser")
     FolderViewedItemResponseDto toFolderViewedItemResponseDto(FolderItem folderItem, @Context Long userId);
 
+    @Named("isViewedByUser")
     static boolean isViewedByUser(List<ViewedFolderItem> viewedFolderItems, @Context Long userId) {
         return viewedFolderItems.stream()
                 .anyMatch(viewedFolderItem -> viewedFolderItem.getId().getUserId().equals(userId));

@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.mapper;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.folder.*;
 import ua.kazo.dentalacademy.entity.Folder;
@@ -31,6 +32,7 @@ public interface FolderMapper {
     @Mapping(target = "folderCompletePercentage", source = "items", qualifiedByName = "setFolderCompletePercentage")
     FolderViewedItemsResponseDto toViewedItemsResponseDto(Folder folder, @Context Long userId);
 
+    @Named("setFolderCompletePercentage")
     default int setFolderCompletePercentage(List<FolderItem> items, @Context Long userId) {
         Integer viewedItemsCount = items.stream()
                 .map(folderItem -> FolderItemMapper.isViewedByUser(folderItem.getViewedFolderItems(), userId) ? 1 : 0)
