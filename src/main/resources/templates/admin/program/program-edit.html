@@ -49,62 +49,66 @@
             </form>
 
             <h4 th:text="#{folders}"></h4>
-            <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th th:text="#{folder.name}"></th>
-                    <th th:text="#{folder.category}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="folder: ${folders}">
-                    <td th:text="${folder.name}"></td>
-                    <td th:text="#{${folder.category.toString().toLowerCase()}}"></td>
-                    <td style="text-align: right;">
-                        <a class="btn btn-primary" th:href="@{/admin/folder/edit/__${folder.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3" style="text-align: right;">
-                        <a class="btn btn-success" th:href="@{/admin/folder/add(programId=__${program.id}__,category='MODULE')}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddFolder}"></span></a>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:text="#{folder.name}"></th>
+                        <th th:text="#{folder.category}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="folder: ${folders}">
+                        <td th:text="${folder.name}"></td>
+                        <td th:text="#{${folder.category.toString().toLowerCase()}}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{/admin/folder/edit/__${folder.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{/admin/folder/add(programId=__${program.id}__,category='MODULE')}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddFolder}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
 
             <h4 th:text="#{offerings}"></h4>
-            <table class="table">
-                <thead class="thead-light">
-                <tr>
-                    <th th:text="#{offering.name}"></th>
-                    <th th:text="#{offering.package}"></th>
-                    <th th:text="#{offering.price}"></th>
-                    <th th:text="#{offering.term}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="offering: ${offerings}">
-                    <td th:text="${offering.name}"></td>
-                    <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
-                    <td th:text="${offering.price}"></td>
-                    <td th:text="${offering.term}"></td>
-                    <td style="text-align: right;">
-                        <a class="btn btn-primary" th:href="@{/admin/offering/edit/__${offering.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="5" style="text-align: right;">
-                        <a class="btn btn-success" th:href="@{/admin/offering/add(programId=__${program.id}__)}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:text="#{offering.name}"></th>
+                        <th th:text="#{offering.package}"></th>
+                        <th th:text="#{offering.price}"></th>
+                        <th th:text="#{offering.term}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="offering: ${offerings}">
+                        <td th:text="${offering.name}"></td>
+                        <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
+                        <td th:text="${offering.price}"></td>
+                        <td th:text="${offering.term}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{/admin/offering/edit/__${offering.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{/admin/offering/add(programId=__${program.id}__)}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>
