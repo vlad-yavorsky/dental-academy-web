@@ -58,9 +58,7 @@
                     <li class="nav-item" th:classappend="${#request.requestURI == '/events'} ? 'active'">
                         <a class="nav-link" th:href="@{/events}"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
                     </li>
-                </ul>
-                <ul class="navbar-nav" sec:authorize="hasAuthority('ADMIN')">
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/admin'} ? 'active'">
+                    <li class="nav-item" th:classappend="${#request.requestURI == '/admin'} ? 'active'" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:href="@{/admin}"><i class="fas fa-shield-alt fa-fw"></i> <span th:text="#{nav.admin}"></span></a>
                     </li>
                 </ul>
@@ -81,8 +79,6 @@
                                th:text="${theme.name().toLowerCase()}"></a>
                         </div>
                     </li>
-                </ul>
-                <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="fas fa-flag fa-fw"></i>
@@ -144,7 +140,7 @@
                 <li class="nav-item">
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
-                            <a class="nav-link text-muted"><i class="fas fa-folder fa-fw"></i> <span th:text="#{modules}"></span></a>
+                            <a class="nav-link text-muted"><i class="fas fa-folder fa-fw"></i> <span th:text="#{folders}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/folder/add(category=MODULE)}"

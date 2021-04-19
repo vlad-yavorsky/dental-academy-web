@@ -18,50 +18,51 @@
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.addFolder}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
+            <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
             <form method="post" th:object="${folder}" th:action="@{/admin/folder/add}">
-                <h4 th:text="#{header.MainInfo}"></h4>
-
-                <div class="form-group row required">
-                    <label for="category" class="col-2 col-form-label" th:text="#{folder.category}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="name" th:text="#{folder.name}"></label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="programs" th:text="#{program}"></label>
+                        <select class="form-control selectpicker" id="programs" multiple th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
+                            <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="category" th:text="#{folder.category}"></label>
                         <select class="form-control selectpicker" id="category" th:field="*{category}" required>
                             <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.FolderCategory).values()}"
                                     th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
                         </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label" th:text="#{program}"></label>
-                    <div class="col-10 input-group">
-                        <select class="form-control selectpicker" multiple th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
-                            <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label" th:text="#{folder.name}"></label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="image" class="col-2 col-form-label" th:text="#{folder.image}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label for="image" th:text="#{folder.image}"></label>
                         <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250"/>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="description" class="col-2 col-form-label" th:text="#{folder.description}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="description" th:text="#{folder.description}"></label>
                         <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
 
-                <h4 th:text="#{folder.items}"></h4>
-                <table class="table" id="items">
+                <h4 class="mb-3" th:text="#{folder.items}"></h4>
+                <table class="table table-responsive" id="items">
                     <thead class="thead-light">
                     <tr>
-                        <th th:text="#{folder.item.sorting}" style="width: 1%;"></th>
+                        <th style="width: 1%;"></th>
                         <th th:text="#{folder.item.name}"></th>
                         <th th:text="#{folder.item.link}"></th>
                         <th th:text="#{folder.item.image}"></th>
@@ -106,10 +107,10 @@
                     </tfoot>
                 </table>
 
-                <div class="form-group row">
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
-                        <a class="btn btn-secondary" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                <div class="form-row">
+                    <div class="col mb-3 text-center">
+                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.add}"></span></button>
+                        <a class="btn btn-secondary mb-3" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>

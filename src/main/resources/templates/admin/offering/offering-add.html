@@ -17,81 +17,77 @@
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/offerings}" th:text="#{nav.offerings}"></a> / <span th:text="#{nav.addOffering}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
-            <form method="post" th:object="${offering}" th:action="@{/admin/offering/add}">
-                <h4 th:text="#{header.MainInfo}"></h4>
-
-                <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label" th:text="#{programs}"></label>
-                    <div class="col-10 input-group">
-                        <select class="form-control selectpicker" multiple th:field="*{programs}" required>
-                            <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
-                        </select>
+            <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
+            <form class="needs-validation" novalidate method="post" th:object="${offering}" th:action="@{/admin/offering/add}">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="name" th:text="#{offering.name}"></label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="name" class="col-2 col-form-label" th:text="#{bonuses}"></label>
-                    <div class="col-10 input-group">
-                        <select class="form-control selectpicker" multiple th:field="*{folders}">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="programs" th:text="#{programs}"></label>
+                        <select class="form-control selectpicker" id="programs" multiple th:field="*{programs}" required>
+                            <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="bonuses" th:text="#{bonuses}"></label>
+                        <select class="form-control selectpicker" id="bonuses" multiple th:field="*{folders}">
                             <option th:each="bonus: ${bonuses}" th:value="${bonus.id}" th:text="${bonus.name}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="name" class="col-2 col-form-label" th:text="#{offering.name}"></label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required/>
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label for="category" class="col-2 col-form-label" th:text="#{offering.package}"></label>
-                    <div class="col-10">
-                        <select class="form-control selectpicker" id="category" th:field="*{type}" required>
-                            <option th:each="package: ${T(ua.kazo.dentalacademy.enumerated.OfferingType).values()}"
-                                    th:value="${package.name()}" th:text="#{${package.name().toLowerCase()}}"></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row required">
-                    <label for="price" class="col-2 col-form-label" th:text="#{offering.price}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="price" th:text="#{offering.price}"></label>
                         <input type="number" class="form-control" id="price" th:field="*{price}" min="0.01" step="0.01" required/>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="discount" class="col-2 col-form-label" th:text="#{offering.discount}"></label>
-                    <div class="col-10">
+                    <div class="col-md-6 mb-3">
+                        <label for="discount" th:text="#{offering.discount}"></label>
                         <input type="number" class="form-control" id="discount" th:field="*{discount}" min="1" max="99"/>
                     </div>
                 </div>
-                <div class="form-group row required">
-                    <label for="term" class="col-2 col-form-label" th:text="#{offering.term}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="package" th:text="#{offering.package}"></label>
+                        <select class="form-control selectpicker" id="package" th:field="*{type}" required>
+                            <option th:each="package: ${T(ua.kazo.dentalacademy.enumerated.OfferingType).values()}"
+                                    th:value="${package.name()}" th:text="#{${package.name().toLowerCase()}}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="term" th:text="#{offering.term}"></label>
                         <input type="number" class="form-control" id="term" th:field="*{term}" min="1" required/>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="activated" class="col-2 col-form-label" th:text="#{offering.activated}"></label>
-                    <div class="col-10">
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="activated" th:text="#{offering.activated}"></label>
                         <input type="text" class="form-control air-datetimepicker" id="activated" th:field="*{activated}"/>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="deactivated" class="col-2 col-form-label" th:text="#{offering.deactivated}"></label>
-                    <div class="col-10">
+                    <div class="col-md-6 mb-3">
+                        <label for="deactivated" th:text="#{offering.deactivated}"></label>
                         <input type="text" class="form-control air-datetimepicker" id="deactivated" th:field="*{deactivated}"/>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="description" class="col-2 col-form-label" th:text="#{offering.description}"></label>
-                    <div class="col-10">
-                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="description" th:text="#{offering.description}"></label>
+                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" rows="5" required></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-success"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
-                        <a class="btn btn-secondary" th:href="@{/admin/offerings}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                <div class="form-row">
+                    <div class="col mb-3 text-center">
+                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.add}"></span></button>
+                        <a class="btn btn-secondary mb-3" th:href="@{/admin/offerings}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>
