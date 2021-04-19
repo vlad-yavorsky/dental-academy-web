@@ -175,3 +175,8 @@ label.required:after {
 .custom-file-input:lang(ru)~.custom-file-label::after {
     content: "Выбрать";
 }
+
+/* Form Inputs Min Width (mobile screens optimization) */
+.input-min-width {
+    min-width: 300px;
+}

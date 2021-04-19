@@ -17,28 +17,30 @@
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.programs}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th style="width: 1%;" th:text="#{program.image}"></th>
-                    <th th:text="#{program.name}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="program: ${programs}">
-                    <td><img class="rounded" style="max-width: 100px;" th:if="${program.image}" th:src="${program.image}"></td>
-                    <td th:text="${program.name}"></td>
-                    <td>
-                        <div class="btn-group">
-                            <a th:href="@{/admin/folder/add(programId=__${program.id}__)}" th:title="#{button.AddFolder}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
-                            <a th:href="@{/admin/program/edit/__${program.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:href="@{/admin/program/delete/__${program.id}__}" th:title="#{button.delete}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th style="width: 1%;" th:text="#{program.image}"></th>
+                        <th th:text="#{program.name}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="program: ${programs}">
+                        <td><img class="rounded" style="max-width: 100px;" th:if="${program.image}" th:src="${program.image}"></td>
+                        <td th:text="${program.name}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <a th:href="@{/admin/folder/add(programId=__${program.id}__)}" th:title="#{button.AddFolder}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
+                                <a th:href="@{/admin/program/edit/__${program.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                                <a th:href="@{/admin/program/delete/__${program.id}__}" th:title="#{button.delete}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
         </div>

@@ -24,46 +24,48 @@
                 <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}" id="order-status"></span> <span class="badge badge-success" id="order-status-badge"></span></li>
             </ul>
 
-            <table class="table table-sm">
-                <thead class="thead-light">
-                <tr>
-                    <th th:if="${order.purchased}" th:text="#{purchaseData.expired}"></th>
-                    <th th:text="#{purchaseData.offeringName}"></th>
-                    <th th:text="#{purchaseData.package}"></th>
-                    <th th:text="#{programs}">
-                    <th th:text="#{bonuses}">
-                    <th th:text="#{purchaseData.price}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="orderItem,iter : ${order.purchaseData}">
-                    <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                    <td th:text="${orderItem.name}"></td>
-                    <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
-                    <td>
-                        <ol>
-                            <li th:each="program: ${orderItem.offering.programs}">
-                                <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
-                            </li>
-                        </ol>
-                    </td>
-                    <td>
-                        <ul th:if="${!orderItem.offering.folders.isEmpty()}">
-                            <li th:each="bonus: ${orderItem.offering.folders}">
-                                <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
-                            </li>
-                        </ul>
-                    </td>
-                    <td th:text="${'$' + orderItem.price}"></td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr class="thead-light">
-                    <td th:colspan="${order.purchased} ? 5 : 4"></td>
-                    <td><span class="font-weight-bold" th:text="${'$' + order.price}"></span></td>
-                </tr>
-                </tfoot>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:if="${order.purchased}" th:text="#{purchaseData.expired}"></th>
+                        <th th:text="#{purchaseData.offeringName}"></th>
+                        <th th:text="#{purchaseData.package}"></th>
+                        <th th:text="#{programs}">
+                        <th th:text="#{bonuses}">
+                        <th th:text="#{purchaseData.price}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderItem,iter : ${order.purchaseData}">
+                        <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                        <td th:text="${orderItem.name}"></td>
+                        <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
+                        <td>
+                            <ol>
+                                <li th:each="program: ${orderItem.offering.programs}">
+                                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                                </li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ul th:if="${!orderItem.offering.folders.isEmpty()}">
+                                <li th:each="bonus: ${orderItem.offering.folders}">
+                                    <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
+                                </li>
+                            </ul>
+                        </td>
+                        <td th:text="${'$' + orderItem.price}"></td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr class="thead-light">
+                        <td th:colspan="${order.purchased} ? 5 : 4"></td>
+                        <td><span class="font-weight-bold" th:text="${'$' + order.price}"></span></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
 
             <div th:if="${order.status == T(ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus).CREATED}">
                 <form th:action="@{${checkoutUrl}}" method="post" accept-charset="utf-8" class="text-center">

@@ -18,56 +18,56 @@
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
             <h4 th:text="#{nav.statistics}"></h4>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th th:text="#{statistics.entity}" style="width: 50%;"></th>
-                    <th th:text="#{statistics.quantity}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td th:text="#{programs}"></td>
-                    <td th:text="${programs_count}"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div th:text="#{folders} + ':'"></div>
-                        <div style="padding-left: 25px;">
-                            <div th:text="#{modules}"></div>
-                            <div th:text="#{bonuses}"></div>
-                            <div th:text="#{qas}"></div>
-                        </div>
-                    </td>
-                    <td>
-                        <div th:text="${folders_count}"></div>
-                        <div>
-                            <div th:text="${modules_count}"></div>
-                            <div th:text="${bonuses_count}"></div>
-                            <div th:text="${qa_count}"></div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td th:text="#{offerings}"></td>
-                    <td th:text="${offerings_count}"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{orders}"></td>
-                    <td th:text="${orders_count}"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{users}"></td>
-                    <td th:text="${users_count}"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{events}"></td>
-                    <td th:text="${events_count}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{statistics.entity}" style="width: 50%;"></th>
+                        <th th:text="#{statistics.quantity}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="#{programs}"></td>
+                        <td th:text="${programs_count}"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div th:text="#{folders} + ':'"></div>
+                            <div style="padding-left: 25px;">
+                                <div th:text="#{modules}"></div>
+                                <div th:text="#{bonuses}"></div>
+                                <div th:text="#{qas}"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div th:text="${folders_count}"></div>
+                            <div>
+                                <div th:text="${modules_count}"></div>
+                                <div th:text="${bonuses_count}"></div>
+                                <div th:text="${qa_count}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{offerings}"></td>
+                        <td th:text="${offerings_count}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{orders}"></td>
+                        <td th:text="${orders_count}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{users}"></td>
+                        <td th:text="${users_count}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{events}"></td>
+                        <td th:text="${events_count}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

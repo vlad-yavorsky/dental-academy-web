@@ -29,50 +29,52 @@
                 </a>
             </div>
 
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th th:text="#{offering.name}"></th>
-                    <th th:text="#{offering.package}">
-                    <th th:text="#{programs}">
-                    <th th:text="#{bonuses}">
-                    <th th:text="#{offering.price}"></th>
-                    <th th:text="#{offering.term}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${offerings.isEmpty()}">
-                    <td colspan="7" class="text-center" th:text="#{shop.item.NoOfferings}"></td>
-                </tr>
-                <tr th:each="offering : ${offerings}">
-                    <td th:text="${offering.name}"></td>
-                    <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
-                    <td>
-                        <ol>
-                            <li th:each="program: ${offering.programs}">
-                                <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
-                            </li>
-                        </ol>
-                    </td>
-                    <td>
-                        <div th:if="${!offering.folders.isEmpty()}">
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{offering.name}"></th>
+                        <th th:text="#{offering.package}">
+                        <th th:text="#{programs}">
+                        <th th:text="#{bonuses}">
+                        <th th:text="#{offering.price}"></th>
+                        <th th:text="#{offering.term}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${offerings.isEmpty()}">
+                        <td colspan="7" class="text-center" th:text="#{shop.item.NoOfferings}"></td>
+                    </tr>
+                    <tr th:each="offering : ${offerings}">
+                        <td th:text="${offering.name}"></td>
+                        <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
+                        <td>
                             <ol>
-                                <li th:each="folder: ${offering.folders}">
-                                    <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                <li th:each="program: ${offering.programs}">
+                                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
                                 </li>
                             </ol>
-                        </div>
-                    </td>
-                    <td>
-                        <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
-                        <span class="badge badge-success" th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
-                        <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
-                    </td>
-                    <td class="text-center" th:text="${offering.term}"></td>
-                    <td class="text-center">
-                        <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>
-                        <span th:unless="${offering.purchased}">
+                        </td>
+                        <td>
+                            <div th:if="${!offering.folders.isEmpty()}">
+                                <ol>
+                                    <li th:each="folder: ${offering.folders}">
+                                        <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </td>
+                        <td>
+                            <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
+                            <span class="badge badge-success" th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
+                            <br/><span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
+                        </td>
+                        <td class="text-center" th:text="${offering.term}"></td>
+                        <td class="text-center">
+                            <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>
+                            <span th:unless="${offering.purchased}">
 
                             <i th:if="${offering.inCart}" class="fas fa-cart-plus fa-2x text-success" th:title="#{shop.item.offering.AlreadyInCart}"></i>
                             <span th:unless="${offering.inCart}">
@@ -85,10 +87,11 @@
 
                             <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                         </span>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

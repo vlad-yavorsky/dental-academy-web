@@ -60,55 +60,57 @@
                 </div>
 
                 <h4 class="mb-3" th:text="#{folder.items}"></h4>
-                <table class="table table-responsive" id="items">
-                    <thead class="thead-light">
-                    <tr>
-                        <th style="width: 1%;"></th>
-                        <th th:text="#{folder.item.name}"></th>
-                        <th th:text="#{folder.item.link}"></th>
-                        <th th:text="#{folder.item.image}"></th>
-                        <th th:text="#{folder.item.type}"></th>
-                        <th th:text="#{button.actions}" style="width: 1%;"></th>
-                    </tr>
-                    </thead>
-                    <tbody class="sortable">
-                    <tr th:each="item,iter: ${folder.items}">
-                        <td class="text-center">
-                            <input type="hidden" th:field="*{items[__${iter.index}__].ordering}" class="database-ordering"/>
-                            <i class="fas fa-arrows-alt handle"></i>
-                        </td>
-                        <td>
-                            <input type="hidden" th:field="*{items[__${iter.index}__].id}"/>
-                            <input type="hidden" th:field="*{items[__${iter.index}__].folderId}"/>
-                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].name}" maxlength="250" required/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].link}" maxlength="250" required/>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" th:field="*{items[__${iter.index}__].image}" maxlength="250"/>
-                        </td>
-                        <td>
-                            <div class="input-group">
-                                <select class="form-control selectpicker" th:field="*{items[__${iter.index}__].type}" required>
-                                    <option th:each="type: ${T(ua.kazo.dentalacademy.enumerated.FolderItemType).values()}"
-                                            th:value="${type.name()}" th:text="#{${type.name().toLowerCase()}}"></option>
-                                </select>
-                            </div>
-                        </td>
-                        <td>
-                            <button type="submit" name="removeRow" th:value="${iter.index}" class="btn btn-danger" th:title="#{button.delete}" formnovalidate><i class="fas fa-trash-alt fa-fw"></i></button>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="6" style="text-align: right;">
-                            <button type="submit" name="addRow" class="btn btn-success" formnovalidate><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddItem}"></span></button>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" id="items">
+                        <thead class="thead-light">
+                        <tr>
+                            <th style="width: 1%;"></th>
+                            <th th:text="#{folder.item.name}"></th>
+                            <th th:text="#{folder.item.link}"></th>
+                            <th th:text="#{folder.item.image}"></th>
+                            <th th:text="#{folder.item.type}"></th>
+                            <th th:text="#{button.actions}" style="width: 1%;"></th>
+                        </tr>
+                        </thead>
+                        <tbody class="sortable">
+                        <tr th:each="item,iter: ${folder.items}">
+                            <td class="text-center">
+                                <input type="hidden" th:field="*{items[__${iter.index}__].ordering}" class="database-ordering"/>
+                                <i class="fas fa-arrows-alt handle"></i>
+                            </td>
+                            <td>
+                                <input type="hidden" th:field="*{items[__${iter.index}__].id}"/>
+                                <input type="hidden" th:field="*{items[__${iter.index}__].folderId}"/>
+                                <input type="text" class="form-control input-min-width" th:field="*{items[__${iter.index}__].name}" maxlength="250" required/>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-min-width" th:field="*{items[__${iter.index}__].link}" maxlength="250" required/>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-min-width" th:field="*{items[__${iter.index}__].image}" maxlength="250"/>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <select class="form-control selectpicker" th:field="*{items[__${iter.index}__].type}" required>
+                                        <option th:each="type: ${T(ua.kazo.dentalacademy.enumerated.FolderItemType).values()}"
+                                                th:value="${type.name()}" th:text="#{${type.name().toLowerCase()}}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="submit" name="removeRow" th:value="${iter.index}" class="btn btn-danger" th:title="#{button.delete}" formnovalidate><i class="fas fa-trash-alt fa-fw"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="6" style="text-align: right;">
+                                <button type="submit" name="addRow" class="btn btn-success" formnovalidate><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddItem}"></span></button>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
                 <div class="form-row">
                     <div class="col mb-3 text-center">
                         <button type="submit" class="btn btn-success mb-3"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>

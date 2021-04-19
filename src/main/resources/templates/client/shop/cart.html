@@ -18,60 +18,62 @@
 
     <div class="row">
         <div class="col-12">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th th:text="#{purchaseData.no}" style="width: 1%;"></th>
-                    <th th:text="#{purchaseData.offeringName}"></th>
-                    <th th:text="#{purchaseData.package}"></th>
-                    <th th:text="#{purchaseData.programs}"></th>
-                    <th th:text="#{purchaseData.bonuses}"></th>
-                    <th th:text="#{purchaseData.price}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="cartItem,iter : ${userCart.cartItems}">
-                    <td th:text="${iter.index + 1}"></td>
-                    <td th:text="${cartItem.name}"></td>
-                    <td th:text="#{${cartItem.type.toString().toLowerCase()}}"></td>
-                    <td>
-                        <ol>
-                            <li th:each="program: ${cartItem.programs}">
-                                <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
-                            </li>
-                        </ol>
-                    </td>
-                    <td>
-                        <ol th:if="${!cartItem.folders.isEmpty()}">
-                            <li th:each="bonus: ${cartItem.folders}">
-                                <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
-                            </li>
-                        </ol>
-                    </td>
-                    <td>
-                        <span th:classappend="${cartItem.discount != null} ? 'line-through'" th:text="${'$' + cartItem.price}"></span>
-                        <span class="badge badge-success" th:if="${cartItem.discount != null}" th:text="${'-' + cartItem.discount + '%'}"></span>
-                        <br/><span th:if="${cartItem.discount != null}" th:text="${'$' + cartItem.discountPrice}"></span>
-                    </td>
-                    <td>
-                        <form th:action="@{/cart}" method="post">
-                            <input type="hidden" name="offeringId" th:value="${cartItem.id}">
-                            <button type="submit" name="removeItem" th:value="${cartItem.id}" class="btn btn-danger" th:title="#{button.delete}"><i class="fas fa-trash-alt fa-fw"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="7"><strong th:text="#{order.totalPrice}"></strong>:
-                        <span th:classappend="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)} ? 'line-through'" th:text="${'$' + userCart.totalPrice}"></span>
-                        <span class="badge badge-success" th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'-' + userCart.totalDiscount + '%'}"></span>
-                        <span th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'$' + userCart.totalDiscountPrice}"></span>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{purchaseData.no}" style="width: 1%;"></th>
+                        <th th:text="#{purchaseData.offeringName}"></th>
+                        <th th:text="#{purchaseData.package}"></th>
+                        <th th:text="#{purchaseData.programs}"></th>
+                        <th th:text="#{purchaseData.bonuses}"></th>
+                        <th th:text="#{purchaseData.price}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cartItem,iter : ${userCart.cartItems}">
+                        <td th:text="${iter.index + 1}"></td>
+                        <td th:text="${cartItem.name}"></td>
+                        <td th:text="#{${cartItem.type.toString().toLowerCase()}}"></td>
+                        <td>
+                            <ol>
+                                <li th:each="program: ${cartItem.programs}">
+                                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                                </li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ol th:if="${!cartItem.folders.isEmpty()}">
+                                <li th:each="bonus: ${cartItem.folders}">
+                                    <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
+                                </li>
+                            </ol>
+                        </td>
+                        <td>
+                            <span th:classappend="${cartItem.discount != null} ? 'line-through'" th:text="${'$' + cartItem.price}"></span>
+                            <span class="badge badge-success" th:if="${cartItem.discount != null}" th:text="${'-' + cartItem.discount + '%'}"></span>
+                            <br/><span th:if="${cartItem.discount != null}" th:text="${'$' + cartItem.discountPrice}"></span>
+                        </td>
+                        <td>
+                            <form th:action="@{/cart}" method="post">
+                                <input type="hidden" name="offeringId" th:value="${cartItem.id}">
+                                <button type="submit" name="removeItem" th:value="${cartItem.id}" class="btn btn-danger" th:title="#{button.delete}"><i class="fas fa-trash-alt fa-fw"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="7"><strong th:text="#{order.totalPrice}"></strong>:
+                            <span th:classappend="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)} ? 'line-through'" th:text="${'$' + userCart.totalPrice}"></span>
+                            <span class="badge badge-success" th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'-' + userCart.totalDiscount + '%'}"></span>
+                            <span th:if="${!userCart.totalPrice.equals(userCart.totalDiscountPrice)}" th:text="${'$' + userCart.totalDiscountPrice}"></span>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
             <div class="text-center" th:if="${!userCart.cartItems.isEmpty()}">
                 <a th:href="@{/shop}" class="btn btn-primary mb-2"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{cart.continueShopping}"></span></a>
                 <a th:href="@{/create-order}" class="btn btn-success mb-2"><i class="fas fa-credit-card fa-fw"></i> <span th:text="#{cart.createOrder}"></span></a>

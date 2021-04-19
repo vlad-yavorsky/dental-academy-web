@@ -17,27 +17,29 @@
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.bonuses}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th th:text="#{bonus.image}" style="width: 1%;"></th>
-                    <th th:text="#{bonus.name}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="bonus: ${bonuses}">
-                    <td><img class="rounded" style="max-width: 100px;" th:if="${bonus.image}" th:src="${bonus.image}"></td>
-                    <td th:text="${bonus.name}"></td>
-                    <td>
-                        <div class="btn-group">
-                            <a th:href="@{/admin/folder/edit/__${bonus.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
-                            <a th:href="@{/admin/folder/delete/__${bonus.id}__}" class="btn btn-danger" th:title="#{button.delete}"><i class="fas fa-trash-alt fa-fw"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{bonus.image}" style="width: 1%;"></th>
+                        <th th:text="#{bonus.name}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="bonus: ${bonuses}">
+                        <td><img class="rounded" style="max-width: 100px;" th:if="${bonus.image}" th:src="${bonus.image}"></td>
+                        <td th:text="${bonus.name}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <a th:href="@{/admin/folder/edit/__${bonus.id}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
+                                <a th:href="@{/admin/folder/delete/__${bonus.id}__}" class="btn btn-danger" th:title="#{button.delete}"><i class="fas fa-trash-alt fa-fw"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
         </div>

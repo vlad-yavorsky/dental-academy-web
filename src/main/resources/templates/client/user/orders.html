@@ -32,46 +32,48 @@
                     <li th:if="${order.purchased}"><strong th:text="#{order.purchased}"></strong>: <span th:text="${#temporals.format(order.purchased, 'dd.MM.yyyy HH:mm:ss')}"></span></li>
                     <li><strong th:text="#{order.status}"></strong>: <span th:text="${order.status}"></span></li>
                 </ul>
-                <table class="table table-sm">
-                    <thead class="thead-light">
-                    <tr>
-                        <th th:if="${order.purchased}" th:text="#{purchaseData.expired}"></th>
-                        <th th:text="#{purchaseData.offeringName}"></th>
-                        <th th:text="#{purchaseData.package}"></th>
-                        <th th:text="#{programs}">
-                        <th th:text="#{bonuses}">
-                        <th th:text="#{purchaseData.price}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="orderItem: ${order.purchaseData}">
-                        <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                        <td th:text="${orderItem.name}"></td>
-                        <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
-                        <td>
-                            <ol>
-                                <li th:each="program: ${orderItem.offering.programs}">
-                                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
-                                </li>
-                            </ol>
-                        </td>
-                        <td>
-                            <ol th:if="${!orderItem.offering.folders.isEmpty()}">
-                                <li th:each="folder: ${orderItem.offering.folders}">
-                                    <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
-                                </li>
-                            </ol>
-                        </td>
-                        <td th:text="${'$' + orderItem.price}"></td>
-                    </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr class="thead-light">
-                        <td th:colspan="${order.purchased} ? 5 : 4"></td>
-                        <td><span class="font-weight-bold" th:text="${'$' + order.price}"></span></td>
-                    </tr>
-                    </tfoot>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead class="thead-light">
+                        <tr>
+                            <th th:if="${order.purchased}" th:text="#{purchaseData.expired}"></th>
+                            <th th:text="#{purchaseData.offeringName}"></th>
+                            <th th:text="#{purchaseData.package}"></th>
+                            <th th:text="#{programs}">
+                            <th th:text="#{bonuses}">
+                            <th th:text="#{purchaseData.price}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="orderItem: ${order.purchaseData}">
+                            <td th:if="${order.purchased}" th:text="${#temporals.format(orderItem.expired, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                            <td th:text="${orderItem.name}"></td>
+                            <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
+                            <td>
+                                <ol>
+                                    <li th:each="program: ${orderItem.offering.programs}">
+                                        <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td>
+                                <ol th:if="${!orderItem.offering.folders.isEmpty()}">
+                                    <li th:each="folder: ${orderItem.offering.folders}">
+                                        <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                    </li>
+                                </ol>
+                            </td>
+                            <td th:text="${'$' + orderItem.price}"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr class="thead-light">
+                            <td th:colspan="${order.purchased} ? 5 : 4"></td>
+                            <td><span class="font-weight-bold" th:text="${'$' + order.price}"></span></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
 
             <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>

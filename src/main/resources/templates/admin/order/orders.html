@@ -25,30 +25,32 @@
                 </div>
             </div>
 
-            <table th:if="${orders.size() > 0}" class="table table-striped">
-                <thead class="thead-dark">
-                <tr>
-                    <th th:text="#{order.number}"></th>
-                    <th th:text="#{order.created}"></th>
-                    <th th:text="#{order.status}"></th>
-                    <th th:text="#{user}"></th>
-                    <th th:text="#{button.actions}" style="width: 1%;"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="order: ${orders}">
-                    <td th:text="${order.number}"></td>
-                    <td th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                    <td th:text="${order.status}"></td>
-                    <td th:utext="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></td>
-                    <td>
-                        <div class="btn-group">
-                            <a th:href="@{/admin/order/__${order.number}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table th:if="${orders.size() > 0}" class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:text="#{order.number}"></th>
+                        <th th:text="#{order.created}"></th>
+                        <th th:text="#{order.status}"></th>
+                        <th th:text="#{user}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order: ${orders}">
+                        <td th:text="${order.number}"></td>
+                        <td th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
+                        <td th:text="${order.status}"></td>
+                        <td th:utext="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <a th:href="@{/admin/order/__${order.number}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <nav th:replace="fragments :: pagination (${pageResult}, null)"></nav>
         </div>
