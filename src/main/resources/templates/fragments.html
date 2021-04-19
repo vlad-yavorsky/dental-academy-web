@@ -37,7 +37,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainMenu">
-                <ul class="navbar-nav mr-auto" sec:authorize="isAnonymous()">
+                <ul class="navbar-nav" sec:authorize="isAnonymous()">
                     <li class="nav-item" th:classappend="${#request.requestURI == '/login'} ? 'active'">
                         <a class="nav-link" th:href="@{/login}"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.login}"></span></a>
                     </li>
@@ -45,7 +45,7 @@
                         <a class="nav-link" th:href="@{/register}"><i class="fas fa-user-plus fa-fw"></i> <span th:text="#{nav.register}"></span></a>
                     </li>
                 </ul>
-                <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+                <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item" th:classappend="${#request.requestURI == '/shop'} ? 'active'">
                         <a class="nav-link" th:href="@{/shop}"><i class="fas fa-shopping-basket fa-fw"></i> <span th:text="#{nav.shop}"></span></a>
                     </li>
@@ -62,6 +62,7 @@
                         <a class="nav-link" th:href="@{/admin}"><i class="fas fa-shield-alt fa-fw"></i> <span th:text="#{nav.admin}"></span></a>
                     </li>
                 </ul>
+                <ul class="mr-auto"></ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
                     <li class="nav-item" th:classappend="${#request.requestURI == '/'} ? 'active'">
                         <a class="nav-link" th:href="@{/cart}"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{nav.cart}"></span> <span class="badge badge-secondary" id="cart-items"></span></a>

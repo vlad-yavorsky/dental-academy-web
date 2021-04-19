@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.*;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.FolderCategory;
@@ -50,7 +50,7 @@ public class FolderService {
     }
 
     public Page<Folder> findAllByUserEmail(String userEmail, String search, Pageable pageable) {
-        if (!StringUtils.isEmpty(search)) {
+        if (!ObjectUtils.isEmpty(search)) {
             return folderRepository.findAllByUserEmailAndName(userEmail, search, UnifiedPaymentStatus.SUCCESS, pageable);
         }
         return folderRepository.findAllByUserEmail(userEmail, UnifiedPaymentStatus.SUCCESS, pageable);

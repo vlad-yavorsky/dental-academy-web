@@ -5,7 +5,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.data.domain.Page;
+import ua.kazo.dentalacademy.dto.event.EventCreateDto;
 import ua.kazo.dentalacademy.dto.event.EventResponseDto;
+import ua.kazo.dentalacademy.dto.event.EventUpdateDto;
 import ua.kazo.dentalacademy.dto.event.EventUserRegisteredResponseDto;
 import ua.kazo.dentalacademy.entity.Event;
 import ua.kazo.dentalacademy.entity.EventUser;
@@ -16,8 +18,13 @@ import java.util.List;
 @Mapper
 public interface EventMapper {
 
+    EventUpdateDto toUpdateDto(Event event);
+
     EventResponseDto toResponseDto(Event event);
     List<EventResponseDto> toResponseDto(Page<Event> events);
+
+    Event toEntity(EventCreateDto dto);
+    Event toEntity(EventUpdateDto dto);
 
     @Mapping(source = "registeredUsers", target = "userRegistered", qualifiedByName = "setUserRegistered")
     @Mapping(target = "futureDate", source = "date", qualifiedByName = "setFutureDate")
@@ -31,7 +38,7 @@ public interface EventMapper {
 
     @Named("setFutureDate")
     default boolean setFutureDate(LocalDateTime date, @Context Long userId) {
-        return date.isAfter(LocalDateTime.now());
+        return date != null && date.isAfter(LocalDateTime.now());
     }
 
 }

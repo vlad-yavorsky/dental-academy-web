@@ -22,7 +22,8 @@
         </div>
         <div class="col-12 col-md-8">
             <h5 th:text="#{event.date}"></h5>
-            <p th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></p>
+            <p th:if="${event.date}" th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></p>
+            <p th:unless="${event.date}" th:text="#{info.EventDateNotDefined}"></p>
 
             <h5 th:text="#{event.description}"></h5>
             <p th:utext="${event.description}"></p>
@@ -36,7 +37,7 @@
             <a class="btn btn-success mb-2" th:if="${!event.userRegistered and event.futureDate}" th:href="@{/event/__${event.id}__/register}">
                 <span th:text="#{button.register}"></span>
             </a>
-            <div class="btn btn-secondary mb-2" th:unless="${event.futureDate}" th:text="#{info.EventEnded}"></div>
+            <div class="btn btn-secondary mb-2" th:if="${event.date != null && !event.futureDate}" th:text="#{info.EventEnded}"></div>
         </div>
     </div>
 </div>

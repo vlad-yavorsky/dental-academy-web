@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (#{nav.addProgram})}"></title>
+    <title th:replace="~{fragments :: head (#{nav.editEvent})}"></title>
 </head>
 <body>
 
@@ -14,35 +14,42 @@
         </div>
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
-            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.addProgram}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/events}" th:text="#{nav.events}"></a> / <span th:text="#{nav.editEvent}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
             <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
-            <form class="needs-validation" novalidate method="post" th:object="${program}" th:action="@{/admin/program/add}">
+            <form class="needs-validation" novalidate method="post" th:object="${event}" th:action="@{/admin/event/edit/__${event.id}__}">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label class="required" for="name" th:text="#{program.name}"></label>
+                        <label class="required" for="name" th:text="#{event.name}"></label>
                         <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label for="image" th:text="#{program.image}"></label>
+                        <label for="date" th:text="#{event.date}"></label>
+                        <input type="text" class="form-control air-datetimepicker" id="date" th:field="*{date}">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label for="image" th:text="#{event.image}"></label>
                         <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label class="required" for="description" th:text="#{program.description}"></label>
+                        <label class="required" for="description" th:text="#{event.description}"></label>
                         <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" required></textarea>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3 text-center">
-                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.add}"></span></button>
-                        <a class="btn btn-secondary mb-3" th:href="@{/admin/programs}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.save}"></span></button>
+                        <a class="btn btn-secondary mb-3" th:href="@{/admin/events}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>

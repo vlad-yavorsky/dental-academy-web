@@ -29,4 +29,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "order by e.date asc")
     Page<Event> findAllByNameAndDateAfterOrderByDate(String search, Pageable pageable, LocalDateTime date);
 
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Long id);
+
 }

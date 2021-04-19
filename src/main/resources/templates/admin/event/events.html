@@ -24,7 +24,6 @@
                         <th th:text="#{event.image}" style="width: 1%;"></th>
                         <th th:text="#{event.date}"></th>
                         <th th:text="#{event.name}"></th>
-<!--                    <th th:text="#{event.description}"></th>-->
                         <th th:text="#{button.actions}" style="width: 1%;"></th>
                     </tr>
                     </thead>
@@ -33,11 +32,10 @@
                         <td><img class="rounded" style="max-width: 100px;" th:if="${event.image}" th:src="${event.image}"></td>
                         <td th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></td>
                         <td th:text="${event.name}"></td>
-<!--                    <td th:text="${event.description}"></td>-->
                         <td>
                             <div class="btn-group">
                                 <a th:href="@{/admin/event/edit/__${event.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
-                                <a th:href="@{/admin/event/delete/__${event.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-trash-alt fa-fw"></i></a>
+<!--                                <a th:href="@{/admin/event/delete/__${event.id}__}" th:title="#{button.deactivate}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>-->
                             </div>
                         </td>
                     </tr>

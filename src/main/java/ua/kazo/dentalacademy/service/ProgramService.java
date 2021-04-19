@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
@@ -42,7 +42,7 @@ public class ProgramService {
     }
 
     public Page<Program> findAllByNotDeactivatedOfferings(String search, Pageable pageable) {
-        if (!StringUtils.isEmpty(search)) {
+        if (!ObjectUtils.isEmpty(search)) {
             return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search, pageable);
         }
         return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now(), pageable);
@@ -89,7 +89,7 @@ public class ProgramService {
     }
 
     public Page<Program> findAllByNotExpiredPurchase(String email, String search, Pageable pageable) {
-        if (!StringUtils.isEmpty(search)) {
+        if (!ObjectUtils.isEmpty(search)) {
             return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, UnifiedPaymentStatus.SUCCESS);
         }
         return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now(), pageable, UnifiedPaymentStatus.SUCCESS);

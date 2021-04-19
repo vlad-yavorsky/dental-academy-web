@@ -5,9 +5,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
+import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.Order;
+import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 
 import java.util.Map;
 import java.util.StringJoiner;
@@ -56,7 +56,7 @@ public class Fondy implements PaymentProcessor {
         StringJoiner signature = new StringJoiner(DELIMITER);
         signature.add(paymentProperties.getFondy().getMerchantPassword());
         parameters.forEach((key, value) -> {
-            if (StringUtils.isEmpty(value) || SIGNATURE_KEY.equals(key) || RESPONSE_SIGNATURE_STRING_KEY.equals(key)) {
+            if (ObjectUtils.isEmpty(value) || SIGNATURE_KEY.equals(key) || RESPONSE_SIGNATURE_STRING_KEY.equals(key)) {
                 return;
             }
             signature.add(value.toString());

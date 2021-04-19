@@ -3,7 +3,7 @@ package ua.kazo.dentalacademy.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.dto.user.UserResponseDto;
 import ua.kazo.dentalacademy.dto.user.UserUpdateDto;
 import ua.kazo.dentalacademy.entity.User;
@@ -24,7 +24,7 @@ public abstract class UserMapperDecorator implements UserMapper {
     @Override
     public UserUpdateDto toUpdateDto(User user) {
         UserUpdateDto dto = delegate.toUpdateDto(user);
-        if (!StringUtils.isEmpty(user.getPhotoName())) {
+        if (!ObjectUtils.isEmpty(user.getPhotoName())) {
             dto.setExistingPhotoPath(storageService.getPhotoLink(user.getPhotoName()));
         }
         return dto;
@@ -33,7 +33,7 @@ public abstract class UserMapperDecorator implements UserMapper {
     @Override
     public UserResponseDto toResponseDto(User user) {
         UserResponseDto dto = delegate.toResponseDto(user);
-        if (!StringUtils.isEmpty(user.getPhotoName())) {
+        if (!ObjectUtils.isEmpty(user.getPhotoName())) {
             dto.setExistingPhotoPath(storageService.getPhotoLink(user.getPhotoName()));
         }
         return dto;

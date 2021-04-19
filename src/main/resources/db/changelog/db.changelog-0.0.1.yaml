@@ -342,8 +342,6 @@ databaseChangeLog:
                   name: created
                   type: TIMESTAMP
               - column:
-                  constraints:
-                    nullable: false
                   name: date
                   type: TIMESTAMP
 
