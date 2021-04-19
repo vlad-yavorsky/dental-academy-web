@@ -20,7 +20,7 @@ public enum ExceptionCode {
     PROGRAM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.program.NotFound"),
     EVENT_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.event.NotFound"),
     OFFERING_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.offering.NotFound"),
-    OFFERING_NOT_AVAILABLE(HttpStatus.NOT_FOUND, "exception.offering.NotAvailable"),
+    OFFERING_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "exception.offering.NotAvailable"),
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),
     FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound"),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound"),

@@ -81,12 +81,13 @@ public class OrderService {
         User user = userService.findByEmailFetchCartItems(email);
         Order order = new Order();
         order.setNumber("");
-        order.setCreated(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        order.setCreated(now);
         order.setUser(user);
         order.setProvider(paymentProperties.getProvider());
         order.setStatus(UnifiedPaymentStatus.CREATED);
         user.getCartItems().forEach(cartItem -> {
-            if (cartItem.getDeactivated() != null) {
+            if (cartItem.getDeactivated() != null && cartItem.getDeactivated().isBefore(now)) {
                 throw new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_AVAILABLE, cartItem.getName());
             }
             order.getPurchaseData().add(PurchaseData.of(cartItem, order));
