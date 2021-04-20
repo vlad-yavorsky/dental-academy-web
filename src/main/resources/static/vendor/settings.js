@@ -9,9 +9,15 @@ $(function() {
         liveSearchPlaceholder: 'Search...',
         liveSearchStyle: 'contains'
     });
-    $('.air-datepicker').datepicker();
+    function onAirDatepickerDateSelect(formattedDate, date, inst) {
+        $(inst.el).trigger('change'); // Fix for 'Clicking on a date in the datepicker does not trigger the JS change event'
+    }
+    $('.air-datepicker').datepicker({
+        onSelect: onAirDatepickerDateSelect
+    });
     $('.air-datetimepicker').datepicker({
-        timepicker: true
+        timepicker: true,
+        onSelect: onAirDatepickerDateSelect
     });
     tinymce.init({
         selector: '.tinymce',
