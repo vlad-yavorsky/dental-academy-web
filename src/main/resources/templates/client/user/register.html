@@ -25,7 +25,18 @@
             </div>
             <script>
                 $(function () {
-                    const FIELDS_COUNT = 8;
+                    tinymce.init({
+                        selector: '.tinymce-client',
+                        menubar: false,
+                        init_instance_callback: function (editor) {
+                            editor.on('keyup', function (e) {
+                                updateProfileCompleteness();
+                            });
+                            updateProfileCompleteness();
+                        }
+                    });
+
+                    const FIELDS_COUNT = 9;
                     let firstNameSelector = $("#firstName");
                     let lastNameSelector = $("#lastName");
                     let emailSelector = $("#email");
@@ -34,8 +45,14 @@
                     let confirmPasswordSelector = $("#confirmPassword");
                     let birthdaySelector = $("#birthday");
                     let fileSelector = $("#file");
+                    let interestsValue = () => tinymce.activeEditor.getContent({format : 'text'});
                     let progressSelector = $("#progress");
-                    let photoUploaded = null;
+
+                    [firstNameSelector, lastNameSelector, emailSelector, mobileSelector, birthdaySelector, passwordSelector, confirmPasswordSelector]
+                        .forEach((selector) => selector.keyup(updateProfileCompleteness));
+                    [birthdaySelector, fileSelector]
+                        .forEach((selector) => selector.change(updateProfileCompleteness));
+
                     function updateProfileCompleteness() {
                         let have = 0;
                         if (firstNameSelector.val()) have += 1;
@@ -45,7 +62,8 @@
                         if (birthdaySelector.val()) have += 1;
                         if (passwordSelector.val()) have += 1;
                         if (confirmPasswordSelector.val()) have += 1;
-                        if (photoUploaded || fileSelector.val()) have += 1;
+                        if (fileSelector.val()) have += 1;
+                        if (interestsValue()) have += 1;
                         let percentage = Math.floor(have * 100 / FIELDS_COUNT);
                         let percentageText = percentage + "%";
                         if (percentage < 49) {
@@ -66,10 +84,6 @@
                         progressSelector.text(percentageText);
                     }
                     updateProfileCompleteness();
-                    let keyUpEventList = [firstNameSelector, lastNameSelector, emailSelector, mobileSelector, birthdaySelector, passwordSelector, confirmPasswordSelector];
-                    let changeEventList = [birthdaySelector, fileSelector];
-                    keyUpEventList.forEach((selector) => selector.keyup(updateProfileCompleteness));
-                    changeEventList.forEach((selector) => selector.change(updateProfileCompleteness));
                 });
             </script>
 
@@ -121,6 +135,12 @@
                             <input type="file" class="custom-file-input" id="file" accept="image/*" th:field="*{newPhoto}">
                             <label class="custom-file-label" for="file"></label>
                         </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <label for="interests" th:text="#{user.interests}"></label>
+                        <textarea class="tinymce-client form-control" id="interests" th:field="*{interests}" maxlength="2000" required></textarea>
                     </div>
                 </div>
                 <div class="form-row">

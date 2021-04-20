@@ -28,5 +28,6 @@ public class UserUpdateDto {
     private MultipartFile newPhoto;
     private String existingPhotoPath;
     private boolean removeExistingPhoto;
+    private String interests;
 
 }

@@ -97,6 +97,9 @@ databaseChangeLog:
                     uniqueConstraintName: user_photo_name_uindex
                   name: photo_name
                   type: VARCHAR(50)
+              - column:
+                  name: interests
+                  type: VARCHAR(2000)
 
         - createTable:
             tableName: program

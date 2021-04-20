@@ -120,6 +120,7 @@ public class UserService implements UserDetailsService {
         userFromDb.setLastName(user.getLastName());
         userFromDb.setMobile(user.getMobile());
         userFromDb.setBirthday(user.getBirthday());
+        userFromDb.setInterests(user.getInterests());
         handlePhotoChange(photo, isRemoveExistingPhoto, userFromDb);
         User savedUser = userRepository.save(userFromDb);
         AuthUtils.updateAuthenticationAfterCredentialsChange(savedUser);

@@ -73,6 +73,8 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
     @Transient
     private int cartItemsCount;
 
+    private String interests;
+
     public void incCartItemsCount() {
         cartItemsCount++;
     }

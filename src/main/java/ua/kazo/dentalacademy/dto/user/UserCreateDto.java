@@ -29,5 +29,6 @@ public class UserCreateDto {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthday;
     private MultipartFile newPhoto;
+    private String interests;
 
 }
