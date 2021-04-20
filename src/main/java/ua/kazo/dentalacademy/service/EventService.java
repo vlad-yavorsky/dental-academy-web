@@ -36,6 +36,11 @@ public class EventService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.EVENT_NOT_FOUND, id));
     }
 
+    public Event findFetchRegisteredUsersWithUserById(Long id) {
+        return eventRepository.findFetchRegisteredUsersWithUserById(id)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.EVENT_NOT_FOUND, id));
+    }
+
     public Page<Event> findAll(Pageable pageable) {
         return eventRepository.findAll(pageable);
     }

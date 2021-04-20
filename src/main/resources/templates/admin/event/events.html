@@ -34,6 +34,7 @@
                         <td th:text="${event.name}"></td>
                         <td>
                             <div class="btn-group">
+                                <a th:href="@{/admin/event/__${event.id}__}" th:title="#{button.WatchDetails}" class="btn btn-primary"><i class="fas fa-eye fa-fw"></i></a>
                                 <a th:href="@{/admin/event/edit/__${event.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
 <!--                                <a th:href="@{/admin/event/delete/__${event.id}__}" th:title="#{button.deactivate}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>-->
                             </div>

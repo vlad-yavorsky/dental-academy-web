@@ -14,9 +14,10 @@
         </div>
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
-            <h3 class="border-bottom pb-3" th:text="#{nav.order} + ' #' + ${order.number}"></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/orders}" th:text="#{nav.orders}"></a> / <span th:text="#{nav.editOrder}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
+            <h3 th:text="#{nav.order} + ' #' + ${order.number}"></h3>
             <ul class="list-unstyled">
                 <li><strong th:text="#{user}"></strong>: <span th:text="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></span></li>
                 <li><strong th:text="#{order.created}"></strong>: <span th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></span></li>

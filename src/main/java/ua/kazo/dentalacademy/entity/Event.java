@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.kazo.dentalacademy.constants.Graph;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +18,11 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
+@NamedEntityGraph(
+        name = Graph.EVENT_REGISTERED_USERS,
+        attributeNodes = @NamedAttributeNode(value = "registeredUsers", subgraph = Graph.EVENT_REGISTERED_USERS_USER),
+        subgraphs = @NamedSubgraph(name = Graph.EVENT_REGISTERED_USERS_USER, attributeNodes = @NamedAttributeNode("user"))
+)
 public class Event extends TrackedDateEntity implements Serializable {
 
     @Id

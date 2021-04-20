@@ -17,7 +17,6 @@
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/events}" th:text="#{nav.events}"></a> / <span th:text="#{nav.editEvent}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
-            <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
             <form class="needs-validation" novalidate method="post" th:object="${event}" th:action="@{/admin/event/edit/__${event.id}__}">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-row">

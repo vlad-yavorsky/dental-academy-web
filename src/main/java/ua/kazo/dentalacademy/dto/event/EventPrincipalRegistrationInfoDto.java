@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class EventUserRegisteredResponseDto {
+public class EventPrincipalRegistrationInfoDto {
 
     private Long id;
     private String name;

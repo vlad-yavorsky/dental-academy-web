@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import ua.kazo.dentalacademy.constants.Graph;
 import ua.kazo.dentalacademy.entity.Event;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @EntityGraph(attributePaths = "registeredUsers")
     Optional<Event> findFetchRegisteredUsersById(Long id);
+
+    @EntityGraph(Graph.EVENT_REGISTERED_USERS)
+    Optional<Event> findFetchRegisteredUsersWithUserById(Long id);
 
     Optional<Event> findByIdAndDateAfter(Long id, LocalDateTime date);
 

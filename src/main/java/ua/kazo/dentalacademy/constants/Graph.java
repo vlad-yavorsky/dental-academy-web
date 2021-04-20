@@ -8,5 +8,7 @@ public final class Graph {
 
     public static final String ORDER_PURCHASE_DATA_OFFERING = "order.purchaseData.offering";
     public static final String ORDER_PURCHASE_DATA_OFFERING_AND_USER_WITH_ROLES = "order.purchaseData.offering.and.user.roles";
+    public static final String EVENT_REGISTERED_USERS = "event.registeredUsers";
+    public static final String EVENT_REGISTERED_USERS_USER = "event.registeredUsers.user";
 
 }

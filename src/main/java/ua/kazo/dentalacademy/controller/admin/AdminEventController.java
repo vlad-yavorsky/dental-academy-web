@@ -107,4 +107,12 @@ public class AdminEventController {
         return loadEventEditPage(eventMapper.toUpdateDto(savedEvent), model);
     }
 
+    /* ---------------------------------------------- EVENT REGISTERED USERS ---------------------------------------------- */
+
+    @GetMapping("/event/{id}")
+    public String eventRegisteredUsers(@PathVariable Long id, final ModelMap model) {
+        model.addAttribute(ModelMapConstants.EVENT, eventMapper.toRegisteredUsersDto(eventService.findFetchRegisteredUsersWithUserById(id)));
+        return "admin/event/event";
+    }
+
 }

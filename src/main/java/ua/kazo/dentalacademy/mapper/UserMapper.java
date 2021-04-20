@@ -6,6 +6,8 @@ import ua.kazo.dentalacademy.dto.purchase.UserCartDto;
 import ua.kazo.dentalacademy.dto.user.UserCreateDto;
 import ua.kazo.dentalacademy.dto.user.UserResponseDto;
 import ua.kazo.dentalacademy.dto.user.UserUpdateDto;
+import ua.kazo.dentalacademy.dto.user.UserRegisteredForEventInfoDto;
+import ua.kazo.dentalacademy.entity.EventUser;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.util.MathUtil;
@@ -24,6 +26,9 @@ public interface UserMapper {
 
     UserResponseDto toResponseDto(User user);
     List<UserResponseDto> toResponseDto(Page<User> users);
+
+    UserRegisteredForEventInfoDto toUserRegisteredForEventInfoDto(User user);
+    List<UserRegisteredForEventInfoDto> toUserRegisteredForEventInfoDto(List<User> user);
 
     @Mapping(target = "totalPrice", source = "cartItems", qualifiedByName = "calculateTotalPrice")
     @Mapping(target = "totalDiscountPrice", source = "cartItems", qualifiedByName = "calculateTotalDiscountPrice")
@@ -55,5 +60,10 @@ public interface UserMapper {
     default void calculateTotalDiscount(@MappingTarget UserCartDto dto) {
         dto.setTotalDiscount(MathUtil.calculateDiscount(dto.getTotalPrice(), dto.getTotalDiscountPrice()));
     }
+
+    default User eventUserToUser(EventUser eventUser) {
+        return eventUser.getUser();
+    }
+    List<User> eventUsersToUsers(List<EventUser> eventUser);
 
 }

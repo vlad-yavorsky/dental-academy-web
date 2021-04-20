@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{event})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+            <div th:replace="~{fragments :: admin-menu}"></div>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9 col-xl-10">
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/events}" th:text="#{nav.events}"></a> / <span th:text="#{event}"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+
+            <img class="img-thumbnail float-right" style="max-width: 200px;" th:if="${event.image}" th:src="${event.image}">
+            <h5 th:text="#{event.name}"></h5>
+            <p th:text="${event.name}"></p>
+
+            <h5 th:text="#{event.date}"></h5>
+            <p th:if="${event.date}" th:text="${#temporals.format(event.date, 'dd.MM.yyyy HH:mm')}"></p>
+            <p th:unless="${event.date}" th:text="#{info.EventDateNotDefined}"></p>
+
+            <h5 th:text="#{event.description}"></h5>
+            <p th:utext="${event.description}"></p>
+
+            <h5 th:text="#{event.registeredUsers}"></h5>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th style="width: 1%;">#</th>
+                        <th th:text="#{user.lastName}"></th>
+                        <th th:text="#{user.firstName}"></th>
+                        <th th:text="#{user.email}"></th>
+                        <th th:text="#{user.mobile}"></th>
+                        <th th:text="#{user.birthday}"></th>
+<!--                    <th th:text="#{button.register}"></th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user,iter: ${event.registeredUsers}">
+                        <td th:text="${iter.index + 1}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.mobile}"></td>
+                        <td th:text="${user.birthday}"></td>
+<!--                    <td th:text="${#temporals.format(user.registerDate, 'dd.MM.yyyy HH:mm')}"></td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>
