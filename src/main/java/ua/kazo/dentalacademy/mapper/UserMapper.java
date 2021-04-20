@@ -3,10 +3,7 @@ package ua.kazo.dentalacademy.mapper;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 import ua.kazo.dentalacademy.dto.purchase.UserCartDto;
-import ua.kazo.dentalacademy.dto.user.UserCreateDto;
-import ua.kazo.dentalacademy.dto.user.UserResponseDto;
-import ua.kazo.dentalacademy.dto.user.UserUpdateDto;
-import ua.kazo.dentalacademy.dto.user.UserRegisteredForEventInfoDto;
+import ua.kazo.dentalacademy.dto.user.*;
 import ua.kazo.dentalacademy.entity.EventUser;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.User;
@@ -21,8 +18,10 @@ public interface UserMapper {
 
     User toEntity(UserCreateDto userCreateDto);
     User toEntity(UserUpdateDto userUpdateDto);
+    User toEntity(UserFullUpdateDto userFullUpdateDto);
 
     UserUpdateDto toUpdateDto(User user);
+    UserFullUpdateDto toFullUpdateDto(User user);
 
     UserResponseDto toResponseDto(User user);
     List<UserResponseDto> toResponseDto(Page<User> users);

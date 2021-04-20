@@ -16,6 +16,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
     boolean existsByEmailAndIdNot(String email, Long id);
 
+    /**
+     * Admin / User
+     */
+    @EntityGraph(attributePaths = "roles")
+    Optional<User> findFetchRolesById(Long id);
+
+    /**
+     * Client / Profile Update
+     * Client / Password Update
+     */
     @EntityGraph(attributePaths = "roles")
     Optional<User> findFetchRolesByEmail(String email);
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{nav.editUser})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+            <div th:replace="~{fragments :: admin-menu}"></div>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9 col-xl-10">
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/users}" th:text="#{nav.users}"></a> / <span th:text="#{nav.editUser}"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+
+            <form class="needs-validation" novalidate method="post" th:object="${user}" th:action="@{/admin/user/edit/__${user.id}__}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="row">
+                    <div class="col-12 col-md-9">
+
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <div class="custom-control custom-checkbox my-1">
+                                    <input type="checkbox" class="custom-control-input" id="enabled" th:field="*{enabled}">
+                                    <label class="custom-control-label" for="enabled" th:text="#{user.enabled}"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label class="required" for="firstName" th:text="#{user.firstName}"></label>
+                                <input type="text" class="form-control" id="firstName" th:field="*{firstName}" maxlength="50" required>
+                                <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="required" for="lastName" th:text="#{user.lastName}"></label>
+                                <input type="text" class="form-control" id="lastName" th:field="*{lastName}" maxlength="50" required>
+                                <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label class="required" for="email" th:text="#{user.email}"></label>
+                                <input type="text" class="form-control" id="email" th:field="*{email}" maxlength="50" required>
+                                <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="required" for="mobile" th:text="#{user.mobile}"></label>
+                                <input type="text" class="form-control" id="mobile" th:field="*{mobile}" maxlength="30" required>
+                                <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="birthday" th:text="#{user.birthday}"></label>
+                                <input type="text" class="form-control air-datepicker" id="birthday" th:field="*{birthday}"/>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="photo" th:text="#{user.photo}"></label>
+                                <div class="custom-file" id="photo">
+                                    <input type="file" class="custom-file-input" id="file" accept="image/*" th:field="*{newPhoto}">
+                                    <label class="custom-file-label" for="file"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label class="required" for="roles" th:text="#{user.roles}"></label>
+                                <select class="form-control selectpicker" id="roles" multiple th:field="*{roles}" required>
+                                    <option th:each="role: ${T(ua.kazo.dentalacademy.enumerated.Role).values()}"
+                                            th:value="${role.name()}" th:text="#{${role.name().toLowerCase()}}"></option>
+                                </select>
+                                <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="interests" th:text="#{user.interests}"></label>
+                                <textarea class="tinymce form-control" id="interests" th:field="*{interests}" maxlength="2000"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col mb-3 text-center">
+                                <button type="submit" class="btn btn-success mb-3"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
+                                <a class="btn btn-secondary mb-3" th:href="@{/admin/users}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-md-3">
+
+                        <div class="form-row">
+                            <div class="col-12 mb-3 text-center">
+                                <div class="profile-pic-wrapper">
+                                    <img th:src="${#strings.isEmpty(user.existingPhotoPath) ? '/img/default-user-icon.jpg' : user.existingPhotoPath}" class="img-thumbnail profile-pic" alt="User photo"/>
+                                </div>
+                                <div class="form-check" th:if="${not #strings.isEmpty(user.existingPhotoPath)}">
+                                    <input class="form-check-input" type="checkbox" th:field="*{removeExistingPhoto}" id="removePhoto">
+                                    <label class="form-check-label" for="removePhoto">Remove photo</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

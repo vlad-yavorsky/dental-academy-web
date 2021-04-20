@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="progress mb-2" style="height: 20px;">
+            <div class="sticky-top progress mb-2" style="height: 20px;">
                 <div class="progress-bar progress-bar-striped" role="progressbar" id="progress"
                      style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
@@ -140,7 +140,7 @@
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
                         <label for="interests" th:text="#{user.interests}"></label>
-                        <textarea class="tinymce-client form-control" id="interests" th:field="*{interests}" maxlength="2000" required></textarea>
+                        <textarea class="tinymce-client form-control" id="interests" th:field="*{interests}" maxlength="2000"></textarea>
                     </div>
                 </div>
                 <div class="form-row">

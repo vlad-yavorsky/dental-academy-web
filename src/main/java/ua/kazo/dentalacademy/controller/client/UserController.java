@@ -36,18 +36,6 @@ public class UserController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
-    private void validateUserEmail(final User user, final BindingResult bindingResult, final boolean isRegister) {
-        if (isRegister) {
-            if (userService.existsByEmail(user.getEmail())) {
-                bindingResult.rejectValue("deactivated", "validation.offering.IncorrectDates");
-            }
-        } else {
-            if (userService.existsByEmailAndIdNot(user.getEmail(), user.getId())) {
-                bindingResult.rejectValue("deactivated", "validation.offering.IncorrectDates");
-            }
-        }
-    }
-
     /* ---------------------------------------------- LOGIN ---------------------------------------------- */
 
     @GetMapping("/login")
@@ -72,7 +60,7 @@ public class UserController {
                            final BindingResult bindingResult, final ModelMap model, final RedirectAttributes redirectAttributes) {
         User user = userMapper.toEntity(userCreateDto);
 
-        validateUserEmail(user, bindingResult, true);
+        userService.validateUserEmail(user, bindingResult, true);
         if (bindingResult.hasErrors()) {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadRegisterPage(userCreateDto, model);
@@ -100,7 +88,7 @@ public class UserController {
     public String updateUser(@ModelAttribute(ModelMapConstants.USER) @Valid final UserUpdateDto userUpdateDto, final BindingResult bindingResult, final ModelMap model, final Principal principal) {
         User user = userMapper.toEntity(userUpdateDto);
 
-        validateUserEmail(user, bindingResult, false);
+        userService.validateUserEmail(user, bindingResult, false);
         if (bindingResult.hasErrors()) {
             model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
             return loadUpdatePage(userUpdateDto, model);

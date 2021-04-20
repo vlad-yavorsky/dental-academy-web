@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import ua.kazo.dentalacademy.entity.Offering;
 import ua.kazo.dentalacademy.entity.User;
@@ -42,6 +43,11 @@ public class UserService implements UserDetailsService {
         User user = findByEmailFetchRoles(email);
         user.setCartItemsCount(countCartItems(user.getEmail()));
         return user;
+    }
+
+    public User findByIdFetchRoles(Long id) {
+        return userRepository.findFetchRolesById(id)
+                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, id));
     }
 
     public User findByEmailFetchRoles(String email) {
@@ -115,6 +121,17 @@ public class UserService implements UserDetailsService {
 
     public User update(User user, MultipartFile photo, boolean isRemoveExistingPhoto, String userEmail) {
         User userFromDb = findByEmailFetchRoles(userEmail);
+        return updateUserFields(user, photo, isRemoveExistingPhoto, userFromDb);
+    }
+
+    public User update(User user, MultipartFile photo, boolean isRemoveExistingPhoto, Long userId) {
+        User userFromDb = findByIdFetchRoles(userId);
+        userFromDb.setEnabled(user.isEnabled());
+        userFromDb.setRoles(user.getRoles());
+        return updateUserFields(user, photo, isRemoveExistingPhoto, userFromDb);
+    }
+
+    private User updateUserFields(User user, MultipartFile photo, boolean isRemoveExistingPhoto, User userFromDb) {
         userFromDb.setEmail(user.getEmail());
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
@@ -147,6 +164,18 @@ public class UserService implements UserDetailsService {
     public void updatePassword(User userFromDb, String newPassword) {
         userFromDb.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userFromDb);
+    }
+
+    public void validateUserEmail(final User user, final BindingResult bindingResult, final boolean isRegister) {
+        if (isRegister) {
+            if (existsByEmail(user.getEmail())) {
+                bindingResult.rejectValue("email", "validation.user.EmailAlreadyRegistered");
+            }
+        } else {
+            if (existsByEmailAndIdNot(user.getEmail(), user.getId())) {
+                bindingResult.rejectValue("email", "validation.user.EmailAlreadyRegistered");
+            }
+        }
     }
 
 }
