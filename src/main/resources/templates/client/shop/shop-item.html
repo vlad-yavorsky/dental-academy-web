@@ -19,11 +19,13 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="row mb-2" th:if="${isPurchased}">
-                <div class="col-9 bg-info text-white p-3" ><i class="fas fa-check fa-fw"></i> <span th:text="#{shop.item.program.AlreadyPurchased}"></span></div>
-                <a class="col-3 bg-info text-white p-3 border-left text-center text-decoration-none" th:href="@{/program/__${program.id}__}">
-                    <i class="fas fa-play-circle fa-fw"></i> <span th:text="#{shop.item.program.StartLearning}"></span>
-                </a>
+            <div class="container">
+                <div class="row mb-2" th:if="${isPurchased}">
+                    <div class="col-9 bg-info text-white p-3" ><i class="fas fa-check fa-fw"></i> <span th:text="#{shop.item.program.AlreadyPurchased}"></span></div>
+                    <a class="col-3 bg-info text-white p-3 border-left text-center text-decoration-none" th:href="@{/program/__${program.id}__}">
+                        <i class="fas fa-play-circle fa-fw"></i> <span th:text="#{shop.item.program.StartLearning}"></span>
+                    </a>
+                </div>
             </div>
 
 <!--            <a th:if="${!isPurchased}" class="btn btn-primary float-right" th:href="@{/program/__${program.id}__/preview}"><i class="fas fa-play-circle fa-fw"></i> Preview</a>-->
@@ -49,7 +51,12 @@
                         <td colspan="7" class="text-center" th:text="#{shop.item.NoOfferings}"></td>
                     </tr>
                     <tr th:each="offering : ${offerings}">
-                        <td><a th:href="@{/shop/offering/__${offering.id}__}" th:text="${offering.name}"></a></td>
+                        <td>
+                            <a th:href="@{/shop/offering/__${offering.id}__}" th:text="${offering.name}"></a>
+                            <div class="py-2 px-3 bg-warning rounded" th:if="${offering.deactivated != null}">
+                                <i class="far fa-clock"></i> <span th:text="#{shop.item.offering.AvailableTill} + ' ' + ${#temporals.format(offering.deactivated, 'dd.MM.yyyy HH:mm')}"></span>
+                            </div>
+                        </td>
                         <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
                         <td>
                             <ol>
@@ -90,9 +97,8 @@
                                         <button type="submit" name="removeItem" class="btn btn-danger" th:title="#{button.RemoveFromCart}"><i class="fas fa-trash-alt fa-fw"></i></button>
                                     </form>
                                 </span>
-
-                                <span th:if="${now < offering.activated}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                             </span>
+                            <span th:if="${now < offering.activated}" th:text="#{shop.item.offering.WillBeAvailable} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
                         </td>
                     </tr>
                     </tbody>
