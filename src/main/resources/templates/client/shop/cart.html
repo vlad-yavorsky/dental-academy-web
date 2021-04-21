@@ -34,7 +34,9 @@
                     <tbody>
                     <tr th:each="cartItem,iter : ${userCart.cartItems}">
                         <td th:text="${iter.index + 1}"></td>
-                        <td th:text="${cartItem.name}"></td>
+                        <td>
+                            <a th:href="@{/shop/offering/__${cartItem.id}__}" th:text="${cartItem.name}"></a>
+                        </td>
                         <td th:text="#{${cartItem.type.toString().toLowerCase()}}"></td>
                         <td>
                             <ol>
@@ -58,7 +60,7 @@
                         <td>
                             <form th:action="@{/cart}" method="post">
                                 <input type="hidden" name="offeringId" th:value="${cartItem.id}">
-                                <button type="submit" name="removeItem" th:value="${cartItem.id}" class="btn btn-danger" th:title="#{button.delete}"><i class="fas fa-trash-alt fa-fw"></i></button>
+                                <button type="submit" name="removeItem" class="btn btn-danger" th:title="#{button.RemoveFromCart}"><i class="fas fa-trash-alt fa-fw"></i></button>
                             </form>
                         </td>
                     </tr>

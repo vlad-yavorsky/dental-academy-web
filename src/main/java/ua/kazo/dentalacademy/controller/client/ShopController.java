@@ -16,7 +16,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.offering.ShopItemOfferingResponseDto;
-import ua.kazo.dentalacademy.dto.purchase.CartItemDto;
 import ua.kazo.dentalacademy.entity.Order;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.entity.User;
@@ -31,6 +30,7 @@ import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -131,25 +131,29 @@ public class ShopController {
     }
 
     @PostMapping(value = "/cart", params = {"addItem"})
-    public String addItemToCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        User user = userService.addItemToCart(principal.getName(), cartItemDto.getOfferingId());
+    public String addItemToCart(final @RequestParam Long offeringId, final HttpServletRequest request, final Principal principal) {
+        User user = userService.addItemToCart(principal.getName(), offeringId);
         AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
-        return getShopItem(model, cartItemDto.getProgramId(), principal);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping(value = "/cart", params = {"removeItem"})
-    public String removeItemFromCart(final CartItemDto cartItemDto, final ModelMap model, final Principal principal) {
-        User user = userService.removeItemFromCart(principal.getName(), cartItemDto.getOfferingId());
+    public String removeItemFromCart(final @RequestParam Long offeringId, final HttpServletRequest request, final Principal principal) {
+        User user = userService.removeItemFromCart(principal.getName(), offeringId);
         AuthUtils.updateCartItemsCount(principal, user.getCartItemsCount());
-        return getCart(model, principal);
+        return "redirect:" + request.getHeader("Referer");
     }
 
     /* ---------------------------------------------- OFFERING ---------------------------------------------- */
 
-    @GetMapping({"/shop/offering/{offeringId}", "/shop/program/{programId}/offering/{offeringId}"})
-    public String offering(final @PathVariable(required = false) Long programId, final @PathVariable Long offeringId,
-                           final ModelMap model) {
-        model.addAttribute(ModelMapConstants.OFFERING, offeringMapper.toProgramsBonusesResponseDto(offeringService.findByIdFetchProgramsAndFolders(offeringId)));
+    @GetMapping({"/shop/offering/{offeringId}"})
+    public String offering(final @PathVariable Long offeringId, final ModelMap model, final Principal principal) {
+        ShopItemOfferingResponseDto shopItemOfferingDto = offeringMapper.toShopItemResponseDto(
+                offeringService.findByIdFetchProgramsAndFolders(offeringId),
+                userService.findByEmailFetchCartItemsAndOrders(principal.getName(),
+                        () -> orderService.findAllByUserEmail(principal.getName())));
+        model.addAttribute(ModelMapConstants.OFFERING, shopItemOfferingDto);
+        model.addAttribute(ModelMapConstants.NOW, LocalDateTime.now());
         return "client/shop/offering";
     }
 
