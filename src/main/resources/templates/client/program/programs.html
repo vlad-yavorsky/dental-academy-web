@@ -30,11 +30,15 @@
 
             <div class="card-columns" th:if="${programs.size() > 0}">
                 <div class="card text-center" th:each="program: ${programs}">
-                    <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
+                    <a th:href="@{/program/__${program.id}__}">
+                        <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${program.name}"></h5>
+                        <h5 class="card-title">
+                            <a th:href="@{/program/__${program.id}__}" th:text="${program.name}"></a>
+                        </h5>
                         <div class="card-text">
-                            <p th:utext="${program.description}"></p>
+                            <p th:utext="${program.shortDescription}"></p>
                         </div>
                         <a th:href="@{/program/__${program.id}__}" class="btn btn-primary" th:text="#{button.continue}"></a>
                     </div>

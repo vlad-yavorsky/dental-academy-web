@@ -19,7 +19,20 @@
     <div class="row">
         <div class="col-12">
 
-<!--            <p th:utext="${program.description}"></p>-->
+            <div class="accordion mb-3" id="accordion">
+                <div class="card">
+                    <div class="card-header" id="accordionHeading">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left text-decoration-none" type="button"
+                                    data-toggle="collapse" data-target="#collapseDescription" aria-expanded="true" aria-controls="collapseDescription"
+                                    th:text="#{folder.description}"></button>
+                        </h2>
+                    </div>
+                    <div id="collapseDescription" class="collapse" aria-labelledby="accordionHeading" data-parent="#accordion">
+                        <div class="card-body" th:utext="${folder.fullDescription}"></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -39,6 +52,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 col-md-12 col-lg-3 mb-4">
+                            <a class="float-right" th:href="@{/program/__${program.id}__/reset}" th:title="#{button.resetProgress}"><i class="fas fa-sync-alt fa-fw ml-1"></i></a>
                             <div class="progress mb-3" style="height: 20px;">
                                 <div class="progress-bar progress-bar-striped" role="progressbar"
                                      th:style="${'width:' + folder.folderCompletePercentage + '%;'}"

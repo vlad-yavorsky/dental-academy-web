@@ -18,7 +18,8 @@ public class FolderUpdateDto {
     private Long id;
     @NotBlank
     private String name;
-    private String description;
+    private String shortDescription;
+    private String fullDescription;
     private String image;
     @NotNull
     private FolderCategory category;

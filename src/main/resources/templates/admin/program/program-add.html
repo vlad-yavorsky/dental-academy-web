@@ -34,8 +34,15 @@
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label class="required" for="description" th:text="#{program.description}"></label>
-                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" required></textarea>
+                        <label class="required" for="shortDescription" th:text="#{program.shortDescription}"></label>
+                        <textarea class="tinymce form-control" id="shortDescription" th:field="*{shortDescription}" required></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="fullDescription" th:text="#{program.fullDescription}"></label>
+                        <textarea class="tinymce form-control" id="fullDescription" th:field="*{fullDescription}" required></textarea>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>

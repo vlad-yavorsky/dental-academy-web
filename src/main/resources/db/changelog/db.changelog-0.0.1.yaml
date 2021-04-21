@@ -119,8 +119,15 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(250)
               - column:
-                  name: description
-                  type: VARCHAR(2000)
+                  constraints:
+                    nullable: false
+                  name: short_description
+                  type: CLOB
+              - column:
+                  constraints:
+                    nullable: false
+                  name: full_description
+                  type: CLOB
               - column:
                   name: image
                   type: VARCHAR(250)
@@ -173,8 +180,15 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(250)
               - column:
-                  name: description
-                  type: VARCHAR(2000)
+                  constraints:
+                    nullable: false
+                  name: short_description
+                  type: CLOB
+              - column:
+                  constraints:
+                    nullable: false
+                  name: full_description
+                  type: CLOB
               - column:
                   name: image
                   type: VARCHAR(250)
@@ -271,8 +285,10 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(250)
               - column:
+                  constraints:
+                    nullable: false
                   name: description
-                  type: VARCHAR(2000)
+                  type: CLOB
               - column:
                   constraints:
                     nullable: false

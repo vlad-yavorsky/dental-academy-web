@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (${offering.name} + ' - ' + #{offering})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
+            <h3 class="border-bottom pb-3"><a th:href="@{/shop}" th:text="#{nav.shop}"></a>
+<!--                <a th:if="${program.id}" th:href="@{/shop/program/__${program.id}__}" th:text="${' / ' + program.name}"></a>-->
+                / <span th:text="#{offering} + ' \'' + ${offering.name} + ' \''"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <strong th:text="#{offering.description}"></strong>:
+            <p th:utext="${offering.description}"></p>
+
+            <strong th:text="#{offering.package}"></strong>: <span th:text="#{${offering.type.toString().toLowerCase()}}"></span>
+
+            <br/><strong th:text="#{programs}"></strong>:
+            <ol>
+                <li th:each="program: ${offering.programs}">
+                    <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
+                </li>
+            </ol>
+
+            <div th:if="${!offering.folders.isEmpty()}">
+                <strong th:text="#{bonuses}"></strong>:
+                <ol>
+                    <li th:each="folder: ${offering.folders}">
+                        <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                    </li>
+                </ol>
+            </div>
+
+            <strong th:text="#{offering.price}"></strong>:
+            <span th:classappend="${offering.discount != null} ? 'line-through'" th:text="${'$' + offering.price}"></span>
+            <span class="badge badge-success" th:if="${offering.discount != null}" th:text="${'-' + offering.discount + '%'}"></span>
+            <span th:if="${offering.discount != null}" th:text="${'$' + offering.discountPrice}"></span>
+
+            <br/><strong th:text="#{offering.term}"></strong>: <span th:text="${offering.term}"></span>
+
+            <div>
+<!--                <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>-->
+<!--                <span th:unless="${offering.purchased}">-->
+
+<!--                    <i th:if="${offering.inCart}" class="fas fa-cart-plus fa-2x text-success" th:title="#{shop.item.offering.AlreadyInCart}"></i>-->
+<!--                    <span th:unless="${offering.inCart}">-->
+<!--                        <form th:if="${offering.activated < now}" th:action="@{/cart}" method="post">-->
+<!--                            <input type="hidden" name="offeringId" th:value="${offering.id}">-->
+<!--                            <input type="hidden" name="programId" th:value="${program.id}">-->
+<!--                            <button type="submit" name="addItem" class="btn btn-success" th:title="#{button.AddToCart}"><i class="fas fa-shopping-cart fa-fw"></i></button>-->
+<!--                        </form>-->
+<!--                    </span>-->
+
+<!--                    <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>-->
+<!--                </span>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

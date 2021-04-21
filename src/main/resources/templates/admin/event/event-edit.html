@@ -41,7 +41,7 @@
                 <div class="form-row">
                     <div class="col mb-3">
                         <label class="required" for="description" th:text="#{event.description}"></label>
-                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" required></textarea>
+                        <textarea class="tinymce form-control" id="description" th:field="*{description}"  required></textarea>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>

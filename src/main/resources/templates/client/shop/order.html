@@ -49,11 +49,11 @@
                             </ol>
                         </td>
                         <td>
-                            <ul th:if="${!orderItem.offering.folders.isEmpty()}">
+                            <ol th:if="${!orderItem.offering.folders.isEmpty()}">
                                 <li th:each="bonus: ${orderItem.offering.folders}">
                                     <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
                                 </li>
-                            </ul>
+                            </ol>
                         </td>
                         <td th:text="${'$' + orderItem.price}"></td>
                     </tr>

@@ -26,7 +26,9 @@ public class Folder extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    private String description;
+    private String shortDescription;
+
+    private String fullDescription;
 
     private String image;
 

@@ -144,4 +144,13 @@ public class ShopController {
         return getCart(model, principal);
     }
 
+    /* ---------------------------------------------- OFFERING ---------------------------------------------- */
+
+    @GetMapping({"/shop/offering/{offeringId}", "/shop/program/{programId}/offering/{offeringId}"})
+    public String offering(final @PathVariable(required = false) Long programId, final @PathVariable Long offeringId,
+                           final ModelMap model) {
+        model.addAttribute(ModelMapConstants.OFFERING, offeringMapper.toProgramsBonusesResponseDto(offeringService.findByIdFetchProgramsAndFolders(offeringId)));
+        return "client/shop/offering";
+    }
+
 }

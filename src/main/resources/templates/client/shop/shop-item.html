@@ -11,17 +11,14 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 class="border-bottom pb-3"><a th:href="@{/shop}" th:text="#{nav.shop}"></a> / <span th:text="${program.name}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/shop}" th:text="#{nav.shop}"></a> / <span th:text="#{program} + ' \'' + ${program.name} + ' \''"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-<!--            <a th:if="${!isPurchased}" class="btn btn-primary float-right" th:href="@{/program/__${program.id}__/preview}"><i class="fas fa-play-circle fa-fw"></i> Preview</a>-->
-            <h5 th:text="#{program.description}"></h5>
-            <p th:utext="${program.description}"></p>
-            <h5 th:text="#{offerings}"></h5>
+
             <div class="row mb-2" th:if="${isPurchased}">
                 <div class="col-9 bg-info text-white p-3" ><i class="fas fa-check fa-fw"></i> <span th:text="#{shop.item.program.AlreadyPurchased}"></span></div>
                 <a class="col-3 bg-info text-white p-3 border-left text-center text-decoration-none" th:href="@{/program/__${program.id}__}">
@@ -29,8 +26,12 @@
                 </a>
             </div>
 
-            <div class="table-responsive">
+<!--            <a th:if="${!isPurchased}" class="btn btn-primary float-right" th:href="@{/program/__${program.id}__/preview}"><i class="fas fa-play-circle fa-fw"></i> Preview</a>-->
+            <h5 th:text="#{program.description}"></h5>
+            <p th:utext="${program.fullDescription}"></p>
 
+            <h5 th:text="#{offerings}"></h5>
+            <div class="table-responsive">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                     <tr>
@@ -48,7 +49,7 @@
                         <td colspan="7" class="text-center" th:text="#{shop.item.NoOfferings}"></td>
                     </tr>
                     <tr th:each="offering : ${offerings}">
-                        <td th:text="${offering.name}"></td>
+                        <td><a th:href="@{/shop/program/__${program.id}__/offering/__${offering.id}__}" th:text="${offering.name}"></a></td>
                         <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
                         <td>
                             <ol>
@@ -76,17 +77,17 @@
                             <i th:if="${offering.purchased}" class="fas fa-check-circle fa-2x text-success" th:title="#{shop.item.offering.AlreadyPurchased}"></i>
                             <span th:unless="${offering.purchased}">
 
-                            <i th:if="${offering.inCart}" class="fas fa-cart-plus fa-2x text-success" th:title="#{shop.item.offering.AlreadyInCart}"></i>
-                            <span th:unless="${offering.inCart}">
-                                <form th:if="${offering.activated < now}" th:action="@{/cart}" method="post">
-                                    <input type="hidden" name="offeringId" th:value="${offering.id}">
-                                    <input type="hidden" name="programId" th:value="${program.id}">
-                                    <button type="submit" name="addItem" class="btn btn-success" th:title="#{button.AddToCart}"><i class="fas fa-shopping-cart fa-fw"></i></button>
-                                </form>
-                            </span>
+                                <i th:if="${offering.inCart}" class="fas fa-cart-plus fa-2x text-success" th:title="#{shop.item.offering.AlreadyInCart}"></i>
+                                <span th:unless="${offering.inCart}">
+                                    <form th:if="${offering.activated < now}" th:action="@{/cart}" method="post">
+                                        <input type="hidden" name="offeringId" th:value="${offering.id}">
+                                        <input type="hidden" name="programId" th:value="${program.id}">
+                                        <button type="submit" name="addItem" class="btn btn-success" th:title="#{button.AddToCart}"><i class="fas fa-shopping-cart fa-fw"></i></button>
+                                    </form>
+                                </span>
 
-                            <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
-                        </span>
+                                <span th:unless="${offering.activated < now}" th:text="#{shop.item.offering.WillBeActive} + ' ' + ${#temporals.format(offering.activated, 'dd.MM.yyyy HH:mm')}"></span>
+                            </span>
                         </td>
                     </tr>
                     </tbody>

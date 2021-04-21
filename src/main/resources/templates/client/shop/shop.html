@@ -29,10 +29,14 @@
 
             <div th:if="${!programs.isEmpty()}" class="card-columns">
                 <div class="card text-center" th:each="program: ${programs}">
-                    <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
+                    <a th:href="@{/shop/program/__${program.id}__}">
+                        <img class="card-img-top" th:if="${program.image}" th:src="${program.image}">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${program.name}"></h5>
-                        <p class="card-text" th:utext="${program.description}"></p>
+                        <h5 class="card-title">
+                            <a th:href="@{/shop/program/__${program.id}__}" th:text="${program.name}"></a>
+                        </h5>
+                        <p class="card-text" th:utext="${program.shortDescription}"></p>
                         <span th:text="#{shop.item.from}"></span>
                         <h3 th:text="${'$' + program.startingPrice}"></h3>
                         <a th:href="@{/shop/program/__${program.id}__}" class="btn btn-success" th:text="#{button.WatchDetails}"></a>

@@ -19,6 +19,7 @@
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
 
             <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
+            <!-- 'class="needs-validation" novalidate' not applied here because of incompatibility with folder items -->
             <form method="post" th:object="${folder}" th:action="@{/admin/folder/edit/__${folder.id}__}">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-row">
@@ -53,8 +54,17 @@
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label class="required" for="description" th:text="#{folder.description}"></label>
-                        <textarea class="tinymce form-control" id="description" th:field="*{description}" maxlength="2000" rows="5"></textarea>
+                        <label class="required" for="shortDescription" th:text="#{folder.shortDescription}"></label>
+                        <!-- removed 'required' for textarea because class 'needs-validation' not present -->
+                        <textarea class="tinymce form-control" id="shortDescription" th:field="*{shortDescription}" rows="5"></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="fullDescription" th:text="#{folder.fullDescription}"></label>
+                        <!-- removed 'required' for textarea because class 'needs-validation' not present -->
+                        <textarea class="tinymce form-control" id="fullDescription" th:field="*{fullDescription}" rows="5"></textarea>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>

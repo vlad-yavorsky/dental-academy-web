@@ -9,7 +9,8 @@ public class ProgramResponseDto {
 
     private Long id;
     private String name;
-    private String description;
+    private String shortDescription;
+    private String fullDescription;
     private String image;
 
 }

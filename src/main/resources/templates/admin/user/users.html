@@ -45,7 +45,7 @@
                             <i th:unless="${user.enabled}" class="fas fa-times-circle fa-2x fa-fw text-danger"></i>
                         </td>
                         <td>
-                            <ul>
+                            <ul class="list-unstyled">
                                 <li th:each="role: ${user.roles}" th:text="${role}"></li>
                             </ul>
                         </td>

@@ -11,7 +11,8 @@ public class ProgramCreateDto {
 
     @NotBlank
     private String name;
-    private String description;
+    private String shortDescription;
+    private String fullDescription;
     private String image;
 
 }

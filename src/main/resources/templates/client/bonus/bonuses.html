@@ -30,11 +30,15 @@
 
             <div class="card-columns" th:if="${bonuses.size() > 0}">
                 <div class="card text-center" th:each="bonus: ${bonuses}">
-                    <img class="card-img-top" th:if="${bonus.image}" th:src="${bonus.image}">
+                    <a th:href="@{/bonus/__${bonus.id}__}">
+                        <img class="card-img-top" th:if="${bonus.image}" th:src="${bonus.image}">
+                    </a>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${bonus.name}"></h5>
+                        <h5 class="card-title">
+                            <a th:href="@{/bonus/__${bonus.id}__}" th:text="${bonus.name}"></a>
+                        </h5>
                         <div class="card-text">
-                            <p th:utext="${bonus.description}"></p>
+                            <p th:utext="${bonus.shortDescription}"></p>
                         </div>
                         <a th:href="@{/bonus/__${bonus.id}__}" class="btn btn-primary" th:text="#{button.continue}"></a>
                     </div>

@@ -19,8 +19,20 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="mb-3"><a class="btn btn-danger float-right" th:href="@{/program/__${program.id}__/reset}" th:text="#{button.resetProgress}"></a></div>
-            <p th:utext="${program.description}"></p>
+            <div class="accordion mb-3" id="accordion">
+                <div class="card">
+                    <div class="card-header" id="accordionHeading">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left text-decoration-none" type="button"
+                                    data-toggle="collapse" data-target="#collapseDescription" aria-expanded="true" aria-controls="collapseDescription"
+                                    th:text="#{program.description}"></button>
+                        </h2>
+                    </div>
+                    <div id="collapseDescription" class="collapse" aria-labelledby="accordionHeading" data-parent="#accordion">
+                        <div class="card-body" th:utext="${program.fullDescription}"></div>
+                    </div>
+                </div>
+            </div>
 
             <div class="card">
                 <div class="card-header">
@@ -45,7 +57,7 @@
                             </div>
                             <div class="col-8 col-md-9 col-lg-10">
                                 <h4 th:text="${folder.name}"></h4>
-                                <p th:utext="${folder.description}"></p>
+                                <p th:utext="${folder.shortDescription}"></p>
                                 <a th:href="@{/program/__${program.id}__/folder/__${folder.id}__}" class="btn btn-primary" th:text="#{button.learn}"></a>
                             </div>
                         </div>

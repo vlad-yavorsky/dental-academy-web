@@ -13,7 +13,8 @@ public class FolderItemsResponseDto {
 
     private Long id;
     private String name;
-    private String description;
+    private String shortDescription;
+    private String fullDescription;
     private String image;
     private FolderCategory category;
     private List<FolderItemResponseDto> items;
