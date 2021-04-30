@@ -93,7 +93,7 @@ public class AdminFolderController {
 
         validateFolderName(folder, bindingResult, true);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadFolderAddPage(folderCreateDto, model);
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.folder.add");
@@ -135,7 +135,7 @@ public class AdminFolderController {
 
         validateFolderName(folder, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadFolderEditPage(folderUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.folder.edit");

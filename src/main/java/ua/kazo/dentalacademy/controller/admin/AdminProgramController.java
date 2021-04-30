@@ -78,7 +78,7 @@ public class AdminProgramController {
 
         validateProgramName(program, bindingResult, true);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadProgramAddPage(programCreateDto, model);
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.program.add");
@@ -107,7 +107,7 @@ public class AdminProgramController {
 
         validateProgramName(program, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadProgramEditPage(programUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.program.edit");

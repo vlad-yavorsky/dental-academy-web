@@ -12,7 +12,7 @@
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3 class="border-bottom pb-3"><a th:href="@{/events}" th:text="#{nav.events}"></a> / <span th:text="${event.name}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
 

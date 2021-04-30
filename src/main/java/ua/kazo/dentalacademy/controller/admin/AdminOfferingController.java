@@ -112,7 +112,7 @@ public class AdminOfferingController {
         validateOffering(offering, bindingResult);
         validateOfferingNameAndType(offering, bindingResult, true);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadOfferingAddPage(offeringCreateDto, model);
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.offering.add");
@@ -142,7 +142,7 @@ public class AdminOfferingController {
         validateOffering(offering, bindingResult);
         validateOfferingNameAndType(offering, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadOfferingEditPage(offeringUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.offering.edit");

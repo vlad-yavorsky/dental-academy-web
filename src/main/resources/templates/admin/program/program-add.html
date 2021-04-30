@@ -15,7 +15,7 @@
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/programs}" th:text="#{nav.programs}"></a> / <span th:text="#{nav.addProgram}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
             <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
             <form class="needs-validation" novalidate method="post" th:object="${program}" th:action="@{/admin/program/add}">

@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.Order;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
+import ua.kazo.dentalacademy.properties.AppProperties;
 
 import java.util.Map;
 import java.util.StringJoiner;
@@ -22,7 +22,7 @@ public class Fondy implements PaymentProcessor {
     private static final String SIGNATURE_KEY = "signature";
     private static final String RESPONSE_SIGNATURE_STRING_KEY = "response_signature_string";
 
-    private final PaymentProperties paymentProperties;
+    private final AppProperties appProperties;
 
     @Override
     public String getCheckoutUrl() {
@@ -38,15 +38,15 @@ public class Fondy implements PaymentProcessor {
     public Map<String, Object> getPayParameters(Order order) {
         Map<String, Object> params = new TreeMap<>();
         params.put("amount", order.getPrice().toString().replace(".", ""));
-        params.put("currency", paymentProperties.getCurrency());
+        params.put("currency", appProperties.getPayment().getCurrency());
         params.put("lang", LocaleContextHolder.getLocale().getLanguage());
-        params.put("lifetime", String.valueOf(paymentProperties.getPaymentTime() * 60));
-        params.put("merchant_id", paymentProperties.getFondy().getMerchantId());
+        params.put("lifetime", String.valueOf(appProperties.getPayment().getPaymentTime() * 60));
+        params.put("merchant_id", appProperties.getPayment().getFondy().getMerchantId());
         params.put("order_desc", "Buying courses at Dental Academy");
         params.put("order_id", order.getNumber());
-        params.put("response_url", paymentProperties.getCallbackHost() + "/order/" + order.getNumber());
+        params.put("response_url", appProperties.getPayment().getCallbackHost() + "/order/" + order.getNumber());
         params.put("sender_email", SecurityContextHolder.getContext().getAuthentication().getName());
-        params.put("server_callback_url", paymentProperties.getCallbackHost() + "/api/payment/fondy-callback");
+        params.put("server_callback_url", appProperties.getPayment().getCallbackHost() + "/api/payment/fondy-callback");
         params.put("version", "1.0.1");
         params.put(SIGNATURE_KEY, generateSignature(params));
         return params;
@@ -54,7 +54,7 @@ public class Fondy implements PaymentProcessor {
 
     private String generateSignature(Map<String, Object> parameters) {
         StringJoiner signature = new StringJoiner(DELIMITER);
-        signature.add(paymentProperties.getFondy().getMerchantPassword());
+        signature.add(appProperties.getPayment().getFondy().getMerchantPassword());
         parameters.forEach((key, value) -> {
             if (ObjectUtils.isEmpty(value) || SIGNATURE_KEY.equals(key) || RESPONSE_SIGNATURE_STRING_KEY.equals(key)) {
                 return;

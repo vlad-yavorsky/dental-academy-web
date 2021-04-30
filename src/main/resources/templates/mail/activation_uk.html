@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head>
+    <title th:remove="all"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Вітаємо, <span th:text="${user.firstName}">></span>!</p>
+<p>Ви успішно зареєструвалися в <b>Стоматологічній академії</b>.</p>
+<p>Будь ласка, активуйте свій обліковий запис, перейшовши за наступним посиланням:</p>
+<a th:href="@{__${host}__/activate/__${user.activationToken}__}"
+    th:text="${host} + '/activate/' + ${user.activationToken}"></a>
+<p>З повагою,<br /><em>Команда Стоматологічної академії</em></p>
+</body>
+</html>

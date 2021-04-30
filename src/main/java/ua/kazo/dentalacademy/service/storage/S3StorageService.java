@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
-import ua.kazo.dentalacademy.properties.AWSProperties;
+import ua.kazo.dentalacademy.properties.AppProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,11 +17,11 @@ import java.util.List;
 public class S3StorageService extends AbstractStorageService {
 
     private final S3Client s3;
-    private final AWSProperties awsProperties;
+    private final AppProperties appProperties;
 
     @Override
     public String getResourcesLocation() {
-        return "/s3://" + awsProperties.getBucketName() + "/";
+        return "/s3://" + appProperties.getAws().getBucketName() + "/";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class S3StorageService extends AbstractStorageService {
     @Override
     public String load(String filename) {
         GetUrlRequest request = GetUrlRequest.builder()
-                .bucket(awsProperties.getBucketName())
+                .bucket(appProperties.getAws().getBucketName())
                 .key(filename)
                 .build();
         return s3.utilities().getUrl(request).toString();
@@ -48,7 +48,7 @@ public class S3StorageService extends AbstractStorageService {
         try {
             List<ObjectIdentifier> toDelete = List.of(ObjectIdentifier.builder().key(photoName).build());
             DeleteObjectsRequest dor = DeleteObjectsRequest.builder()
-                    .bucket(awsProperties.getBucketName())
+                    .bucket(appProperties.getAws().getBucketName())
                     .delete(Delete.builder().objects(toDelete).build())
                     .build();
             s3.deleteObjects(dor);
@@ -61,7 +61,7 @@ public class S3StorageService extends AbstractStorageService {
     protected String copyFileToServer(InputStream inputStream, String newFileName) {
         try {
             PutObjectRequest putOb = PutObjectRequest.builder()
-                    .bucket(awsProperties.getBucketName())
+                    .bucket(appProperties.getAws().getBucketName())
                     .key(newFileName)
                     .acl(ObjectCannedACL.PUBLIC_READ)
                     .build();

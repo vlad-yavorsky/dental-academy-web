@@ -24,6 +24,15 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.debug: true
 
 logging:
   level:
@@ -31,29 +40,29 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
-payment:
-  provider: ${PAYMENT_PROVIDER}
-  orderPrefix: ${ORDER_PREFIX:LOCAL-}
-  paymentTime: ${PAYMENT_TIME:15}
-  currency: ${CURRENCY:UAH}
-  callbackHost: ${CALLBACK_HOST}
-  liqpay:
-    privateKey: ${LIQPAY_PRIVATE_KEY}
-    publicKey: ${LIQPAY_PUBLIC_KEY}
-  fondy:
-    merchantId: ${FONDY_MERCHANT_ID}
-    merchantPassword: ${FONDY_MERCHANT_PASSWORD}
-  portmone:
-    payeeId: ${PORTMONE_PAYEE_ID}
-  wayforpay:
-    merchantLogin: ${WAYFORPAY_LOGIN}
-    merchantSecretKey: ${WAYFORPAY_SECRET_KEY}
-
-storage:
-  location: ${STORAGE_LOCATION:files}
-
-aws:
-  accessKeyId: ${AWS_ACCESS_KEY_ID}
-  secretKey: ${AWS_SECRET_ACCESS_KEY}
-  region: ${AWS_REGION}
-  bucketName: ${S3_BUCKET_NAME}
+app:
+  host: ${HOST}
+  payment:
+    provider: ${PAYMENT_PROVIDER}
+    orderPrefix: ${ORDER_PREFIX:LOCAL-}
+    paymentTime: ${PAYMENT_TIME:15}
+    currency: ${CURRENCY:UAH}
+    callbackHost: ${CALLBACK_HOST}
+    liqpay:
+      privateKey: ${LIQPAY_PRIVATE_KEY}
+      publicKey: ${LIQPAY_PUBLIC_KEY}
+    fondy:
+      merchantId: ${FONDY_MERCHANT_ID}
+      merchantPassword: ${FONDY_MERCHANT_PASSWORD}
+    portmone:
+      payeeId: ${PORTMONE_PAYEE_ID}
+    wayforpay:
+      merchantLogin: ${WAYFORPAY_LOGIN}
+      merchantSecretKey: ${WAYFORPAY_SECRET_KEY}
+  storage:
+    location: ${STORAGE_LOCATION:files}
+  aws:
+    accessKeyId: ${AWS_ACCESS_KEY_ID}
+    secretKey: ${AWS_SECRET_ACCESS_KEY}
+    region: ${AWS_REGION}
+    bucketName: ${S3_BUCKET_NAME}

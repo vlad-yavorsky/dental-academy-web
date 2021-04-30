@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.service;
 import liquibase.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,10 @@ import ua.kazo.dentalacademy.repository.UserRepository;
 import ua.kazo.dentalacademy.service.storage.StorageService;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
+import javax.mail.MessagingException;
+import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -37,6 +42,7 @@ public class UserService implements UserDetailsService {
     private final MessageSource messageSource;
     private final StorageService storageService;
     private final OfferingService offeringService;
+    private final EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -111,12 +117,35 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByEmailAndIdNot(email, id);
     }
 
-    public void create(User user, MultipartFile photo) {
+    public User register(User user, MultipartFile photo, Locale locale) throws MessagingException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
         user.setRoles(Set.of(Role.USER));
+        user.setActivationToken(generateUserToken(user));
+        user.setTokenExpiryDate(generateTokenExpiryDate());
         User userFromDb = userRepository.save(user);
         handlePhotoChange(photo, false, userFromDb);
+        emailService.sendUserActivationLink(user, locale);
+        return userFromDb;
+    }
+
+    private String generateUserToken(User user) {
+        return DigestUtils.sha256Hex(user.getId() + user.getEmail() + user.getPassword());
+    }
+
+    private LocalDateTime generateTokenExpiryDate() {
+        return LocalDateTime.now().plusDays(3);
+    }
+
+    public boolean activateAccount(String activationToken) {
+        Optional<User> userOptional = userRepository.findByActivationTokenAndTokenNotExpired(activationToken, LocalDateTime.now());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setEnabled(true);
+            user.setActivationToken(null);
+            user.setTokenExpiryDate(null);
+            return true;
+        }
+        return false;
     }
 
     public User update(User user, MultipartFile photo, boolean isRemoveExistingPhoto, String userEmail) {

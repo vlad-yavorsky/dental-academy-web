@@ -8,10 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    @Query("select u from User u " +
+            "where u.activationToken = :activationToken " +
+            "and :now < u.tokenExpiryDate")
+    Optional<User> findByActivationTokenAndTokenNotExpired(String activationToken, LocalDateTime now);
 
     boolean existsByEmail(String email);
     boolean existsByEmailAndIdNot(String email, Long id);

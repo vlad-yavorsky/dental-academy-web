@@ -6,8 +6,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
+import ua.kazo.dentalacademy.properties.AppProperties;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,7 +25,7 @@ public class WayForPay implements PaymentProcessor {
     private static final String DELIMITER = ";";
     private static final String SIGNATURE_KEY = "merchantSignature";
 
-    private final PaymentProperties paymentProperties;
+    private final AppProperties appProperties;
 
     @Override
     public String getCheckoutUrl() {
@@ -40,17 +40,17 @@ public class WayForPay implements PaymentProcessor {
     @Override
     public Map<String, Object> getPayParameters(Order order) {
         Map<String, Object> params = new HashMap<>();
-        params.put("merchantAccount", paymentProperties.getWayforpay().getMerchantLogin());
-        params.put("merchantDomainName", paymentProperties.getCallbackHost());
+        params.put("merchantAccount", appProperties.getPayment().getWayforpay().getMerchantLogin());
+        params.put("merchantDomainName", appProperties.getPayment().getCallbackHost());
         params.put("merchantTransactionSecureType", "AUTO");
         params.put("language", LocaleContextHolder.getLocale().getLanguage());
-        params.put("returnUrl", paymentProperties.getCallbackHost() + "/order/" + order.getNumber());
-        params.put("serviceUrl", paymentProperties.getCallbackHost() + "/api/payment/wayforpay-callback");
+        params.put("returnUrl", appProperties.getPayment().getCallbackHost() + "/order/" + order.getNumber());
+        params.put("serviceUrl", appProperties.getPayment().getCallbackHost() + "/api/payment/wayforpay-callback");
         params.put("orderReference", order.getNumber());
         params.put("orderDate", String.valueOf(order.getCreated().atZone(ZoneId.systemDefault()).toEpochSecond()));
         params.put("amount", order.getPrice().toString());
-        params.put("currency", paymentProperties.getCurrency());
-        params.put("orderTimeout", String.valueOf(paymentProperties.getPaymentTime() * 60));
+        params.put("currency", appProperties.getPayment().getCurrency());
+        params.put("orderTimeout", String.valueOf(appProperties.getPayment().getPaymentTime() * 60));
         List<String> productName = new ArrayList<>(order.getPurchaseData().size());
         List<BigDecimal> productPrice = new ArrayList<>(order.getPurchaseData().size());
         List<Integer> productCount = new ArrayList<>(order.getPurchaseData().size());
@@ -96,7 +96,7 @@ public class WayForPay implements PaymentProcessor {
 
     @SneakyThrows
     private String generateSignature(Map<String, Object> params, boolean isResponse)  {
-        String keyString = paymentProperties.getWayforpay().getMerchantSecretKey();
+        String keyString = appProperties.getPayment().getWayforpay().getMerchantSecretKey();
         String baseString = isResponse ? getPurchaseResponseSignatureString(params) : getPurchaseRequestSignatureString(params);
         SecretKeySpec secret = new SecretKeySpec(keyString.getBytes(StandardCharsets.UTF_8), ALGORITHM);
         Mac mac = Mac.getInstance(ALGORITHM);

@@ -71,7 +71,7 @@ public class AdminEventController {
 
         validateEventName(event, bindingResult, true);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadEventAddPage(eventCreateDto, model);
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.add");
@@ -98,7 +98,7 @@ public class AdminEventController {
 
         validateEventName(event, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadEventEditPage(eventUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.event.edit");

@@ -15,7 +15,7 @@
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.offerings}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
             <div class="table-responsive">
                 <table class="table table-striped">

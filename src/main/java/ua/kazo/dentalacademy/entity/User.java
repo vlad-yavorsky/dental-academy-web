@@ -1,6 +1,9 @@
 package ua.kazo.dentalacademy.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.kazo.dentalacademy.enumerated.Role;
 
@@ -9,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,6 +78,10 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
     private int cartItemsCount;
 
     private String interests;
+
+    private String activationToken;
+
+    private LocalDateTime tokenExpiryDate;
 
     public void incCartItemsCount() {
         cartItemsCount++;

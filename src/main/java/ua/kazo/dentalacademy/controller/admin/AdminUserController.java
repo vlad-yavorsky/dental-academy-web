@@ -56,7 +56,7 @@ public class AdminUserController {
 
         userService.validateUserEmail(user, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadUserEditPage(userFullUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.user.edit");

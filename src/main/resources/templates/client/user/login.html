@@ -12,11 +12,11 @@
     <div class="alert alert-danger" th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></div>
     <div class="alert alert-warning" th:if="${param.logout}" th:text="#{info.loggedOut}"></div>
     <div class="alert alert-success" th:if="${param.registered}" th:text="#{info.registerSuccess}"></div>
+    <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
     <div class="row">
         <div class="col-12 col-md-6 offset-md-3">
             <h3 class="border-bottom pb-3" th:text="#{nav.login}"></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
         </div>
     </div>
 

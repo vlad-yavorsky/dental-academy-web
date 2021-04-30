@@ -15,7 +15,7 @@
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
             <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/orders}" th:text="#{nav.orders}"></a> / <span th:text="#{nav.editOrder}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
             <h3 th:text="#{nav.order} + ' #' + ${order.number}"></h3>
             <ul class="list-unstyled">

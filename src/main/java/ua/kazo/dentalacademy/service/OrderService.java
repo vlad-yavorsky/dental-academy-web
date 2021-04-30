@@ -13,7 +13,7 @@ import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
+import ua.kazo.dentalacademy.properties.AppProperties;
 import ua.kazo.dentalacademy.repository.OrderRepository;
 import ua.kazo.dentalacademy.service.payment.convertor.PaymentStatusConverterHolder;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
@@ -37,7 +37,7 @@ public class OrderService {
     private final OrderHistoryService orderHistoryService;
     private final UserService userService;
     private final MessageSource messageSource;
-    private final PaymentProperties paymentProperties;
+    private final AppProperties appProperties;
 
     public Order findByNumber(String number) {
         return orderRepository.findByNumber(number)
@@ -84,7 +84,7 @@ public class OrderService {
         LocalDateTime now = LocalDateTime.now();
         order.setCreated(now);
         order.setUser(user);
-        order.setProvider(paymentProperties.getProvider());
+        order.setProvider(appProperties.getPayment().getProvider());
         order.setStatus(UnifiedPaymentStatus.CREATED);
         user.getCartItems().forEach(cartItem -> {
             if (cartItem.getDeactivated() != null && cartItem.getDeactivated().isBefore(now)) {
@@ -97,9 +97,9 @@ public class OrderService {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO));
         Order savedOrder = orderRepository.save(order);
-        savedOrder.setNumber(paymentProperties.getOrderPrefix() + savedOrder.getId());
+        savedOrder.setNumber(appProperties.getPayment().getOrderPrefix() + savedOrder.getId());
         user.getCartItems().clear();
-        PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(paymentProperties.getProvider());
+        PaymentProcessor paymentProcessor = PaymentProcessorHolder.get(appProperties.getPayment().getProvider());
         orderHistoryService.create(order, paymentProcessor.getParamsAsString(savedOrder));
         return savedOrder;
     }

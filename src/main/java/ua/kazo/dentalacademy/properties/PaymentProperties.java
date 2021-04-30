@@ -1,14 +1,16 @@
-package ua.kazo.dentalacademy.properties.payment;
+package ua.kazo.dentalacademy.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import ua.kazo.dentalacademy.enumerated.PaymentProvider;
+import ua.kazo.dentalacademy.properties.payment.FondyProperties;
+import ua.kazo.dentalacademy.properties.payment.LiqPayProperties;
+import ua.kazo.dentalacademy.properties.payment.PortmoneProperties;
+import ua.kazo.dentalacademy.properties.payment.WayForPayProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties("payment")
 public class PaymentProperties {
 
     private PaymentProvider provider;

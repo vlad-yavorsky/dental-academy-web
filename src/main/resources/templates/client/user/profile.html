@@ -12,7 +12,7 @@
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3 class="border-bottom pb-3" th:text="#{nav.profile}"></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
 

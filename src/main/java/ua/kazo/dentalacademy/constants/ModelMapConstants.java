@@ -6,7 +6,8 @@ import lombok.experimental.UtilityClass;
 public class ModelMapConstants {
 
     public final String SUCCESS = "success";
-    public final String ERRORS = "errors";
+    public final String ERROR = "error";
+    public final String FIELD_ERRORS = "errors";
     public final String EXCEPTION = "exception";
 
     public final String USERS = "users";

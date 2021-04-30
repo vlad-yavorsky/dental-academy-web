@@ -2,7 +2,7 @@ package ua.kazo.dentalacademy.service.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import ua.kazo.dentalacademy.properties.StorageProperties;
+import ua.kazo.dentalacademy.properties.AppProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,17 +14,17 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileSystemStorageService extends AbstractStorageService {
 
-    private final StorageProperties storageProperties;
+    private final AppProperties appProperties;
     private final Path rootLocation;
 
-    public FileSystemStorageService(StorageProperties storageProperties) {
-        this.storageProperties = storageProperties;
-        this.rootLocation = Paths.get(storageProperties.getLocation());
+    public FileSystemStorageService(AppProperties appProperties) {
+        this.appProperties = appProperties;
+        this.rootLocation = Paths.get(appProperties.getStorage().getLocation());
     }
 
     @Override
     public String getResourcesLocation() {
-        return "file:" + storageProperties.getLocation() + "\\";
+        return "file:" + appProperties.getStorage().getLocation() + "\\";
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FileSystemStorageService extends AbstractStorageService {
 
     @Override
     public void delete(String photoName) {
-        Path rootLocation = Paths.get(storageProperties.getLocation());
+        Path rootLocation = Paths.get(appProperties.getStorage().getLocation());
         Path fileToDelete = rootLocation.resolve(Paths.get(photoName))
                 .normalize()
                 .toAbsolutePath();

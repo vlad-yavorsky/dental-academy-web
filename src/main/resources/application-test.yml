@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${JDBC_TEST_DATABASE_URL:jdbc:postgresql://localhost:5432/dental-academy-test}
+    username: ${JDBC_TEST_DATABASE_USERNAME:postgres}
+    password: ${JDBC_TEST_DATABASE_PASSWORD:postgres}

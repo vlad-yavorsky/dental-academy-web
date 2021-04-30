@@ -12,8 +12,8 @@
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3 class="border-bottom pb-3"><a th:href="@{/shop}" th:text="#{nav.shop}"></a>
-                / <span th:text="#{offering} + ' \'' + ${offering.name} + ' \''"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+                / <span th:text="#{offering} + ' \'' + ${offering.name} + '\''"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
 

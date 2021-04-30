@@ -7,10 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
@@ -24,8 +21,10 @@ import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.UserService;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,17 +56,31 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute(ModelMapConstants.USER) @Valid final UserCreateDto userCreateDto,
-                           final BindingResult bindingResult, final ModelMap model, final RedirectAttributes redirectAttributes) {
+                           final BindingResult bindingResult, final ModelMap model, final RedirectAttributes redirectAttributes,
+                           final Locale locale) throws MessagingException {
         User user = userMapper.toEntity(userCreateDto);
 
         userService.validateUserEmail(user, bindingResult, true);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadRegisterPage(userCreateDto, model);
         }
         redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.user.add");
 
-        userService.create(user, userCreateDto.getNewPhoto());
+        userService.register(user, userCreateDto.getNewPhoto(), locale);
+        return "redirect:/login";
+    }
+
+    /* ---------------------------------------------- ACTIVATE ACCOUNT ---------------------------------------------- */
+
+    @GetMapping("/activate/{activationToken}")
+    public String activateAccount(final @PathVariable String activationToken, final RedirectAttributes redirectAttributes) {
+        boolean activated = userService.activateAccount(activationToken);
+        if (activated) {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.user.activated");
+        } else {
+            redirectAttributes.addFlashAttribute(ModelMapConstants.ERROR, "exception.user.ActivationTokenExpired");
+        }
         return "redirect:/login";
     }
 
@@ -90,7 +103,7 @@ public class UserController {
 
         userService.validateUserEmail(user, bindingResult, false);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadUpdatePage(userUpdateDto, model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.user.edit");
@@ -126,7 +139,7 @@ public class UserController {
 
         validateUserPassword(userFromDb, userPasswordUpdateDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute(ModelMapConstants.ERRORS, bindingResult.getFieldErrors());
+            model.addAttribute(ModelMapConstants.FIELD_ERRORS, bindingResult.getFieldErrors());
             return loadChangePasswordPage(model);
         }
         model.addAttribute(ModelMapConstants.SUCCESS, "success.user.password.edit");

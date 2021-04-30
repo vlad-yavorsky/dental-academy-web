@@ -100,6 +100,12 @@ databaseChangeLog:
               - column:
                   name: interests
                   type: VARCHAR(2000)
+              - column:
+                  name: activation_token
+                  type: VARCHAR(64)
+              - column:
+                  name: token_expiry_date
+                  type: TIMESTAMP
 
         - createTable:
             tableName: program

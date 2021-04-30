@@ -12,7 +12,7 @@
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
             <h3 class="border-bottom pb-3"><a th:href="@{/}" th:text="#{nav.myPrograms}"></a> / <a th:href="@{/program/__${program.id}__}" th:text="${program.name}"></a> / <a th:href="@{/program/__${program.id}__/folder/__${folder.id}__}" th:text="${folder.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
-            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${exception})}"></div>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
 

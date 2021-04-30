@@ -4,8 +4,8 @@ import com.liqpay.LiqPayUtil;
 import org.json.simple.JSONObject;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
-import ua.kazo.dentalacademy.properties.payment.PaymentProperties;
 import ua.kazo.dentalacademy.entity.Order;
+import ua.kazo.dentalacademy.properties.AppProperties;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -15,11 +15,11 @@ import java.util.Map;
 @Component
 public class LiqPay extends com.liqpay.LiqPay implements PaymentProcessor {
 
-    private final PaymentProperties paymentProperties;
+    private final AppProperties appProperties;
 
-    public LiqPay(PaymentProperties paymentProperties) {
-        super(paymentProperties.getLiqpay().getPublicKey(), paymentProperties.getLiqpay().getPrivateKey());
-        this.paymentProperties = paymentProperties;
+    public LiqPay(AppProperties appProperties) {
+        super(appProperties.getPayment().getLiqpay().getPublicKey(), appProperties.getPayment().getLiqpay().getPrivateKey());
+        this.appProperties = appProperties;
     }
 
     private String convertToJsonAndEncodeToBase64(Map<String, String> params) {
@@ -50,14 +50,14 @@ public class LiqPay extends com.liqpay.LiqPay implements PaymentProcessor {
         Map<String, String> params = new HashMap<>();
         params.put("action", "pay");
         params.put("amount", order.getPrice().toString());
-        params.put("currency", paymentProperties.getCurrency());
+        params.put("currency", appProperties.getPayment().getCurrency());
         params.put("description", "Buying courses at Dental Academy");
         params.put("expired_date", order.getCreated().atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("UTC"))
-                .plusMinutes(paymentProperties.getPaymentTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                .plusMinutes(appProperties.getPayment().getPaymentTime()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         params.put("language", LocaleContextHolder.getLocale().getLanguage());
         params.put("order_id", order.getNumber());
-        params.put("result_url", paymentProperties.getCallbackHost() + "/order/" + order.getNumber());
-        params.put("server_url", paymentProperties.getCallbackHost() + "/api/payment/liqpay-callback");
+        params.put("result_url", appProperties.getPayment().getCallbackHost() + "/order/" + order.getNumber());
+        params.put("server_url", appProperties.getPayment().getCallbackHost() + "/api/payment/liqpay-callback");
         return params;
     }
 

@@ -50,7 +50,7 @@ public class EventController {
         if (registered) {
             redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.registered");
         } else {
-            redirectAttributes.addFlashAttribute(ModelMapConstants.ERRORS, "exception.event.NotFound");
+            redirectAttributes.addFlashAttribute(ModelMapConstants.ERROR, "exception.event.NotFound");
         }
         return new RedirectView("/event/" + eventId);
     }
@@ -61,7 +61,7 @@ public class EventController {
         if (registered) {
             redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.unregistered");
         } else {
-            redirectAttributes.addFlashAttribute(ModelMapConstants.ERRORS, "exception.event.NotFound");
+            redirectAttributes.addFlashAttribute(ModelMapConstants.ERROR, "exception.event.NotFound");
         }
         return new RedirectView("/event/" + eventId);
     }
