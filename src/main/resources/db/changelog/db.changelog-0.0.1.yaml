@@ -101,6 +101,9 @@ databaseChangeLog:
                   name: interests
                   type: VARCHAR(2000)
               - column:
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: user_activation_token_uindex
                   name: activation_token
                   type: VARCHAR(64)
               - column:
