@@ -9,7 +9,8 @@
 
 <div class="container py-4">
 
-    <div class="alert alert-danger" th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></div>
+    <div class="alert alert-danger" th:if="${param.error != null && session['SPRING_SECURITY_LAST_EXCEPTION'] != null}"
+         th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"></div>
     <div class="alert alert-warning" th:if="${param.logout}" th:text="#{info.loggedOut}"></div>
     <div class="alert alert-success" th:if="${param.registered}" th:text="#{info.registerSuccess}"></div>
     <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>

@@ -70,7 +70,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
+        messageSource.setBasenames("messages", "org/springframework/security/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
