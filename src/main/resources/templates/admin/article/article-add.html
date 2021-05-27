@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (#{nav.editEvent})}"></title>
+    <title th:replace="~{fragments :: head (#{nav.addArticle})}"></title>
 </head>
 <body>
 
@@ -14,41 +14,35 @@
         </div>
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
-            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/events}" th:text="#{nav.events}"></a> / <span th:text="#{nav.editEvent}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/articles}" th:text="#{nav.articles}"></a> / <span th:text="#{nav.addArticle}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
-            <form class="needs-validation" novalidate method="post" th:object="${event}" th:action="@{/admin/event/edit/__${event.id}__}">
-                <input type="hidden" th:field="*{id}"/>
+            <form class="needs-validation" novalidate method="post" th:object="${article}" th:action="@{/admin/article/add}">
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label class="required" for="name" th:text="#{event.name}"></label>
+                        <label class="required" for="name" th:text="#{article.name}"></label>
                         <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label for="date" th:text="#{event.date}"></label>
-                        <input type="text" class="form-control air-datetimepicker" id="date" th:field="*{date}">
+                        <label class="required" for="alias" th:text="#{article.alias}"></label>
+                        <input type="text" class="form-control" id="alias" th:field="*{alias}" maxlength="250" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3">
-                        <label for="image" th:text="#{event.image}"></label>
-                        <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col mb-3">
-                        <label class="required" for="description" th:text="#{event.description}"></label>
+                        <label class="required" for="description" th:text="#{article.description}"></label>
                         <textarea class="tinymce form-control" id="description" th:field="*{description}" required></textarea>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col mb-3 text-center">
-                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
-                        <a class="btn btn-secondary mb-3" th:href="@{/admin/events}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.add}"></span></button>
+                        <a class="btn btn-secondary mb-3" th:href="@{/admin/articles}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
                     </div>
                 </div>
             </form>

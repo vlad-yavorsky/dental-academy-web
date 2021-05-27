@@ -17,6 +17,7 @@ public class StatisticsService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
+    private final ArticleRepository articleRepository;
 
     public long getProgramsCount() {
         return programRepository.count();
@@ -44,6 +45,10 @@ public class StatisticsService {
 
     public long getEventsCount() {
         return eventRepository.count();
+    }
+
+    public long getArticlesCount() {
+        return articleRepository.count();
     }
 
 }

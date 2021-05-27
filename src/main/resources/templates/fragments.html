@@ -185,11 +185,23 @@
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/events}"
-                               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{events}"></span></a>
+                               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/event/add}"
                                th:classappend="${#request.requestURI == '/admin/event/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <ul class="nav flex-row">
+                        <li class="nav-item flex-fill">
+                            <a class="nav-link" th:href="@{/admin/articles}"
+                               th:classappend="${#request.requestURI == '/admin/articles'} ? 'active'"><i class="fas fa-newspaper fa-fw"></i> <span th:text="#{nav.articles}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/admin/article/add}"
+                               th:classappend="${#request.requestURI == '/admin/article/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -238,19 +250,19 @@
                     <div class="mb-2" th:include="~{fragments :: social}"></div>
                 </div>
                 <div class="col-12 col-sm-4 col-md">
-                    <h5>Ресурси</h5>
+                    <h5 th:text="#{footer.resources}"></h5>
                     <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Умови бронювання та відміни</a></li>
-                        <li><a class="text-muted" href="#">Часті питання</a></li>
-                        <li><a class="text-muted" href="#">Зворотній зв’язок</a></li>
+                        <li><a class="text-muted" th:href="@{/article/terms}" th:text="#{footer.reservation}"></a></li>
+                        <li><a class="text-muted" th:href="@{/article/faq}" th:text="#{footer.faq}"></a></li>
+                        <li><a class="text-muted" th:href="@{/article/feedback}" th:text="#{footer.feedback}"></a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-sm-4 col-md">
-                    <h5>Про нас</h5>
+                    <h5 th:text="#{footer.us}"></h5>
                     <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="#">Команда</a></li>
-                        <li><a class="text-muted" href="#">Місцезнаходження</a></li>
-                        <li><a class="text-muted" href="#">Конфіденційність та умови</a></li>
+                        <li><a class="text-muted" th:href="@{/article/team}" th:text="#{footer.team}"></a></li>
+                        <li><a class="text-muted" th:href="@{/article/contacts}" th:text="#{footer.contacts}"></a></li>
+                        <li><a class="text-muted" th:href="@{/article/privacy}" th:text="#{footer.privacy}"></a></li>
                     </ul>
                 </div>
             </div>

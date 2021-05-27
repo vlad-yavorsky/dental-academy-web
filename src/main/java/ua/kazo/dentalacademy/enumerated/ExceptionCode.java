@@ -24,7 +24,8 @@ public enum ExceptionCode {
     FOLDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folder.NotFound"),
     FOLDER_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.folderItem.NotFound"),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.order.NotFound"),
-    SIGNATURES_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.payment.SignaturesDoNotMatch");
+    SIGNATURES_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, "exception.payment.SignaturesDoNotMatch"),
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "exception.article.NotFound");
 
     @Getter
     private final HttpStatus status;

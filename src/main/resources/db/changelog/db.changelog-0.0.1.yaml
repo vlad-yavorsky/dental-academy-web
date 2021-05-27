@@ -29,6 +29,9 @@ databaseChangeLog:
         - createSequence:
             sequenceName: order_history_id_seq
 
+        - createSequence:
+            sequenceName: article_id_seq
+
         # tables
         - createTable:
             tableName: role
@@ -657,6 +660,42 @@ databaseChangeLog:
                     referencedColumnNames: id
                   name: user_id
                   type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  name: created
+                  type: TIMESTAMP
+
+        - createTable:
+            tableName: article
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: article_pk
+                  defaultValueComputed: nextval('article_id_seq')
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: article_name_uindex
+                  name: name
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: article_alias_uindex
+                  name: alias
+                  type: VARCHAR(250)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: CLOB
               - column:
                   constraints:
                     nullable: false

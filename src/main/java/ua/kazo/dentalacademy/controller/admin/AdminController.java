@@ -26,6 +26,7 @@ public class AdminController {
         model.addAttribute("orders_count", statisticsService.getOrdersCount());
         model.addAttribute("users_count", statisticsService.getUsersCount());
         model.addAttribute("events_count", statisticsService.getEventsCount());
+        model.addAttribute("articles_count", statisticsService.getArticlesCount());
         return "admin/panel";
     }
 

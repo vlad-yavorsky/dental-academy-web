@@ -31,5 +31,7 @@ public class ModelMapConstants {
     public final String SELECTED_ITEM = "selectedItem";
     public final String SEARCH = "search";
     public final String PAGE_RESULT = "pageResult";
+    public final String ARTICLE = "article";
+    public final String ARTICLES = "articles";
 
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (${article.name})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div th:replace="~{fragments :: social-near-heading}"></div>
+            <h3 class="border-bottom pb-3" th:text="${article.name}"></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div th:utext="${article.description}"></div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>
