@@ -28,7 +28,7 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label class="required" for="programs" th:text="#{programs}"></label>
-                        <select class="form-control selectpicker" id="programs" multiple th:field="*{programs}" required>
+                        <select class="form-control selectpicker" id="programs" th:field="*{programs}" required>
                             <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
                         </select>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
