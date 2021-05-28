@@ -122,6 +122,7 @@ public class UserService implements UserDetailsService {
         user.setRoles(Set.of(Role.USER));
         user.setActivationToken(generateUserToken(user));
         user.setTokenExpiryDate(generateTokenExpiryDate());
+        user.setAccountNonLocked(true);
         User userFromDb = userRepository.save(user);
         handlePhotoChange(photo, false, userFromDb);
         emailService.sendUserActivationLink(user, locale);

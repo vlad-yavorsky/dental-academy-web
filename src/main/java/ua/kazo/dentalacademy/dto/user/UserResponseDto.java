@@ -16,6 +16,7 @@ public class UserResponseDto {
     private String email;
     private LocalDateTime created;
     private boolean enabled;
+    private boolean accountNonLocked;
     private String firstName;
     private String lastName;
     private String mobile;

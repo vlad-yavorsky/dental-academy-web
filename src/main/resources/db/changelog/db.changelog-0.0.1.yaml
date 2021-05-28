@@ -79,6 +79,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  name: account_non_locked
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
                   name: first_name
                   type: VARCHAR(50)
               - column:

@@ -10,14 +10,10 @@ import java.time.LocalDateTime;
 @Setter
 public class UserRegisteredForEventInfoDto {
 
-    private Long id;
-    private String email;
-    private LocalDateTime created;
-    private boolean enabled;
     private String firstName;
     private String lastName;
+    private String email;
     private String mobile;
     private LocalDate birthday;
-    private LocalDate registerDate;
 
 }

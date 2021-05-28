@@ -33,5 +33,6 @@ public class UserFullUpdateDto {
     private String interests;
     private Set<Role> roles;
     private boolean enabled;
+    private boolean accountNonLocked;
 
 }

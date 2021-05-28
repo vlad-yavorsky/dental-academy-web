@@ -28,6 +28,7 @@
                         <th th:text="#{user.mobile}"></th>
                         <th th:text="#{user.birthday}"></th>
                         <th th:text="#{user.enabled}"></th>
+                        <th th:text="#{user.accountNonLocked}"></th>
                         <th th:text="#{user.roles}"></th>
                         <th th:text="#{button.actions}" style="width: 1%;"></th>
                     </tr>
@@ -43,6 +44,10 @@
                         <td>
                             <i th:if="${user.enabled}" class="fas fa-check-circle fa-2x fa-fw text-success"></i>
                             <i th:unless="${user.enabled}" class="fas fa-times-circle fa-2x fa-fw text-danger"></i>
+                        </td>
+                        <td>
+                            <i th:if="${user.accountNonLocked}" class="fas fa-check-circle fa-2x fa-fw text-success"></i>
+                            <i th:unless="${user.accountNonLocked}" class="fas fa-times-circle fa-2x fa-fw text-danger"></i>
                         </td>
                         <td>
                             <ul class="list-unstyled">

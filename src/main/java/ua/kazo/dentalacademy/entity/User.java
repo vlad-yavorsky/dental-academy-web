@@ -39,6 +39,8 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
 
     private boolean enabled;
 
+    private boolean accountNonLocked;
+
     @NotBlank
     private String firstName;
 
@@ -101,10 +103,6 @@ public class User extends TrackedDateEntity implements Serializable, UserDetails
     }
 
     public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    public boolean isAccountNonLocked() {
         return true;
     }
 
