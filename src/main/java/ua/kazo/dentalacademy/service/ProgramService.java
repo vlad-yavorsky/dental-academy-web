@@ -72,10 +72,6 @@ public class ProgramService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
-    public boolean existsByIdAndFolderCategory(Long id, FolderCategory category) {
-        return programRepository.existByIdAndFolderCategory(id, category);
-    }
-
     public boolean existsByName(String name) {
         return programRepository.existsByName(name);
     }

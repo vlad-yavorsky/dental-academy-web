@@ -50,14 +50,6 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     /**
      * Client / My Programs / Modules, QA
      */
-    @Query("select (count(p) > 0) from Program p " +
-            "join p.folders f " +
-            "where p.id = :id and f.category = :category")
-    boolean existByIdAndFolderCategory(Long id, FolderCategory category);
-
-    /**
-     * Client / My Programs / Modules, QA
-     */
     @Query("select distinct p from Program p " +
             "join fetch p.folders f " +
             "where p.id = :id and f.category = :category " +

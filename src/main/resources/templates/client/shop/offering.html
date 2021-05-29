@@ -39,16 +39,16 @@
                             </div>
                         </div>
 
-                        <ul class="list-unstyled mt-3 mb-4">
+                        <ul class="list-unstyled">
                             <li><span th:text="#{offering.term} + ': ' + ${offering.term}"></span></li>
                             <li>
                                 <hr/>
                                 <span th:text="#{programs} + ': '"></span>
-                                <ul class="list-unstyled">
+                                <ol class="list-unstyled">
                                     <li th:each="program: ${offering.programs}">
                                         <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
                                     </li>
-                                </ul>
+                                </ol>
                             </li>
                             <li th:if="${!offering.folders.isEmpty()}">
                                 <hr/>

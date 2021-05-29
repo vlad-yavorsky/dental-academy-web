@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (${selectedItem.name} + ' - ' + ${bonus.name} + ' - ' + #{nav.myBonuses})}"></title>
+    <title th:replace="~{fragments :: head (${selectedItem.name} + ' - ' + ${program.name} + ' - ' + #{nav.myPrograms})}"></title>
     <script th:if="${#strings.equals(selectedItem.type, 'VIMEO')}" src="https://player.vimeo.com/api/player.js"></script>
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 class="border-bottom pb-3"><a th:href="@{/bonuses}" th:text="#{nav.myBonuses}"></a> / <a th:href="@{/bonus/__${bonus.id}__}" th:text="${bonus.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/programs}" th:text="#{nav.myPrograms}"></a> / <a th:href="@{/program/__${program.id}__}" th:text="${program.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="p-2 program-contents-width">
-            <div th:replace="~{fragments :: bonus-contents(${bonus}, ${selectedItem})}"></div>
+            <div th:replace="~{fragments :: program-contents(${program}, ${selectedItem})}"></div>
         </div>
     </div>
 </div>

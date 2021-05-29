@@ -85,6 +85,7 @@ public class ShopController {
     @GetMapping("/create-order")
     public RedirectView createOrder(final Principal principal) {
         Order order = orderService.create(principal.getName());
+        AuthUtils.updateCartItemsCount(principal, 0);
         return new RedirectView("/order/" + order.getNumber());
     }
 

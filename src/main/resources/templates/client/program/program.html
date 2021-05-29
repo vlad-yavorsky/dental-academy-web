@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (${selectedItem.name} + ' - ' + ${bonus.name} + ' - ' + #{nav.myBonuses})}"></title>
-    <script th:if="${#strings.equals(selectedItem.type, 'VIMEO')}" src="https://player.vimeo.com/api/player.js"></script>
+    <title th:replace="~{fragments :: head (${program.name} + ' - ' + #{nav.myPrograms})}"></title>
 </head>
 <body>
 
@@ -12,18 +11,19 @@
     <div class="row">
         <div class="col-12">
             <div th:replace="~{fragments :: social-near-heading}"></div>
-            <h3 class="border-bottom pb-3"><a th:href="@{/bonuses}" th:text="#{nav.myBonuses}"></a> / <a th:href="@{/bonus/__${bonus.id}__}" th:text="${bonus.name}"></a> / <span th:text="${selectedItem.name}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/programs}" th:text="#{nav.myPrograms}"></a> / <span th:text="${program.name}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
         </div>
     </div>
 
     <div class="d-flex flex-column flex-lg-row">
         <div class="p-2 flex-lg-grow-1">
-            <div th:replace="~{fragments :: folder-item-content(${selectedItem})}"></div>
+            <h4 th:text="#{program.description}"></h4>
+            <div th:utext="${program.fullDescription}"></div>
         </div>
 
         <div class="p-2 program-contents-width">
-            <div th:replace="~{fragments :: bonus-contents(${bonus}, ${selectedItem})}"></div>
+            <div th:replace="~{fragments :: program-contents(${program}, ${selectedItem})}"></div>
         </div>
     </div>
 </div>

@@ -150,7 +150,23 @@ label.required:after {
 .social-icons .fa-telegram{background-color:#0088cc;}
 .social-icons .fa-youtube,.social-icons .fa-youtube-play,.social-icons .fa-youtube-square{background-color:#C52F30;}
 
-/* Card columns */
+/* Program Contents */
+.list-group-item-header {
+    padding: 0.75rem 1rem;
+}
+.list-group-item-item {
+    padding: 0.5rem 1rem;
+}
+.program-contents-width {
+    width: 100%;
+}
+@media screen and (min-width: 992px) {
+    .program-contents-width {
+        width: 350px;
+    }
+}
+
+/* Bootstrap - Card columns */
 .card-columns {
     column-count: 1;
 }

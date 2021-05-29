@@ -348,5 +348,73 @@
 <!--    <script type="text/javascript" th:src="@{/js/entityManageButtons.js}"></script>-->
 <!--</div>-->
 
+<div th:fragment="program-contents (program, selectedItem)">
+    <a class="float-right" th:href="@{/program/__${program.id}__/reset}" th:title="#{button.resetProgress}"><i class="fas fa-sync-alt fa-fw ml-1"></i></a>
+    <div class="progress mb-3" style="height: 20px;">
+        <div class="progress-bar progress-bar-striped" role="progressbar"
+             th:style="${'width:' + program.completionPercentage + '%;'}"
+             th:text="${program.completionPercentage + '%'}"
+             th:aria-valuenow="${program.completionPercentage}"
+             aria-valuemin="0"
+             aria-valuemax="100"></div>
+    </div>
+
+    <div class="list-group">
+        <div class="mb-3" th:each="folder,folderIter: ${program.folders}">
+            <a class="list-group-item list-group-item-header d-flex justify-content-between align-items-center list-group-item-action bg-dark text-white"
+               data-toggle="collapse" th:href="${'#collapseFolder' + folderIter.index}"
+               role="button" aria-expanded="true" th:aria-controls="${'#collapseFolder' + folderIter.index}">
+                <span th:text="${folder.name}"></span>
+                <i class="fas fa-angle-down fa-fw"></i>
+            </a>
+            <div class="collapse show" th:id="${'collapseFolder' + folderIter.index}">
+                <a class="list-group-item list-group-item-item d-flex justify-content-between align-items-center list-group-item-action"
+                   th:each="folderItem: ${folder.items}"
+                   th:href="@{/program/__${program.id}__/item/__${folderItem.id}__}"
+                   th:classappend="${selectedItem != null && selectedItem.id == folderItem.id} ? 'active'">
+                    <span th:text="${folderItem.name}"></span>
+                    <i th:if="${folderItem.viewedByUser}" class="fas fa-check-circle fa-fw"></i>
+                    <i th:if="${!folderItem.viewedByUser}" class="far fa-circle fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="bonus-contents (bonus, selectedItem)">
+    <a class="float-right" th:href="@{/bonus/__${bonus.id}__/reset}" th:title="#{button.resetProgress}"><i class="fas fa-sync-alt fa-fw ml-1"></i></a>
+    <div class="progress mb-3" style="height: 24px;">
+        <div class="progress-bar progress-bar-striped" role="progressbar"
+             th:style="${'width:' + bonus.completionPercentage + '%;'}"
+             th:text="${bonus.completionPercentage + '%'}"
+             th:aria-valuenow="${bonus.completionPercentage}"
+             aria-valuemin="0"
+             aria-valuemax="100"></div>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+           th:each="bonusItem: ${bonus.items}"
+           th:href="@{/bonus/__${bonus.id}__/item/__${bonusItem.id}__}"
+           th:classappend="${selectedItem != null && selectedItem.id == bonusItem.id} ? 'active'">
+            <span th:text="${bonusItem.name}"></span>
+            <i th:if="${bonusItem.viewedByUser}" class="fas fa-check-circle"
+               th:classappend="${selectedItem != null && selectedItem.id != bonusItem.id} ? 'text-primary'"></i>
+        </a>
+    </div>
+</div>
+
+<div th:fragment="folder-item-content (selectedItem)">
+    <iframe th:if="${#strings.equals(selectedItem.type, 'YOUTUBE')}"
+            th:src="${selectedItem.link}" frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            style="width: 100%; min-height: 600px;" allowfullscreen></iframe>
+    <div th:if="${#strings.equals(selectedItem.type, 'VIMEO')}" style="padding:56.25% 0 0 0;position:relative;">
+        <iframe th:src="${selectedItem.link}"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                frameborder="0"
+                allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+</div>
+
 </body>
 </html>

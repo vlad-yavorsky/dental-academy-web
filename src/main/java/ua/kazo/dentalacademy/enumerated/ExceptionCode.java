@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionCode {
 
     FOLDER_ITEM_TYPE_NOT_EXIST(HttpStatus.NOT_FOUND, "exception.folderItem.TypeNotExist"),
-    FOLDER_CATEGORY_NOT_EXIST(HttpStatus.NOT_FOUND, "exception.folder.CategoryNotExist"),
     USER_ROLE_NOT_EXIST(HttpStatus.NOT_FOUND, "exception.user.RoleNotExist"),
     INSUFFICIENT_PRIVILEGES(HttpStatus.FORBIDDEN, "exception.user.InsufficientPrivileges"),
     FOLDER_IS_EMPTY(HttpStatus.I_AM_A_TEAPOT, "exception.folder.Empty"),

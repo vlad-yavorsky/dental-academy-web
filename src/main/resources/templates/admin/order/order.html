@@ -43,7 +43,7 @@
                         <td th:text="${orderItem.name}"></td>
                         <td th:text="#{${orderItem.type.toString().toLowerCase()}}"></td>
                         <td>
-                            <ol>
+                            <ol class="list-unstyled">
                                 <li th:each="program: ${orderItem.offering.programs}">
                                     <a th:href="@{/program/__${program.id}__/preview}" th:text="${program.name}"></a>
                                 </li>

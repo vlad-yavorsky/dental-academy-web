@@ -18,6 +18,6 @@ public class FolderViewedItemsResponseDto {
     private String image;
     private FolderCategory category;
     private List<FolderViewedItemResponseDto> items;
-    private int folderCompletePercentage;
+    private int completionPercentage;
 
 }
