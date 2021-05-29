@@ -166,6 +166,11 @@ label.required:after {
     }
 }
 
+/* Progress Bar */
+.progress-bar-height {
+    height: 24px;
+}
+
 /* Bootstrap - Card columns */
 .card-columns {
     column-count: 1;

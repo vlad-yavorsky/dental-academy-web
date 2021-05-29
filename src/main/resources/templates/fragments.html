@@ -350,7 +350,7 @@
 
 <div th:fragment="program-contents (program, selectedItem)">
     <a class="float-right" th:href="@{/program/__${program.id}__/reset}" th:title="#{button.resetProgress}"><i class="fas fa-sync-alt fa-fw ml-1"></i></a>
-    <div class="progress mb-3" style="height: 20px;">
+    <div class="progress mb-3 progress-bar-height">
         <div class="progress-bar progress-bar-striped" role="progressbar"
              th:style="${'width:' + program.completionPercentage + '%;'}"
              th:text="${program.completionPercentage + '%'}"
@@ -383,7 +383,7 @@
 
 <div th:fragment="bonus-contents (bonus, selectedItem)">
     <a class="float-right" th:href="@{/bonus/__${bonus.id}__/reset}" th:title="#{button.resetProgress}"><i class="fas fa-sync-alt fa-fw ml-1"></i></a>
-    <div class="progress mb-3" style="height: 24px;">
+    <div class="progress mb-3 progress-bar-height">
         <div class="progress-bar progress-bar-striped" role="progressbar"
              th:style="${'width:' + bonus.completionPercentage + '%;'}"
              th:text="${bonus.completionPercentage + '%'}"
