@@ -46,7 +46,7 @@ public class EventController {
 
     @GetMapping({"/event/{eventId}/register",})
     public RedirectView register(final @PathVariable Long eventId, final RedirectAttributes redirectAttributes, final Principal principal) {
-        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal).getId(), false);
+        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal), false);
         if (registered) {
             redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.registered");
         } else {
@@ -57,7 +57,7 @@ public class EventController {
 
     @GetMapping({"/event/{eventId}/unregister",})
     public RedirectView unregister(final @PathVariable Long eventId, final RedirectAttributes redirectAttributes, final Principal principal) {
-        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal).getId(), true);
+        boolean registered = eventService.register(eventId, AuthUtils.getUser(principal), true);
         if (registered) {
             redirectAttributes.addFlashAttribute(ModelMapConstants.SUCCESS, "success.event.unregistered");
         } else {

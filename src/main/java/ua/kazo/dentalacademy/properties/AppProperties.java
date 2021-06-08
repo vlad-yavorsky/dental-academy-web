@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class AppProperties {
 
     private String host;
+    private String notificationEmails;
     @NestedConfigurationProperty
     private PaymentProperties payment;
     @NestedConfigurationProperty

@@ -115,5 +115,46 @@ Set next environment variables:
     <td>WayForPay Secret Key</td>
     <td></td>
 </tr>
+<tr>
+    <td colspan="3" align="center"><strong>AWS</strong></td>
+</tr>
+<tr>
+    <td>AWS_ACCESS_KEY_ID</td>
+    <td>AWS Access key id</td>
+    <td></td>
+</tr>
+<tr>
+    <td>AWS_SECRET_ACCESS_KEY</td>
+    <td>AWS Secret access key</td>
+    <td></td>
+</tr>
+<tr>
+    <td>AWS_REGION</td>
+    <td>AWS Region</td>
+    <td>eu-central-1</td>
+</tr>
+<tr>
+    <td>S3_BUCKET_NAME</td>
+    <td>S3 Bucket Name</td>
+    <td></td>
+</tr>
+<tr>
+    <td colspan="3" align="center"><strong>etc</strong></td>
+</tr>
+<tr>
+    <td>HOST</td>
+    <td>Domain name used for emails (without slash in the end)</td>
+    <td>http://dental-academy.herokuapp.com</td>
+</tr>
+<tr>
+    <td>STORAGE_LOCATION</td>
+    <td>Folder, where to save files uploaded via website</td>
+    <td>C:/dental-academy/files</td>
+</tr>
+<tr>
+    <td>NOTIFICATION_EMAILS</td>
+    <td>Administrators Emails, where to send different notification about events on website (eg. user registered for event)</td>
+    <td>admin@example.com</td>
+</tr>
 </tbody>
 </table>

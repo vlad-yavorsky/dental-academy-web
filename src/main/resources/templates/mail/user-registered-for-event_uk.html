@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head>
+    <title th:remove="all"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>Новий користувач зареєструвався на подію <a th:href="@{__${host}__/admin/event/__${event.id}__}" th:text="${event.name}"></a>!</p>
+<p>Дані користувача:</p>
+<p>
+    <strong>Ім'я:</strong> <span th:text="${user.firstName + ' ' + user.lastName}"></span><br/>
+    <strong>Email:</strong> <span th:text="${user.email}"></span><br/>
+    <strong>Телефон:</strong> <span th:text="${user.mobile}"></span>
+</p>
+<p>З повагою,<br /><em>Команда Стоматологічної академії</em></p>
+</body>
+</html>

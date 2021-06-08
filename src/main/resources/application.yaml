@@ -42,6 +42,7 @@ logging:
 
 app:
   host: ${HOST}
+  notification-emails: ${NOTIFICATION_EMAILS}
   payment:
     provider: ${PAYMENT_PROVIDER}
     orderPrefix: ${ORDER_PREFIX:LOCAL-}

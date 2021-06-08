@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p>Hello, <span th:text="${user.firstName}">></span>!</p>
+<p>Hello, <span th:text="${user.firstName}"></span>!</p>
 <p>You have been successfully registered on <b>Dental Academy</b>.</p>
 <p>Please, activate your account by clicking on the following link:</p>
 <a th:href="@{__${host}__/activate/__${user.activationToken}__}"

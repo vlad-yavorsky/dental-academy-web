@@ -22,4 +22,8 @@ public class TemplateEngineDecorator {
         return templateEngine.process(localizedTemplate, context);
     }
 
+    public final String process(final String template, final IContext context) {
+        return templateEngine.process(template, context);
+    }
+
 }

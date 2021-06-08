@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.Event;
 import ua.kazo.dentalacademy.entity.EventUser;
+import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.EventRepository;
@@ -25,6 +26,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventUserRepository eventUserRepository;
     private final MessageSource messageSource;
+    private final EmailService emailService;
 
     public Event findById(Long id) {
         return eventRepository.findById(id)
@@ -52,13 +54,14 @@ public class EventService {
         return eventRepository.findAllByDateAfterOrderByDate(pageable, LocalDateTime.now());
     }
 
-    public boolean register(Long eventId, Long userId, boolean unregister) {
+    public boolean register(Long eventId, User user, boolean unregister) {
         Optional<Event> event = eventRepository.findByIdAndDateAfter(eventId, LocalDateTime.now());
         if (event.isPresent()) {
             if (unregister) {
-                eventUserRepository.delete(EventUser.of(event.get().getId(), userId));
+                eventUserRepository.delete(EventUser.of(event.get().getId(), user.getId()));
             } else {
-                eventUserRepository.save(EventUser.of(event.get().getId(), userId));
+                eventUserRepository.save(EventUser.of(event.get().getId(), user.getId()));
+                emailService.sendUserRegisteredForEvent(user, event.get());
             }
             return true;
         }
