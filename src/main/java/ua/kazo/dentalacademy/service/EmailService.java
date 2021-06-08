@@ -6,6 +6,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.thymeleaf.context.Context;
 import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.entity.Event;
@@ -36,6 +37,9 @@ public class EmailService {
     }
 
     public void sendUserRegisteredForEvent(User user, Event event) {
+        if (ObjectUtils.isEmpty(appProperties.getNotificationEmails())){
+            return;
+        }
         Locale locale = AppConfig.Constants.DEFAULT_LOCALE;
         Context ctx = new Context(locale);
         ctx.setVariable("user", user);
