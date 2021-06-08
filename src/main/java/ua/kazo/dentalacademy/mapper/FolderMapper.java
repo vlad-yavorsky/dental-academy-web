@@ -14,12 +14,14 @@ import java.util.List;
 @Mapper(uses = {FolderItemMapper.class, IdsMapper.class})
 public interface FolderMapper {
 
-    @Mapping(target = "programs", source = "programs", qualifiedByName = "longListToProgramList")
+    @Mapping(target = "program.id", source = "programId")
     Folder toEntity(FolderCreateDto folderCreateDto);
-    @Mapping(target = "programs", source = "programs", qualifiedByName = "longListToProgramList")
+    @Mapping(target = "program.id", source = "programId")
     Folder toEntity(FolderUpdateDto folderUpdateDto);
 
-    @Mapping(target = "programs", source = "programs", qualifiedByName = "programListToLongList")
+    Folder toEntity(FolderOrderingUpdateDto folderUpdateDto);
+
+    @Mapping(target = "programId", source = "program.id")
     FolderUpdateDto toUpdateDto(Folder folder);
 
     FolderResponseDto toResponseDto(Folder folder);

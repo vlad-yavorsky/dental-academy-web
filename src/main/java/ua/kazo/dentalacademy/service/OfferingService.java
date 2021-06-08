@@ -37,22 +37,22 @@ public class OfferingService {
         return offeringRepository.findAllById(ids);
     }
 
-    public Offering findByIdFetchProgramsAndFolders(Long id) {
+    public Offering findByIdFetchProgramsAndBonuses(Long id) {
         Offering offering = offeringRepository.findFetchProgramsById(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.OFFERING_NOT_FOUND, id));
-        offeringRepository.findFetchFoldersById(id);
+        offeringRepository.findFetchBonusesById(id);
         return offering;
     }
 
-    public List<Offering> findAllByIdsAndNotDeactivatedFetchProgramsAndFolders(List<Long> offeringIds) {
+    public List<Offering> findAllByIdsAndNotDeactivatedFetchProgramsAndBonuses(List<Long> offeringIds) {
         LocalDateTime now = LocalDateTime.now();
         offeringRepository.findAllByIdsAndNotDeactivatedFetchPrograms(offeringIds, now);
-        return offeringRepository.findAllByIdsAndNotDeactivatedFetchFolders(offeringIds, now);
+        return offeringRepository.findAllByIdsAndNotDeactivatedFetchBonuses(offeringIds, now);
     }
 
-    public List<Offering> findAllByIdInFetchProgramsAndFolders(Set<Long> ids) {
+    public List<Offering> findAllByIdInFetchProgramsAndBonuses(Set<Long> ids) {
         offeringRepository.findAllFetchProgramsByIdIn(ids);
-        return offeringRepository.findAllFetchFoldersByIdIn(ids);
+        return offeringRepository.findAllFetchBonusesByIdIn(ids);
     }
 
     public List<Offering> findAllByProgramId(Long programId) {

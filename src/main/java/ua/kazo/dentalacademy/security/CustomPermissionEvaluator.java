@@ -36,8 +36,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             if (TargetType.PROGRAM.equals(targetType)) {
                 return purchaseDataService.isProgramPurchasedAndNotExpired((Long) targetId, auth.getName());
             }
-            if (TargetType.FOLDER.equals(targetType)) {
-                return purchaseDataService.isFolderPurchasedAndNotExpired((Long) targetId, auth.getName());
+            if (TargetType.BONUS.equals(targetType)) {
+                return purchaseDataService.isBonusPurchasedAndNotExpired((Long) targetId, auth.getName());
             }
             if (TargetType.ORDER.equals(targetType)) {
                 return orderService.existsByNumberAndUserEmail((String) targetId, auth.getName());

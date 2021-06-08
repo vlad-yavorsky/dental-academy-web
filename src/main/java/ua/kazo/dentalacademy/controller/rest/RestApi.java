@@ -18,7 +18,7 @@ import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.payment.processor.Fondy;
-import ua.kazo.dentalacademy.service.payment.processor.LiqPay;
+import ua.kazo.dentalacademy.service.payment.processor.LiqPayExt;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.service.payment.processor.WayForPay;
 
@@ -59,7 +59,7 @@ public class RestApi {
     @PostMapping("/payment/liqpay-callback")
     public void liqPayCallback(final String data, final String signature) {
         log.debug("LiqPay Data: {}; Signature: {}", data, signature);
-        LiqPay liqPay = (LiqPay) PaymentProcessorHolder.get(PaymentProvider.LIQPAY);
+        LiqPayExt liqPay = (LiqPayExt) PaymentProcessorHolder.get(PaymentProvider.LIQPAY);
         if (!liqPay.isSignaturesEquals(data, signature)) {
             throw new ApplicationException(messageSource, ExceptionCode.SIGNATURES_DO_NOT_MATCH);
         }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
 <head>
-    <title th:replace="~{fragments :: head (#{nav.orders})}"></title>
+    <title th:replace="~{fragments :: head (#{nav.bonuses})}"></title>
 </head>
 <body>
 
@@ -14,29 +14,27 @@
         </div>
 
         <div class="col-12 col-md-8 col-lg-9 col-xl-10">
-            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.orders}"></span></h3>
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <span th:text="#{nav.bonuses}"></span></h3>
             <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
 
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead class="thead-dark">
                     <tr>
-                        <th th:text="#{order.number}"></th>
-                        <th th:text="#{order.created}"></th>
-                        <th th:text="#{order.status}"></th>
-                        <th th:text="#{user}"></th>
+                        <th style="width: 1%;" th:text="#{program.image}"></th>
+                        <th th:text="#{program.name}"></th>
                         <th th:text="#{button.actions}" style="width: 1%;"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="order: ${orders}">
-                        <td th:text="${order.number}"></td>
-                        <td th:text="${#temporals.format(order.created, 'dd.MM.yyyy HH:mm:ss')}"></td>
-                        <td th:text="${order.status}"></td>
-                        <td th:utext="${order.user.firstName + ' ' + order.user.lastName + ' | ' + order.user.email + ' | ' + order.user.mobile}"></td>
+                    <tr th:each="program: ${bonuses}">
+                        <td><img class="rounded" style="max-width: 100px;" th:if="${program.image}" th:src="${program.image}"></td>
+                        <td th:text="${program.name}"></td>
                         <td>
                             <div class="btn-group">
-                                <a th:href="@{/admin/order/__${order.number}__}" class="btn btn-primary" th:title="#{button.edit}"><i class="fas fa-edit fa-fw"></i></a>
+                                <a th:href="@{/admin/folder/add(programId=__${program.id}__)}" th:title="#{button.AddFolder}" class="btn btn-success"><i class="fas fa-plus-circle fa-fw"></i></a>
+                                <a th:href="@{/admin/program/edit/__${program.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+                                <!--                                <a th:href="@{/admin/program/delete/__${program.id}__}" th:title="#{button.delete}" class="btn btn-danger"><i class="fas fa-trash-alt fa-fw"></i></a>-->
                             </div>
                         </td>
                     </tr>

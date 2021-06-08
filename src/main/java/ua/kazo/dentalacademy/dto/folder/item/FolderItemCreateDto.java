@@ -15,7 +15,6 @@ public class FolderItemCreateDto {
     private String name;
     @NotBlank
     private String link;
-    private String image;
     @NotNull
     private FolderItemType type;
     private int ordering;

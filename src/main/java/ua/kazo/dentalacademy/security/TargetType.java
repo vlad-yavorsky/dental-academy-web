@@ -1,12 +1,11 @@
 package ua.kazo.dentalacademy.security;
 
-import lombok.experimental.UtilityClass;
+public final class TargetType {
 
-@UtilityClass
-public class TargetType {
+    private TargetType() {}
 
-    public final String PROGRAM = "PROGRAM";
-    public final String FOLDER = "FOLDER";
-    public final String ORDER = "ORDER";
+    public static final String PROGRAM = "PROGRAM";
+    public static final String BONUS = "BONUS";
+    public static final String ORDER = "ORDER";
 
 }

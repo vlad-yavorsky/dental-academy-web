@@ -46,8 +46,8 @@
                             </ol>
                         </td>
                         <td>
-                            <ol th:if="${!cartItem.folders.isEmpty()}">
-                                <li th:each="bonus: ${cartItem.folders}">
+                            <ol th:if="${!cartItem.bonuses.isEmpty()}">
+                                <li th:each="bonus: ${cartItem.bonuses}">
                                     <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
                                 </li>
                             </ol>

@@ -41,11 +41,11 @@ public class AuthorizationMessagesLocaleFixFilter extends OncePerRequestFilter {
      * @see DispatcherServlet#buildLocaleContext(HttpServletRequest request)
      */
     protected LocaleContext buildLocaleContext(final HttpServletRequest request) {
-        LocaleResolver localeResolver = this.localeResolver;
-        if (localeResolver instanceof LocaleContextResolver) {
-            return ((LocaleContextResolver) localeResolver).resolveLocaleContext(request);
+        LocaleResolver lr = this.localeResolver;
+        if (lr instanceof LocaleContextResolver) {
+            return ((LocaleContextResolver) lr).resolveLocaleContext(request);
         } else {
-            return () -> (localeResolver != null ? localeResolver.resolveLocale(request) : request.getLocale());
+            return () -> (lr != null ? lr.resolveLocale(request) : request.getLocale());
         }
     }
 

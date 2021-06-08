@@ -63,7 +63,7 @@ public class OrderService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.ORDER_NOT_FOUND, number));
         Set<Long> offeringIds = order.getPurchaseData().stream()
                 .map(purchaseData -> purchaseData.getOffering().getId()).collect(Collectors.toSet());
-        offeringService.findAllByIdInFetchProgramsAndFolders(offeringIds);
+        offeringService.findAllByIdInFetchProgramsAndBonuses(offeringIds);
         return order;
     }
 
@@ -73,7 +73,7 @@ public class OrderService {
         orderRepository.findAllByIdIn(ids);
         Set<Long> offeringIds = new HashSet<>();
         result.forEach(order -> order.getPurchaseData().forEach(purchaseData -> offeringIds.add(purchaseData.getOffering().getId())));
-        offeringService.findAllByIdInFetchProgramsAndFolders(offeringIds);
+        offeringService.findAllByIdInFetchProgramsAndBonuses(offeringIds);
         return result;
     }
 

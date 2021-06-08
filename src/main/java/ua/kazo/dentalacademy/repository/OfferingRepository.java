@@ -27,8 +27,8 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     /**
      * Admin / Offering Edit
      */
-    @EntityGraph(attributePaths = "folders")
-    Optional<Offering> findFetchFoldersById(Long id);
+    @EntityGraph(attributePaths = "bonuses")
+    Optional<Offering> findFetchBonusesById(Long id);
 
     /**
      * Admin / Program Edit
@@ -58,9 +58,9 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
      * Client / Shop Item
      */
     @Query("select distinct o from Offering o " +
-            "left join fetch o.folders " +
+            "left join fetch o.bonuses " +
             "where o.id in (:ids) and (o.deactivated is null or :dateTime < o.deactivated)")
-    List<Offering> findAllByIdsAndNotDeactivatedFetchFolders(List<Long> ids, LocalDateTime dateTime);
+    List<Offering> findAllByIdsAndNotDeactivatedFetchBonuses(List<Long> ids, LocalDateTime dateTime);
 
     /**
      * Client / Add offering to cart
@@ -78,7 +78,7 @@ public interface OfferingRepository extends JpaRepository<Offering, Long> {
     /**
      * Client / Order History
      */
-    @EntityGraph(attributePaths = "folders")
-    List<Offering> findAllFetchFoldersByIdIn(Set<Long> ids);
+    @EntityGraph(attributePaths = "bonuses")
+    List<Offering> findAllFetchBonusesByIdIn(Set<Long> ids);
 
 }

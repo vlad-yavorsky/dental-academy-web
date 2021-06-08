@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.dto.program;
 import lombok.Getter;
 import lombok.Setter;
 import ua.kazo.dentalacademy.dto.folder.FolderViewedItemsResponseDto;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 
 import java.util.List;
 
@@ -17,5 +18,6 @@ public class ProgramViewedFoldersItemsResponseDto {
     private String image;
     private List<FolderViewedItemsResponseDto> folders;
     private int completionPercentage;
+    private ProgramCategory category;
 
 }

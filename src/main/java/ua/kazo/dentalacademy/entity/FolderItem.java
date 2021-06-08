@@ -24,8 +24,6 @@ public class FolderItem extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    private String image;
-
     private String link;
 
     @Enumerated(EnumType.STRING)
@@ -38,7 +36,7 @@ public class FolderItem extends TrackedDateEntity implements Serializable {
     private int ordering;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "folderItem")
+    @OneToMany(mappedBy = "folderItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ViewedFolderItem> viewedFolderItems = new ArrayList<>();
 
 }

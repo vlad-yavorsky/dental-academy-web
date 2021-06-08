@@ -58,10 +58,10 @@ public class Offering extends TrackedDateEntity implements Serializable {
 
     @ToString.Exclude
     @ManyToMany
-    @JoinTable(name = "offering_folder",
+    @JoinTable(name = "offering_bonus",
             joinColumns = {@JoinColumn(name = "offeringId")},
-            inverseJoinColumns = {@JoinColumn(name = "folderId")})
-    private List<Folder> folders;
+            inverseJoinColumns = {@JoinColumn(name = "programId")})
+    private List<Program> bonuses;
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "cartItems")

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.service.StatisticsService;
 
 @Controller
@@ -17,11 +17,9 @@ public class AdminController {
 
     @GetMapping
     public String adminPanel(final ModelMap model) {
-        model.addAttribute("programs_count", statisticsService.getProgramsCount());
+        model.addAttribute("programs_count", statisticsService.getProgramsCountByCategory(ProgramCategory.STANDARD));
+        model.addAttribute("bonuses_count", statisticsService.getProgramsCountByCategory(ProgramCategory.BONUS));
         model.addAttribute("folders_count", statisticsService.getFoldersCount());
-        model.addAttribute("modules_count", statisticsService.getFoldersCountByCategory(FolderCategory.MODULE));
-        model.addAttribute("qa_count", statisticsService.getFoldersCountByCategory(FolderCategory.QA));
-        model.addAttribute("bonuses_count", statisticsService.getFoldersCountByCategory(FolderCategory.BONUS));
         model.addAttribute("offerings_count", statisticsService.getOfferingsCount());
         model.addAttribute("orders_count", statisticsService.getOrdersCount());
         model.addAttribute("users_count", statisticsService.getUsersCount());

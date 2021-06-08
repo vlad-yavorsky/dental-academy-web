@@ -2,7 +2,6 @@ package ua.kazo.dentalacademy.dto.offering;
 
 import lombok.Getter;
 import lombok.Setter;
-import ua.kazo.dentalacademy.dto.folder.FolderResponseDto;
 import ua.kazo.dentalacademy.dto.program.ProgramResponseDto;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 
@@ -25,7 +24,7 @@ public class ShopItemOfferingResponseDto {
     private LocalDateTime activated;
     private LocalDateTime deactivated;
     private List<ProgramResponseDto> programs;
-    private List<FolderResponseDto> folders;
+    private List<ProgramResponseDto> bonuses;
     private boolean purchased;
     private boolean inCart;
 

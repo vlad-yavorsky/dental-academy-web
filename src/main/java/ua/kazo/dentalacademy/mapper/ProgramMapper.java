@@ -54,7 +54,7 @@ public interface ProgramMapper {
                     .reduce(Integer::sum)
                     .orElse(0);
         }
-        return viewedItems * 100 / size;
+        return size != 0 ? viewedItems * 100 / size : 0;
     }
 
 }

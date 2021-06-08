@@ -31,40 +31,14 @@
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
                         <label class="required" for="programs" th:text="#{program}"></label>
-                        <select class="form-control selectpicker" id="programs" th:field="*{programs}" required th:disabled="${#strings.equals(folder.category, 'BONUS')}">
+                        <select class="form-control selectpicker" id="programs" th:field="*{programId}" required>
                             <option th:each="program: ${programs}" th:value="${program.id}" th:text="${program.name}"></option>
                         </select>
                         <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="required" for="category" th:text="#{folder.category}"></label>
-                        <select class="form-control selectpicker" id="category" th:field="*{category}" required>
-                            <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.FolderCategory).values()}"
-                                    th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
-                        </select>
-                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col mb-3">
-                        <label for="image" th:text="#{folder.image}"></label>
-                        <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250"/>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col mb-3">
-                        <label class="required" for="shortDescription" th:text="#{folder.shortDescription}"></label>
-                        <!-- removed 'required' for textarea because class 'needs-validation' not present -->
-                        <textarea class="tinymce form-control" id="shortDescription" th:field="*{shortDescription}" rows="5"></textarea>
-                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col mb-3">
-                        <label class="required" for="fullDescription" th:text="#{folder.fullDescription}"></label>
-                        <!-- removed 'required' for textarea because class 'needs-validation' not present -->
-                        <textarea class="tinymce form-control" id="fullDescription" th:field="*{fullDescription}" rows="5"></textarea>
-                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                        <label for="ordering" th:text="#{folder.ordering}"></label>
+                        <input type="number" class="form-control" id="ordering" th:field="*{ordering}" maxlength="2" min="0" max="99" required/>
                     </div>
                 </div>
 
@@ -76,7 +50,6 @@
                             <th style="width: 1%;"></th>
                             <th th:text="#{folder.item.name}"></th>
                             <th th:text="#{folder.item.link}"></th>
-                            <th th:text="#{folder.item.image}"></th>
                             <th th:text="#{folder.item.type}"></th>
                             <th th:text="#{button.actions}" style="width: 1%;"></th>
                         </tr>
@@ -92,9 +65,6 @@
                             </td>
                             <td>
                                 <input type="text" class="form-control input-min-width" th:field="*{items[__${iter.index}__].link}" maxlength="250" required/>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control input-min-width" th:field="*{items[__${iter.index}__].image}" maxlength="250"/>
                             </td>
                             <td>
                                 <div class="input-group">

@@ -45,27 +45,17 @@ databaseChangeLog:
                   value: Link to website
 
         - insert:
-            tableName: folder_category
+            tableName: program_category
             columns:
               - column:
                   name: name
-                  value: MODULE
+                  value: STANDARD
               - column:
                   name: description
-                  value: Module
+                  value: Standard
 
         - insert:
-            tableName: folder_category
-            columns:
-              - column:
-                  name: name
-                  value: QA
-              - column:
-                  name: description
-                  value: Questions and Answers
-
-        - insert:
-            tableName: folder_category
+            tableName: program_category
             columns:
               - column:
                   name: name
@@ -115,6 +105,9 @@ databaseChangeLog:
               - column:
                   name: birthday
                   value: '1990-01-01'
+              - column:
+                  name: account_non_locked
+                  value: true
 
         - insert:
             tableName: user_role
@@ -153,6 +146,9 @@ databaseChangeLog:
               - column:
                   name: birthday
                   value: '1990-01-01'
+              - column:
+                  name: account_non_locked
+                  value: true
 
         - insert:
             tableName: user_role

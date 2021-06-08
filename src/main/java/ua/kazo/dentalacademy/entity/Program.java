@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -33,12 +34,19 @@ public class Program extends TrackedDateEntity implements Serializable {
 
     private String image;
 
+    @Enumerated(EnumType.STRING)
+    private ProgramCategory category;
+
     @ToString.Exclude
     @ManyToMany(mappedBy = "programs")
     private List<Offering> offerings;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "programs")
+    @ManyToMany(mappedBy = "bonuses")
+    private List<Offering> offeringsByBonuses;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "program")
     private List<Folder> folders;
 
 }

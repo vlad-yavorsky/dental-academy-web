@@ -71,7 +71,7 @@ public class ShopController {
         List<Long> offeringIds = offeringService.findAllIdsByProgramId(programId);
         model.addAttribute(ModelMapConstants.PROGRAM, programMapper.toResponseDto(programService.findById(programId)));
         List<ShopItemOfferingResponseDto> shopItemOfferingDtos = offeringMapper.toShopItemResponseDto(
-                offeringService.findAllByIdsAndNotDeactivatedFetchProgramsAndFolders(offeringIds),
+                offeringService.findAllByIdsAndNotDeactivatedFetchProgramsAndBonuses(offeringIds),
                 userService.findByEmailFetchCartItemsAndOrders(principal.getName(),
                         () -> orderService.findAllByUserEmail(principal.getName())));
         model.addAttribute(ModelMapConstants.OFFERINGS, shopItemOfferingDtos);
@@ -150,7 +150,7 @@ public class ShopController {
     @GetMapping({"/shop/offering/{offeringId}"})
     public String offering(final @PathVariable Long offeringId, final ModelMap model, final Principal principal) {
         ShopItemOfferingResponseDto shopItemOfferingDto = offeringMapper.toShopItemResponseDto(
-                offeringService.findByIdFetchProgramsAndFolders(offeringId),
+                offeringService.findByIdFetchProgramsAndBonuses(offeringId),
                 userService.findByEmailFetchCartItemsAndOrders(principal.getName(),
                         () -> orderService.findAllByUserEmail(principal.getName())));
         model.addAttribute(ModelMapConstants.OFFERING, shopItemOfferingDto);

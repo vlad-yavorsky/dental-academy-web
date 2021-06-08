@@ -26,7 +26,7 @@
             <p th:unless="${event.date}" th:text="#{info.EventDateNotDefined}"></p>
 
             <h5 th:text="#{event.description}"></h5>
-            <p th:utext="${event.description}"></p>
+            <p th:utext="${event.fullDescription}"></p>
 
             <div class="btn btn-success mb-2" th:if="${event.userRegistered}">
                 <i class="fas fa-check-circle fa-fw"></i> <span th:text="#{info.RegisteredForEvent}"></span>

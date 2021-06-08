@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <title th:replace="~{fragments :: head (#{nav.editBonus})}"></title>
+</head>
+<body>
+
+<header th:replace="~{fragments :: header}"></header>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3 col-xl-2">
+            <div th:replace="~{fragments :: admin-menu}"></div>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9 col-xl-10">
+            <h3 class="border-bottom pb-3"><a th:href="@{/admin}" th:text="#{nav.adminPanel}"></a> / <a th:href="@{/admin/bonuses}" th:text="#{nav.bonuses}"></a> / <span th:text="#{nav.editBonus}"></span></h3>
+            <div th:replace="~{fragments :: alerts (${errors}, ${success}, ${error}, ${exception})}"></div>
+
+            <h4 class="mb-3" th:text="#{header.MainInfo}"></h4>
+            <form class="needs-validation" novalidate method="post" th:object="${program}" th:action="@{/admin/bonus/edit/__${program.id}__}">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="name" th:text="#{program.name}"></label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="250" required>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="category" th:text="#{program.category}"></label>
+                        <select class="form-control selectpicker" id="category" th:field="*{category}" required>
+                            <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.ProgramCategory).values()}"
+                                    th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="image" th:text="#{program.image}"></label>
+                        <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="shortDescription" th:text="#{program.shortDescription}"></label>
+                        <textarea class="tinymce form-control" id="shortDescription" th:field="*{shortDescription}" required></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3">
+                        <label class="required" for="fullDescription" th:text="#{program.fullDescription}"></label>
+                        <textarea class="tinymce form-control" id="fullDescription" th:field="*{fullDescription}" required></textarea>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col mb-3 text-center">
+                        <button type="submit" class="btn btn-success mb-3"><i class="fas fa-save fa-fw"></i> <span th:text="#{button.save}"></span></button>
+                        <a class="btn btn-secondary mb-3" th:href="@{/admin/bonuses}"><i class="fas fa-window-close fa-fw"></i> <span th:text="#{button.cancel}"></span></a>
+                    </div>
+                </div>
+            </form>
+
+            <h4 th:text="#{folders}"></h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:text="#{folder.name}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="folder: ${folders}">
+                        <td th:text="${folder.name}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{/admin/folder/edit/__${folder.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{/admin/folder/add(programId=__${program.id}__)}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{button.AddFolder}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <h4 th:text="#{offerings}"></h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th th:text="#{offering.name}"></th>
+                        <th th:text="#{offering.package}"></th>
+                        <th th:text="#{offering.price}"></th>
+                        <th th:text="#{offering.term}"></th>
+                        <th th:text="#{button.actions}" style="width: 1%;"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="offering: ${offerings}">
+                        <td th:text="${offering.name}"></td>
+                        <td th:text="#{${offering.type.toString().toLowerCase()}}"></td>
+                        <td th:text="${offering.price}"></td>
+                        <td th:text="${offering.term}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-primary" th:href="@{/admin/offering/edit/__${offering.id}__}" target="_blank"><i class="fas fa-edit fa-fw"></i></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="5" style="text-align: right;">
+                            <a class="btn btn-success" th:href="@{/admin/offering/add(programId=__${program.id}__)}" target="_blank"><i class="fas fa-plus-circle fa-fw"></i> <span th:text="#{nav.addOffering}"></span></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 package ua.kazo.dentalacademy.service.payment.processor;
 
+import com.liqpay.LiqPay;
+import com.liqpay.LiqPayApi;
 import com.liqpay.LiqPayUtil;
 import org.json.simple.JSONObject;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -13,11 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class LiqPay extends com.liqpay.LiqPay implements PaymentProcessor {
+public class LiqPayExt extends LiqPay implements PaymentProcessor {
 
     private final AppProperties appProperties;
 
-    public LiqPay(AppProperties appProperties) {
+    public LiqPayExt(AppProperties appProperties) {
         super(appProperties.getPayment().getLiqpay().getPublicKey(), appProperties.getPayment().getLiqpay().getPrivateKey());
         this.appProperties = appProperties;
     }
@@ -33,7 +35,7 @@ public class LiqPay extends com.liqpay.LiqPay implements PaymentProcessor {
 
     @Override
     public String getCheckoutUrl() {
-        return LiqPay.LIQPAY_API_CHECKOUT_URL;
+        return LiqPayApi.LIQPAY_API_CHECKOUT_URL;
     }
 
     @Override

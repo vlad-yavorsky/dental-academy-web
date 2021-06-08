@@ -57,9 +57,9 @@
                                 </ol>
                             </td>
                             <td>
-                                <ol th:if="${!orderItem.offering.folders.isEmpty()}">
-                                    <li th:each="folder: ${orderItem.offering.folders}">
-                                        <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                <ol th:if="${!orderItem.offering.bonuses.isEmpty()}">
+                                    <li th:each="bonus: ${orderItem.offering.bonuses}">
+                                        <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
                                     </li>
                                 </ol>
                             </td>

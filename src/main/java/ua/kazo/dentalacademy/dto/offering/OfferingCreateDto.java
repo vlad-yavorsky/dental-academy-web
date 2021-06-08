@@ -33,6 +33,6 @@ public class OfferingCreateDto {
     private LocalDateTime deactivated;
     @NotEmpty
     private List<Long> programs = new ArrayList<>();
-    private List<Long> folders = new ArrayList<>();
+    private List<Long> bonuses = new ArrayList<>();
 
 }

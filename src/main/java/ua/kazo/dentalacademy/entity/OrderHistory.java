@@ -7,13 +7,14 @@ import lombok.ToString;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-public class OrderHistory extends TrackedDateEntity {
+public class OrderHistory extends TrackedDateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_history_id_seq")

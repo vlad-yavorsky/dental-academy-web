@@ -33,11 +33,11 @@ public class FileSystemStorageService extends AbstractStorageService {
     }
 
     protected Path getDestinationFile(String newFilename) {
-        Path destinationFile = this.rootLocation
+        Path destinationFile = rootLocation
                 .resolve(Paths.get(newFilename))
                 .normalize()
                 .toAbsolutePath();
-        if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+        if (!destinationFile.getParent().equals(rootLocation.toAbsolutePath())) {
             // This is a security check
             throw new StorageException("Cannot store file outside current directory.");
         }
@@ -79,7 +79,6 @@ public class FileSystemStorageService extends AbstractStorageService {
 
     @Override
     public void delete(String photoName) {
-        Path rootLocation = Paths.get(appProperties.getStorage().getLocation());
         Path fileToDelete = rootLocation.resolve(Paths.get(photoName))
                 .normalize()
                 .toAbsolutePath();

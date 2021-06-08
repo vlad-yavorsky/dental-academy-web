@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public class EventCreateDto {
 
     private String name;
-    private String description;
+    private String shortDescription;
+    private String fullDescription;
     private String image;
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime date;

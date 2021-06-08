@@ -14,7 +14,7 @@ import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.offering.OfferingCreateDto;
 import ua.kazo.dentalacademy.dto.offering.OfferingUpdateDto;
 import ua.kazo.dentalacademy.entity.Offering;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.mapper.FolderMapper;
 import ua.kazo.dentalacademy.mapper.OfferingMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
@@ -90,8 +90,8 @@ public class AdminOfferingController {
 
     private String loadOfferingAddPage(final OfferingCreateDto offeringCreateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringCreateDto);
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithFolders()));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.STANDARD)));
+        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.BONUS)));
         return "admin/offering/offering-add";
     }
 
@@ -125,14 +125,14 @@ public class AdminOfferingController {
 
     private String loadOfferingEditPage(final OfferingUpdateDto offeringUpdateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringUpdateDto);
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(folderService.findAllByCategory(FolderCategory.BONUS)));
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllWithFolders()));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.STANDARD)));
+        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.BONUS)));
         return "admin/offering/offering-edit";
     }
 
     @GetMapping("/offering/edit/{id}")
     public String editOffering(@PathVariable Long id, final ModelMap model) {
-        return loadOfferingEditPage(offeringMapper.toUpdateDto(offeringService.findByIdFetchProgramsAndFolders(id)), model);
+        return loadOfferingEditPage(offeringMapper.toUpdateDto(offeringService.findByIdFetchProgramsAndBonuses(id)), model);
     }
 
     @PostMapping("/offering/edit/{id}")

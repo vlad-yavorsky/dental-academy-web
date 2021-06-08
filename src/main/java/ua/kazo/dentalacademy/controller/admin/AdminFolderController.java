@@ -1,14 +1,11 @@
 package ua.kazo.dentalacademy.controller.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.kazo.dentalacademy.constants.AppConfig;
 import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.folder.FolderCreateDto;
 import ua.kazo.dentalacademy.dto.folder.FolderUpdateDto;
@@ -16,7 +13,6 @@ import ua.kazo.dentalacademy.dto.folder.item.FolderItemCreateDto;
 import ua.kazo.dentalacademy.dto.folder.item.FolderItemUpdateDto;
 import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.FolderItem;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
 import ua.kazo.dentalacademy.mapper.FolderMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
 import ua.kazo.dentalacademy.service.FolderService;
@@ -36,35 +32,17 @@ public class AdminFolderController {
     private final FolderService folderService;
     private final FolderMapper folderMapper;
 
-    /* ---------------------------------------------- FOLDERS/BONUSES ---------------------------------------------- */
-
-    @GetMapping("/bonuses")
-    public String bonuses(final ModelMap model,
-                          @RequestParam(defaultValue = "0") final int page,
-                          @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
-        Page<Folder> pageResult = folderService.findAllByCategory(FolderCategory.BONUS, PageRequest.of(page, size));
-        model.addAttribute(ModelMapConstants.BONUSES, folderMapper.toResponseDto(pageResult));
-        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
-        return "admin/folder/bonuses";
-    }
-
     /* ---------------------------------------------- ADD FOLDER ---------------------------------------------- */
 
     private void validateFolderName(final Folder folder, final BindingResult bindingResult, final boolean isAdd) {
         if (isAdd) {
-            if (folderService.existsByNameAndPrograms(folder.getName(), folder.getPrograms())) {
+            if (folderService.existsByNameAndProgram(folder.getName(), folder.getProgram())) {
                 bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
-//            if (folderService.existsByNameAndOfferings(folder.getName(), folder.getOfferings())) {
-//                bindingResult.rejectValue("name", "validation.NameNotUnique");
-//            }
         } else {
-            if (folderService.existsByNameAndProgramsAndIdNot(folder.getName(), folder.getPrograms(), folder.getId())) {
+            if (folderService.existsByNameAndProgramAndIdNot(folder.getName(), folder.getProgram(), folder.getId())) {
                 bindingResult.rejectValue("name", "validation.NameNotUnique");
             }
-//            if (folderService.existsByNameAndOfferingsAndIdNot(folder.getName(), folder.getOfferings(), folder.getId())) {
-//                bindingResult.rejectValue("name", "validation.NameNotUnique");
-//            }
         }
     }
 
@@ -75,14 +53,9 @@ public class AdminFolderController {
     }
 
     @GetMapping("/folder/add")
-    public String addFolder(@RequestParam(required = false) Long programId, @RequestParam(required = false) FolderCategory category, final ModelMap model) {
+    public String addFolder(@RequestParam(required = false) Long programId, final ModelMap model) {
         FolderCreateDto folderCreateDto = new FolderCreateDto();
-        if (programId != null) {
-            folderCreateDto.getPrograms().add(programId);
-        }
-        if (category != null) {
-            folderCreateDto.setCategory(category);
-        }
+        folderCreateDto.setProgramId(programId);
         return loadFolderAddPage(folderCreateDto, model);
     }
 
@@ -126,7 +99,7 @@ public class AdminFolderController {
 
     @GetMapping("/folder/edit/{id}")
     public String editFolder(@PathVariable Long id, final ModelMap model) {
-        return loadFolderEditPage(folderMapper.toUpdateDto(folderService.findByIdFetchItemsAndPrograms(id)), model);
+        return loadFolderEditPage(folderMapper.toUpdateDto(folderService.findByIdFetchItems(id)), model);
     }
 
     @PostMapping("/folder/edit/{id}")

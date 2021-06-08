@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="bonuses" th:text="#{bonuses}"></label>
-                        <select class="form-control selectpicker" id="bonuses" multiple th:field="*{folders}">
+                        <select class="form-control selectpicker" id="bonuses" multiple th:field="*{bonuses}">
                             <option th:each="bonus: ${bonuses}" th:value="${bonus.id}" th:text="${bonus.name}"></option>
                         </select>
                     </div>

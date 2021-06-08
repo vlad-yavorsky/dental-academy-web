@@ -1,14 +1,13 @@
 package ua.kazo.dentalacademy.util;
 
-import lombok.experimental.UtilityClass;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@UtilityClass
-public class MathUtil {
+public final class MathUtil {
 
-    public BigDecimal calculateDiscountPrice(final BigDecimal price, final Byte discount) {
+    private MathUtil() {}
+
+    public static BigDecimal calculateDiscountPrice(final BigDecimal price, final Byte discount) {
         if (discount == null) {
             return price;
         }
@@ -16,7 +15,7 @@ public class MathUtil {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal calculateDiscount(final BigDecimal price, final BigDecimal discountPrice) {
+    public static BigDecimal calculateDiscount(final BigDecimal price, final BigDecimal discountPrice) {
         if (price.equals(discountPrice)) {
             return BigDecimal.ZERO;
         }

@@ -119,6 +119,19 @@ databaseChangeLog:
                   type: TIMESTAMP
 
         - createTable:
+            tableName: program_category
+            columns:
+              - column:
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: program_category_pk
+                  name: name
+                  type: VARCHAR(20)
+              - column:
+                  name: description
+                  type: VARCHAR(250)
+
+        - createTable:
             tableName: program
             columns:
               - column:
@@ -154,6 +167,14 @@ databaseChangeLog:
                   defaultValueComputed: CURRENT_TIMESTAMP
                   name: created
                   type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                    foreignKeyName: program_category_fk
+                    referencedTableName: program_category
+                    referencedColumnNames: name
+                  name: category
+                  type: VARCHAR(20)
 
         - createTable:
             tableName: folder_item_type
@@ -162,19 +183,6 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
                     primaryKeyName: folder_item_type_pk
-                  name: name
-                  type: VARCHAR(20)
-              - column:
-                  name: description
-                  type: VARCHAR(250)
-
-        - createTable:
-            tableName: folder_category
-            columns:
-              - column:
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: folder_category_pk
                   name: name
                   type: VARCHAR(20)
               - column:
@@ -199,30 +207,20 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: short_description
-                  type: CLOB
-              - column:
-                  constraints:
-                    nullable: false
-                  name: full_description
-                  type: CLOB
-              - column:
-                  name: image
-                  type: VARCHAR(250)
-              - column:
-                  constraints:
-                    nullable: false
                   defaultValueComputed: CURRENT_TIMESTAMP
                   name: created
                   type: TIMESTAMP
               - column:
                   constraints:
                     nullable: false
-                    foreignKeyName: folder_category_fk
-                    referencedTableName: folder_category
-                    referencedColumnNames: name
-                  name: category
-                  type: VARCHAR(20)
+                    foreignKeyName: folder_program_id_fk
+                    referencedTableName: program
+                    referencedColumnNames: id
+                  name: program_id
+                  type: BIGINT
+              - column:
+                  name: ordering
+                  type: INT
 
         - createTable:
             tableName: folder_item
@@ -366,8 +364,15 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(250)
               - column:
-                  name: description
-                  type: VARCHAR(2000)
+                  constraints:
+                    nullable: false
+                  name: short_description
+                  type: CLOB
+              - column:
+                  constraints:
+                    nullable: false
+                  name: full_description
+                  type: CLOB
               - column:
                   name: image
                   type: VARCHAR(250)
@@ -518,13 +523,13 @@ databaseChangeLog:
                   type: BIGINT
 
         - createTable:
-            tableName: offering_folder
+            tableName: offering_bonus
             columns:
               - column:
                   constraints:
                     primaryKey: true
-                    primaryKeyName: offering_folder_pk
-                    foreignKeyName: offering_folder_offering_id_fk
+                    primaryKeyName: offering_bonus_pk
+                    foreignKeyName: offering_bonus_offering_id_fk
                     referencedTableName: offering
                     referencedColumnNames: id
                   name: offering_id
@@ -532,33 +537,11 @@ databaseChangeLog:
               - column:
                   constraints:
                     primaryKey: true
-                    primaryKeyName: offering_folder_pk
-                    foreignKeyName: offering_folder_folder_id_fk
-                    referencedTableName: folder
-                    referencedColumnNames: id
-                  name: folder_id
-                  type: BIGINT
-
-        - createTable:
-            tableName: program_folder
-            columns:
-              - column:
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: program_folder_pk
-                    foreignKeyName: program_folder_program_id_fk
+                    primaryKeyName: offering_bonus_pk
+                    foreignKeyName: offering_bonus_program_id_fk
                     referencedTableName: program
                     referencedColumnNames: id
                   name: program_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: program_folder_pk
-                    foreignKeyName: program_folder_folder_id_fk
-                    referencedTableName: folder
-                    referencedColumnNames: id
-                  name: folder_id
                   type: BIGINT
 
         - createTable:

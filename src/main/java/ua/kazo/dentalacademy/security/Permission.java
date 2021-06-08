@@ -1,10 +1,9 @@
 package ua.kazo.dentalacademy.security;
 
-import lombok.experimental.UtilityClass;
+public final class Permission {
 
-@UtilityClass
-public class Permission {
+    private Permission() {}
 
-    public final String READ = "READ";
+    public static final String READ = "READ";
 
 }

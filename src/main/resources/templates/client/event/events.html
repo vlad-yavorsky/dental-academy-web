@@ -37,7 +37,7 @@
                         <h5 class="card-title">
                             <a th:href="@{/event/__${event.id}__}" th:text="${event.name}"></a>
                         </h5>
-                        <p class="card-text" th:utext="${event.description}"></p>
+                        <p class="card-text" th:utext="${event.shortDescription}"></p>
                         <a th:href="@{/event/__${event.id}__}" class="btn btn-primary mb-2" th:text="#{button.WatchDetails}"></a>
                         <div class="btn btn-success" th:if="${event.userRegistered}">
                             <i class="fas fa-check-circle fa-fw"></i> <span th:text="#{info.RegisteredForEvent}"></span>

@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,30 +25,14 @@ public class Folder extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    @Lob
-    private String shortDescription;
-
-    @Lob
-    private String fullDescription;
-
-    private String image;
-
-    @Enumerated(EnumType.STRING)
-    private FolderCategory category;
+    private int ordering;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FolderItem> items;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "folders")
-    private List<Offering> offerings;
-
-    @ToString.Exclude
-    @ManyToMany
-    @JoinTable(name = "program_folder",
-            joinColumns = {@JoinColumn(name = "folderId")},
-            inverseJoinColumns = {@JoinColumn(name = "programId")})
-    private List<Program> programs;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Program program;
 
 }

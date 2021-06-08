@@ -27,7 +27,15 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label class="required" for="category" th:text="#{program.category}"></label>
+                        <select class="form-control selectpicker" id="category" th:field="*{category}" required>
+                            <option th:each="category: ${T(ua.kazo.dentalacademy.enumerated.ProgramCategory).values()}"
+                                    th:value="${category.name()}" th:text="#{${category.name().toLowerCase()}}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:text="#{validation.fieldIsRequired}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="image" th:text="#{program.image}"></label>
                         <input type="text" class="form-control" id="image" th:field="*{image}" maxlength="250">
                     </div>

@@ -9,6 +9,7 @@ import ua.kazo.dentalacademy.enumerated.PaymentProvider;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ import java.util.List;
                 @NamedSubgraph(name = "purchaseData.offering", attributeNodes = @NamedAttributeNode(value = "offering")),
                 @NamedSubgraph(name = "user.roles", attributeNodes = @NamedAttributeNode(value = "roles"))
         })
-public class Order extends TrackedDateEntity {
+public class Order extends TrackedDateEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")

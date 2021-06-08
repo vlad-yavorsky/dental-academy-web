@@ -7,11 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Program;
 import ua.kazo.dentalacademy.enumerated.ExceptionCode;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.ProgramRepository;
@@ -29,23 +28,20 @@ public class ProgramService {
     private final MessageSource messageSource;
     private final FolderService folderService;
 
-    public Page<Program> findAll(Pageable pageable) {
-        return programRepository.findAll(pageable);
+    public Page<Program> findAllByCategory(ProgramCategory category, Pageable pageable) {
+        return programRepository.findAllByCategory(category, pageable);
     }
 
     public List<Program> findAll() {
         return programRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
-    public List<Program> findAllWithFolders() {
-        return programRepository.findAllWithFolders();
+    public List<Program> findAllByCategoryJoinFolders(ProgramCategory category) {
+        return programRepository.findAllJoinFoldersByCategoryOrderByName(category);
     }
 
     public Page<Program> findAllByNotDeactivatedOfferings(String search, Pageable pageable) {
-        if (!ObjectUtils.isEmpty(search)) {
-            return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search, pageable);
-        }
-        return programRepository.findAllByNotDeactivatedOfferings(LocalDateTime.now(), pageable);
+        return programRepository.findAllByNotDeactivatedOfferingsAndName(LocalDateTime.now(), search, pageable);
     }
 
     public Program findById(Long id) {
@@ -53,23 +49,18 @@ public class ProgramService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
-    public Program findByIdFetchFolders(Long id) {
-        return programRepository.findFetchFoldersByIdOrderByFolders(id)
+    public Program findByIdFetchFoldersOrderByFoldersOrdering(Long id) {
+        return programRepository.findFetchFoldersByIdOrderByFoldersOrdering(id)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
-    public Program findByIdFetchFoldersAndItems(Long id) {
-        Program program = findByIdFetchFolders(id);
+    public Program findByIdFetchFoldersAndItemsAndViewedFolderItems(Long id) {
+        Program program = findByIdFetchFoldersOrderByFoldersOrdering(id);
         List<Long> folderIds = program.getFolders().stream()
                 .map(Folder::getId)
                 .collect(Collectors.toList());
-        folderIds.forEach(folderService::findByIdFetchItems);
+        folderIds.forEach(folderService::findByIdFetchItemsAndViewedFolderItems);
         return program;
-    }
-
-    public Program findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category) {
-        return programRepository.findByIdAndFolderCategoryFetchFolders(id, category)
-                .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.PROGRAM_NOT_FOUND, id));
     }
 
     public boolean existsByName(String name) {
@@ -84,11 +75,12 @@ public class ProgramService {
         return programRepository.save(program);
     }
 
-    public Page<Program> findAllByNotExpiredPurchase(String email, String search, Pageable pageable) {
-        if (!ObjectUtils.isEmpty(search)) {
-            return programRepository.findAllByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, UnifiedPaymentStatus.SUCCESS);
-        }
-        return programRepository.findAllByNotExpiredPurchase(email, LocalDateTime.now(), pageable, UnifiedPaymentStatus.SUCCESS);
+    public Page<Program> findAllProgramsByNotExpiredPurchase(String email, String search, Pageable pageable) {
+        return programRepository.findAllProgramsByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, UnifiedPaymentStatus.SUCCESS);
+    }
+
+    public Page<Program> findAllBonusesByNotExpiredPurchaseAndName(String email, String search, Pageable pageable) {
+        return programRepository.findAllBonusesByNotExpiredPurchaseAndName(email, LocalDateTime.now(), search, pageable, UnifiedPaymentStatus.SUCCESS);
     }
 
     public void delete(Long id) {
@@ -96,7 +88,7 @@ public class ProgramService {
     }
 
     public void resetProgramProgress(Long userId, Long programId) {
-        findByIdFetchFolders(programId)
+        findByIdFetchFoldersOrderByFoldersOrdering(programId)
                 .getFolders().forEach(folder -> folderService.resetFolderProgress(userId, folder.getId()));
     }
 

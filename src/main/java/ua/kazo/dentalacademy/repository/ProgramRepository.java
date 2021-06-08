@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ua.kazo.dentalacademy.entity.Program;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
 import java.time.LocalDateTime;
@@ -21,10 +21,16 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
 
     boolean existsByNameAndIdNot(String name, Long id);
 
-    @Query("select distinct p from Program p " +
-            "join p.folders " +
-            "order by p.name")
-    List<Program> findAllWithFolders();
+    /**
+     * Admin / Offering Add; Offering Edit
+     */
+    @EntityGraph(attributePaths = "folders")
+    List<Program> findAllJoinFoldersByCategoryOrderByName(ProgramCategory category);
+
+    /**
+     * Admin / Programs; Bonuses
+     */
+    Page<Program> findAllByCategory(ProgramCategory category, Pageable pageable);
 
     /**
      * Client / Shop
@@ -33,31 +39,12 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("select distinct p from Program p " +
             "join p.offerings o " +
             "where (o.deactivated is null or :dateTime < o.deactivated) " +
-            "order by p.id desc")
-    Page<Program> findAllByNotDeactivatedOfferings(LocalDateTime dateTime, Pageable pageable);
-
-    /**
-     * Client / Shop (search)
-     */
-    @EntityGraph(attributePaths = "offerings")
-    @Query("select distinct p from Program p " +
-            "join p.offerings o " +
-            "where (o.deactivated is null or :dateTime < o.deactivated) " +
-            "and lower(p.name) like lower(concat('%', concat(:name, '%'))) " +
+            "and (:name is null or (lower(p.name) like lower(concat('%', concat(cast(:name as string), '%'))))) " +
             "order by p.id desc")
     Page<Program> findAllByNotDeactivatedOfferingsAndName(LocalDateTime dateTime, String name, Pageable pageable);
 
-    /**
-     * Client / My Programs / Modules, QA
-     */
-    @Query("select distinct p from Program p " +
-            "join fetch p.folders f " +
-            "where p.id = :id and f.category = :category " +
-            "order by f.id") // todo: change ordering here
-    Optional<Program> findByIdAndFolderCategoryFetchFolders(Long id, FolderCategory category);
-
     @EntityGraph(attributePaths = "folders")
-    Optional<Program> findFetchFoldersByIdOrderByFolders(Long id); // todo: change ordering here
+    Optional<Program> findFetchFoldersByIdOrderByFoldersOrdering(Long id);
 
     /**
      * Client / My Programs
@@ -66,18 +53,21 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "join p.offerings o " +
             "join o.purchaseData pd " +
             "join pd.order ord " +
-            "where pd.expired > :dateTime and pd.order.user.email = :email and ord.status = :status")
-    Page<Program> findAllByNotExpiredPurchase(String email, LocalDateTime dateTime, Pageable pageable, UnifiedPaymentStatus status);
+            "where pd.expired > :dateTime and pd.order.user.email = :email and ord.status = :status " +
+            "and (:name is null or (lower(p.name) like lower(concat('%', concat(cast(:name as string), '%')))))")
+    Page<Program> findAllProgramsByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable, UnifiedPaymentStatus status);
 
     /**
-     * Client / My Programs (search)
+     * Client / My Bonuses
      */
     @Query("select distinct p from Program p " +
-            "join p.offerings o " +
+            "join p.offeringsByBonuses o " +
             "join o.purchaseData pd " +
             "join pd.order ord " +
             "where pd.expired > :dateTime and pd.order.user.email = :email and ord.status = :status " +
-            "and lower(p.name) like lower(concat('%', concat(:name, '%')))")
-    Page<Program> findAllByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable, UnifiedPaymentStatus status);
+            "and (:name is null or (lower(p.name) like lower(concat('%', concat(cast(:name as string), '%')))))")
+    Page<Program> findAllBonusesByNotExpiredPurchaseAndName(String email, LocalDateTime dateTime, String name, Pageable pageable, UnifiedPaymentStatus status);
+
+    int countByCategory(ProgramCategory category);
 
 }

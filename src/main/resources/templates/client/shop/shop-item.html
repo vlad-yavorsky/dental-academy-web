@@ -61,12 +61,12 @@
                                     </li>
                                 </ol>
                             </li>
-                            <li th:if="${!offering.folders.isEmpty()}">
+                            <li th:if="${!offering.bonuses.isEmpty()}">
                                 <hr/>
                                 <span th:text="#{bonuses} + ': '"></span>
                                 <ul class="list-unstyled">
-                                    <li th:each="folder: ${offering.folders}">
-                                        <a th:href="@{/bonus/__${folder.id}__/preview}" th:text="${folder.name}"></a>
+                                    <li th:each="bonus: ${offering.bonuses}">
+                                        <a th:href="@{/bonus/__${bonus.id}__/preview}" th:text="${bonus.name}"></a>
                                     </li>
                                 </ul>
                             </li>

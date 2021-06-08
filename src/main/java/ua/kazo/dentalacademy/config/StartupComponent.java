@@ -10,7 +10,7 @@ public class StartupComponent {
 
     @Bean
     public CommandLineRunner init(StorageService storageService) {
-        return (args) -> storageService.init();
+        return args -> storageService.init();
     }
 
 }

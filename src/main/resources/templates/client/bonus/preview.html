@@ -18,8 +18,10 @@
 
     <div class="row">
         <div class="col-12">
-            <h6 th:text="${bonus.name}"></h6>
-            <ol><li th:each="folderItem: ${bonus.items}" th:text="${folderItem.name}"></li></ol>
+            <div th:each="bonusFolder: ${bonus.folders}">
+                <h6 th:text="${bonusFolder.name}"></h6>
+                <ol><li th:each="folderItem: ${bonusFolder.items}" th:text="${folderItem.name}"></li></ol>
+            </div>
         </div>
     </div>
 </div>

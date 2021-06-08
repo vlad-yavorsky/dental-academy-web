@@ -16,7 +16,6 @@ public class FolderItemUpdateDto {
     private String name;
     @NotBlank
     private String link;
-    private String image;
     @NotNull
     private FolderItemType type;
     private Long folderId;

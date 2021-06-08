@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findFetchCartItemsByEmail(email)
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.USER_NOT_FOUND, email));
         Set<Long> offeringIds = user.getCartItems().stream().map(Offering::getId).collect(Collectors.toSet());
-        offeringService.findAllByIdInFetchProgramsAndFolders(offeringIds);
+        offeringService.findAllByIdInFetchProgramsAndBonuses(offeringIds);
         user.setCartItemsCount(user.getCartItems().size());
         return user;
     }

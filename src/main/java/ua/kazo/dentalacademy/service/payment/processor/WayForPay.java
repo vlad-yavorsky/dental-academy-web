@@ -33,8 +33,8 @@ public class WayForPay implements PaymentProcessor {
     }
 
     @Override
-    public Map<String, Object> api(String url, Map<String, String> parameters) throws Exception {
-        throw new RuntimeException("Not implemented"); // todo: implement
+    public Map<String, Object> api(String url, Map<String, String> parameters) {
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
@@ -107,7 +107,7 @@ public class WayForPay implements PaymentProcessor {
 
     @Override
     public Map<String, String> getReceiptParameters(Order order, String userEmail) {
-        throw new RuntimeException("Not implemented"); // todo: implement
+        throw new RuntimeException("Not implemented");
     }
 
     @Override

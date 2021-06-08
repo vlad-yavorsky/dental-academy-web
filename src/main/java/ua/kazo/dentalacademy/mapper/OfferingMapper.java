@@ -19,14 +19,14 @@ import java.util.List;
 public interface OfferingMapper {
 
     @Mapping(target = "programs", source = "programs", qualifiedByName = "longListToProgramList")
-    @Mapping(target = "folders", source = "folders", qualifiedByName = "longListToFolderList")
+    @Mapping(target = "bonuses", source = "bonuses", qualifiedByName = "longListToProgramList")
     Offering toEntity(OfferingCreateDto offeringCreateDto);
     @Mapping(target = "programs", source = "programs", qualifiedByName = "longListToProgramList")
-    @Mapping(target = "folders", source = "folders", qualifiedByName = "longListToFolderList")
+    @Mapping(target = "bonuses", source = "bonuses", qualifiedByName = "longListToProgramList")
     Offering toEntity(OfferingUpdateDto offeringUpdateDto);
 
     @Mapping(target = "programs", source = "programs", qualifiedByName = "programListToLongList")
-    @Mapping(target = "folders", source = "folders", qualifiedByName = "folderListToLongList")
+    @Mapping(target = "bonuses", source = "bonuses", qualifiedByName = "programListToLongList")
     OfferingUpdateDto toUpdateDto(Offering offering);
 
     @Mapping(target = "discountPrice", source = "offering", qualifiedByName = "calculateDiscountPrice")

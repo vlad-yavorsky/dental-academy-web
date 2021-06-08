@@ -32,22 +32,12 @@
                         <td th:text="${programs_count}"></td>
                     </tr>
                     <tr>
-                        <td>
-                            <div th:text="#{folders} + ':'"></div>
-                            <div style="padding-left: 25px;">
-                                <div th:text="#{modules}"></div>
-                                <div th:text="#{bonuses}"></div>
-                                <div th:text="#{qas}"></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div th:text="${folders_count}"></div>
-                            <div>
-                                <div th:text="${modules_count}"></div>
-                                <div th:text="${bonuses_count}"></div>
-                                <div th:text="${qa_count}"></div>
-                            </div>
-                        </td>
+                        <td th:text="#{bonuses}"></td>
+                        <td th:text="${bonuses_count}"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{folders}"></td>
+                        <td th:text="${folders_count}"></td>
                     </tr>
                     <tr>
                         <td th:text="#{offerings}"></td>

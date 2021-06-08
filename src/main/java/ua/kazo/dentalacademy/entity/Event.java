@@ -33,7 +33,11 @@ public class Event extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    private String description;
+    @Lob
+    private String shortDescription;
+
+    @Lob
+    private String fullDescription;
 
     private String image;
 

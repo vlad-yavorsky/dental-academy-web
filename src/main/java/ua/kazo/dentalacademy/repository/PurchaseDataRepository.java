@@ -26,10 +26,8 @@ public interface PurchaseDataRepository extends JpaRepository<PurchaseData, Purc
      */
     @Query("select (count(pd) > 0) from PurchaseData pd " +
             "join pd.offering o " +
-            "join o.programs p " +
-            "left join p.folders module " +
-            "left join o.folders bonus " +
-            "where (module.id = :folderId or bonus.id = :folderId) and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
-    boolean isFolderPurchasedAndNotExpired(Long folderId, LocalDateTime dateTime, String email, UnifiedPaymentStatus status);
+            "join o.bonuses b " +
+            "where b.id = :bonusId and pd.expired > :dateTime and pd.order.user.email = :email and pd.order.status = :status ")
+    boolean isBonusPurchasedAndNotExpired(Long bonusId, LocalDateTime dateTime, String email, UnifiedPaymentStatus status);
 
 }

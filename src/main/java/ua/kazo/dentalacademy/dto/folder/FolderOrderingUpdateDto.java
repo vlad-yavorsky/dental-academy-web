@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FolderResponseDto {
+public class FolderOrderingUpdateDto {
 
     private Long id;
     private String name;
+    private Long ordering;
 
 }

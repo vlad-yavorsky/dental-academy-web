@@ -33,6 +33,6 @@ public class OfferingUpdateDto {
     private LocalDateTime deactivated;
     @NotEmpty
     private List<Long> programs;
-    private List<Long> folders;
+    private List<Long> bonuses;
 
 }

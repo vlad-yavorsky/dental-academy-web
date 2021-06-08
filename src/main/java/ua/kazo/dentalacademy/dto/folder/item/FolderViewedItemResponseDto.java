@@ -11,7 +11,6 @@ public class FolderViewedItemResponseDto {
     private Long id;
     private String name;
     private String link;
-    private String image;
     private FolderItemType type;
     private Long folderId;
     private int ordering;

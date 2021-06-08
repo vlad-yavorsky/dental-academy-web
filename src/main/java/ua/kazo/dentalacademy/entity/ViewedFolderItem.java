@@ -3,6 +3,7 @@ package ua.kazo.dentalacademy.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = {"user", "folderItem"}, callSuper = false)
-public class ViewedFolderItem {
+public class ViewedFolderItem implements Serializable {
 
     @EmbeddedId
     private ViewedFolderItemId id;

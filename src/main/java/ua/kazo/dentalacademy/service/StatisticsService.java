@@ -3,7 +3,7 @@ package ua.kazo.dentalacademy.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.kazo.dentalacademy.enumerated.FolderCategory;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.repository.*;
 
 @Service
@@ -19,16 +19,12 @@ public class StatisticsService {
     private final EventRepository eventRepository;
     private final ArticleRepository articleRepository;
 
-    public long getProgramsCount() {
-        return programRepository.count();
+    public long getProgramsCountByCategory(ProgramCategory category) {
+        return programRepository.countByCategory(category);
     }
 
     public long getFoldersCount() {
         return folderRepository.count();
-    }
-
-    public long getFoldersCountByCategory(FolderCategory folderCategory) {
-        return folderRepository.countByCategory(folderCategory);
     }
 
     public long getOfferingsCount() {

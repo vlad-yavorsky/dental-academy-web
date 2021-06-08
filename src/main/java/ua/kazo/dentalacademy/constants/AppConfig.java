@@ -11,7 +11,8 @@ public enum AppConfig {
     @Getter
     private final String value;
 
-    public static class Constants {
+    public static final class Constants {
+        private Constants() {}
         public static final String DEFAULT_PAGE_SIZE_VALUE = "15";
     }
 

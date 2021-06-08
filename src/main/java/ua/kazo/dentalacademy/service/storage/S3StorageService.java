@@ -41,6 +41,7 @@ public class S3StorageService extends AbstractStorageService {
 
     @Override
     public void init() {
+        // do nothing
     }
 
     @Override

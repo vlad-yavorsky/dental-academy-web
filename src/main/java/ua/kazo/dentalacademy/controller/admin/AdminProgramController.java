@@ -14,6 +14,7 @@ import ua.kazo.dentalacademy.constants.ModelMapConstants;
 import ua.kazo.dentalacademy.dto.program.ProgramCreateDto;
 import ua.kazo.dentalacademy.dto.program.ProgramUpdateDto;
 import ua.kazo.dentalacademy.entity.Program;
+import ua.kazo.dentalacademy.enumerated.ProgramCategory;
 import ua.kazo.dentalacademy.mapper.FolderMapper;
 import ua.kazo.dentalacademy.mapper.OfferingMapper;
 import ua.kazo.dentalacademy.mapper.ProgramMapper;
@@ -41,10 +42,22 @@ public class AdminProgramController {
     public String programs(final ModelMap model,
                            @RequestParam(defaultValue = "0") final int page,
                            @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
-        Page<Program> pageResult = programService.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+        Page<Program> pageResult = programService.findAllByCategory(ProgramCategory.STANDARD, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
         model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(pageResult));
         model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
         return "admin/program/programs";
+    }
+
+    /* ---------------------------------------------- BONUSES ---------------------------------------------- */
+
+    @GetMapping("/bonuses")
+    public String bonuses(final ModelMap model,
+                          @RequestParam(defaultValue = "0") final int page,
+                          @RequestParam(defaultValue = AppConfig.Constants.DEFAULT_PAGE_SIZE_VALUE) final int size) {
+        Page<Program> pageResult = programService.findAllByCategory(ProgramCategory.BONUS, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id")));
+        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(pageResult));
+        model.addAttribute(ModelMapConstants.PAGE_RESULT, pageResult);
+        return "admin/bonus/bonuses";
     }
 
     /* ---------------------------------------------- ADD PROGRAM ---------------------------------------------- */
@@ -67,8 +80,10 @@ public class AdminProgramController {
     }
 
     @GetMapping("/program/add")
-    public String addProgram(final ModelMap model) {
-        return loadProgramAddPage(new ProgramCreateDto(), model);
+    public String addProgram(final ModelMap model, final @RequestParam(required = false) ProgramCategory category) {
+        ProgramCreateDto programCreateDto = new ProgramCreateDto();
+        programCreateDto.setCategory(category);
+        return loadProgramAddPage(programCreateDto, model);
     }
 
     @PostMapping("/program/add")
@@ -91,7 +106,7 @@ public class AdminProgramController {
 
     private String loadProgramEditPage(final ProgramUpdateDto programUpdateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.PROGRAM, programUpdateDto);
-        model.addAttribute(ModelMapConstants.FOLDERS, folderMapper.toResponseDto(folderService.findAllByProgramId(programUpdateDto.getId())));
+        model.addAttribute(ModelMapConstants.FOLDERS, folderMapper.toResponseDto(folderService.findAllByProgramIdOrderByOrdering(programUpdateDto.getId())));
         model.addAttribute(ModelMapConstants.OFFERINGS, offeringMapper.toResponseDto(offeringService.findAllByProgramId(programUpdateDto.getId())));
         return "admin/program/program-edit";
     }

@@ -19,8 +19,8 @@ public class PurchaseDataService {
         return purchaseDataRepository.isProgramPurchasedAndNotExpired(programId, LocalDateTime.now(), email, UnifiedPaymentStatus.SUCCESS);
     }
 
-    public boolean isFolderPurchasedAndNotExpired(Long folderId, String email) {
-        return purchaseDataRepository.isFolderPurchasedAndNotExpired(folderId, LocalDateTime.now(), email, UnifiedPaymentStatus.SUCCESS);
+    public boolean isBonusPurchasedAndNotExpired(Long bonusId, String email) {
+        return purchaseDataRepository.isBonusPurchasedAndNotExpired(bonusId, LocalDateTime.now(), email, UnifiedPaymentStatus.SUCCESS);
     }
 
 }
