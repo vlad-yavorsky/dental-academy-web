@@ -56,8 +56,9 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a th:href="@{/admin/user/edit/__${user.id}__}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit 2 fa-fw"></i></a>
-<!--                                <a th:href="@{/admin/user/delete/__${user.id}__}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-stop-circle fa-fw"></i></a>-->
+                                <a th:href="@{/admin/user/__${user.id}__/orders}" th:title="#{nav.ordersHistory}" class="btn btn-primary"><i class="fas fa-shopping-bag fa-fw"></i></a>
+                                <a th:href="@{/admin/user/__${user.id}__/edit}" th:title="#{button.edit}" class="btn btn-primary"><i class="fas fa-edit fa-fw"></i></a>
+<!--                                <a th:href="@{/admin/user/__${user.id}__/delete}" th:title="#{button.deactivate}" class="btn btn-warning"><i class="fas fa-stop-circle fa-fw"></i></a>-->
                             </div>
                         </td>
                     </tr>
