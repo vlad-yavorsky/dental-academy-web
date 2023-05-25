@@ -1,11 +1,18 @@
 # Dental Academy
 
-**Requirements:**
+### Requirements:
 
 * Java 19
 * PostgreSQL 15
 
-**Installing:**
+### Default users:
+
+| E-mail            | Password  |
+|-------------------|-----------|
+| admin@example.com | admin     |
+| user@example.com  | user      |
+
+### Installation:
 
 Set next environment variables:
 
