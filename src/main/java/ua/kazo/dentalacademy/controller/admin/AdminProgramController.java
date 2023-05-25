@@ -22,7 +22,7 @@ import ua.kazo.dentalacademy.service.FolderService;
 import ua.kazo.dentalacademy.service.OfferingService;
 import ua.kazo.dentalacademy.service.ProgramService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor

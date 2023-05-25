@@ -17,7 +17,7 @@ import ua.kazo.dentalacademy.entity.Event;
 import ua.kazo.dentalacademy.mapper.EventMapper;
 import ua.kazo.dentalacademy.service.EventService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor

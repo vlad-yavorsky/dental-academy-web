@@ -12,11 +12,11 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/flag-icon-css/3.4.6/css/flag-icon.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/vendor/air-datepicker/2.2.3/css/datepicker.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/template.css}"/>
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.3/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/popper.js/1.16.1/dist/umd/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/4.6.0/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap-select/1.13.11/js/bootstrap-select.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/tinymce/5.7.0/tinymce.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/tinymce/5.10.7/tinymce.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/Sortable/Sortable.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bs-custom-file-input/1.3.4/dist/bs-custom-file-input.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/jquery-sortable/js/jquery-sortable.min.js}"></script>
@@ -38,33 +38,33 @@
 
             <div class="collapse navbar-collapse" id="mainMenu">
                 <ul class="navbar-nav" sec:authorize="isAnonymous()">
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/login'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/login'} ? 'active'">
                         <a class="nav-link" th:href="@{/login}"><i class="fas fa-sign-in-alt fa-fw"></i> <span th:text="#{nav.login}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/register'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/register'} ? 'active'">
                         <a class="nav-link" th:href="@{/register}"><i class="fas fa-user-plus fa-fw"></i> <span th:text="#{nav.register}"></span></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/shop'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/shop'} ? 'active'">
                         <a class="nav-link" th:href="@{/shop}"><i class="fas fa-shopping-basket fa-fw"></i> <span th:text="#{nav.shop}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/programs'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/programs'} ? 'active'">
                         <a class="nav-link" th:href="@{/programs}"><i class="fas fa-book fa-fw"></i> <span th:text="#{nav.myPrograms}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/bonuses'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/bonuses'} ? 'active'">
                         <a class="nav-link" th:href="@{/bonuses}"><i class="fas fa-gift fa-fw"></i> <span th:text="#{nav.myBonuses}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/events'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/events'} ? 'active'">
                         <a class="nav-link" th:href="@{/events}"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
                     </li>
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/admin'} ? 'active'" sec:authorize="hasAuthority('ADMIN')">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/admin'} ? 'active'" sec:authorize="hasAuthority('ADMIN')">
                         <a class="nav-link" th:href="@{/admin}"><i class="fas fa-shield-alt fa-fw"></i> <span th:text="#{nav.admin}"></span></a>
                     </li>
                 </ul>
                 <ul class="mr-auto"></ul>
                 <ul class="navbar-nav" sec:authorize="isAuthenticated()">
-                    <li class="nav-item" th:classappend="${#request.requestURI == '/'} ? 'active'">
+                    <li class="nav-item" th:classappend="${request.requestURI == '/'} ? 'active'">
                         <a class="nav-link" th:href="@{/cart}"><i class="fas fa-shopping-cart fa-fw"></i> <span th:text="#{nav.cart}"></span> <span class="badge badge-secondary" id="cart-items"></span></a>
                     </li>
                 </ul>
@@ -76,7 +76,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="theme : ${T(ua.kazo.dentalacademy.enumerated.BootswatchTheme).values()}"
                                th:classappend="${#strings.equals(#themes.code('stylesheet'), theme.name().toLowerCase())} ? 'active'"
-                               th:href="@{__${#request.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
+                               th:href="@{__${request.requestURI}__(theme=__${theme.name().toLowerCase()}__)}"
                                th:text="${theme.name().toLowerCase()}"></a>
                         </div>
                     </li>
@@ -87,7 +87,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" th:each="lang : ${T(ua.kazo.dentalacademy.enumerated.Languages).values()}"
                                th:classappend="${#strings.equals(#locale, lang.getLanguage())} ? 'active'"
-                               th:href="@{__${#request.requestURI}__(lang=__${lang.getLanguage()}__)}">
+                               th:href="@{__${request.requestURI}__(lang=__${lang.getLanguage()}__)}">
                                 <span th:class="${'flag-icon flag-icon-' + lang.getCountry()}"></span> <span th:text="#{${'lang.' + lang.getLanguage()}}"></span>
                             </a>
                         </div>
@@ -99,9 +99,9 @@
                             <img th:src="${#strings.isEmpty(#authentication.principal.photoName) ? '/img/default-user-icon.jpg' : '/img/transparent-pixel.png'}" class="rounded-circle menu-profile-pic" id="avatar"/>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
-                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/profile/password'} ? 'active'" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
-                            <a class="dropdown-item" th:classappend="${#request.requestURI == '/orders'} ? 'active'" th:href="@{/orders}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.ordersHistory}"></span></a>
+                            <a class="dropdown-item" th:classappend="${request.requestURI == '/profile'} ? 'active'" th:href="@{/profile}"><i class="fas fa-address-card fa-fw"></i> <span th:text="#{nav.profile}"></span></a>
+                            <a class="dropdown-item" th:classappend="${request.requestURI == '/profile/password'} ? 'active'" th:href="@{/profile/password}"><i class="fas fa-key fa-fw"></i> <span th:text="#{nav.password}"></span></a>
+                            <a class="dropdown-item" th:classappend="${request.requestURI == '/orders'} ? 'active'" th:href="@{/orders}"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.ordersHistory}"></span></a>
                             <form method="post" th:action="@{/logout}">
                                 <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt fa-fw"></i> <span th:text="#{nav.logout}"></span></button>
                             </form>
@@ -124,17 +124,17 @@
             <ul class="nav nav-pills flex-column w-100">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin}"
-                       th:classappend="${#request.requestURI == '/admin'} ? 'active'"><i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.statistics}"></span></a>
+                       th:classappend="${request.requestURI == '/admin'} ? 'active'"><i class="fas fa-chart-bar fa-fw"></i> <span th:text="#{nav.statistics}"></span></a>
                 </li>
                 <li class="nav-item">
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/programs}"
-                               th:classappend="${#request.requestURI == '/admin/programs'} ? 'active'"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
+                               th:classappend="${request.requestURI == '/admin/programs'} ? 'active'"><i class="fas fa-book fa-fw"></i> <span th:text="#{programs}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/program/add(category=STANDARD)}"
-                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/program/add?category=STANDARD'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI + '?category=' + request.getParameter('category') == '/admin/program/add?category=STANDARD'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -142,11 +142,11 @@
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/bonuses}"
-                               th:classappend="${#request.requestURI == '/admin/bonuses'} ? 'active'"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
+                               th:classappend="${request.requestURI == '/admin/bonuses'} ? 'active'"><i class="fas fa-gift fa-fw"></i> <span th:text="#{bonuses}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/program/add(category=BONUS)}"
-                               th:classappend="${#request.requestURI + '?category=' + #request.getParameter('category') == '/admin/program/add?category=BONUS'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI + '?category=' + request.getParameter('category') == '/admin/program/add?category=BONUS'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -157,7 +157,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/folder/add}"
-                               th:classappend="${#request.requestURI == '/admin/folder/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI == '/admin/folder/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -165,31 +165,31 @@
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/offerings}"
-                               th:classappend="${#request.requestURI == '/admin/offerings'} ? 'active'"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
+                               th:classappend="${request.requestURI == '/admin/offerings'} ? 'active'"><i class="fas fa-file-invoice-dollar fa-fw"></i> <span th:text="#{offerings}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/offering/add}"
-                               th:classappend="${#request.requestURI == '/admin/offering/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI == '/admin/offering/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/orders}"
-                       th:classappend="${#request.requestURI == '/admin/orders'} ? 'active'"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
+                       th:classappend="${request.requestURI == '/admin/orders'} ? 'active'"><i class="fas fa-shopping-bag fa-fw"></i> <span th:text="#{nav.orders}"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/admin/users}"
-                       th:classappend="${#request.requestURI == '/admin/users'} ? 'active'"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
+                       th:classappend="${request.requestURI == '/admin/users'} ? 'active'"><i class="fas fa-users fa-fw"></i> <span th:text="#{nav.users}"></span></a>
                 </li>
                 <li class="nav-item">
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/events}"
-                               th:classappend="${#request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
+                               th:classappend="${request.requestURI == '/admin/events'} ? 'active'"><i class="fas fa-calendar-alt fa-fw"></i> <span th:text="#{nav.events}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/event/add}"
-                               th:classappend="${#request.requestURI == '/admin/event/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI == '/admin/event/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -197,11 +197,11 @@
                     <ul class="nav flex-row">
                         <li class="nav-item flex-fill">
                             <a class="nav-link" th:href="@{/admin/articles}"
-                               th:classappend="${#request.requestURI == '/admin/articles'} ? 'active'"><i class="fas fa-newspaper fa-fw"></i> <span th:text="#{nav.articles}"></span></a>
+                               th:classappend="${request.requestURI == '/admin/articles'} ? 'active'"><i class="fas fa-newspaper fa-fw"></i> <span th:text="#{nav.articles}"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/admin/article/add}"
-                               th:classappend="${#request.requestURI == '/admin/article/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
+                               th:classappend="${request.requestURI == '/admin/article/add'} ? 'active'"><i class="fas fa-plus-circle fa-fw"></i></a>
                         </li>
                     </ul>
                 </li>
@@ -247,7 +247,7 @@
                 <div class="col-12 col-sm-4 col-md">
                     <div th:text="#{sitename}"></div>
                     <small class="d-block mb-3 text-muted">© 2020-2021</small>
-                    <div class="mb-2" th:include="~{fragments :: social}"></div>
+                    <div class="mb-2" th:insert="~{fragments :: social}"></div>
                 </div>
                 <div class="col-12 col-sm-4 col-md">
                     <h5 th:text="#{footer.resources}"></h5>
@@ -271,7 +271,7 @@
 </footer>
 
 <div th:fragment="social-near-heading">
-    <div class="social-icons-top-right d-none d-sm-block float-right" th:include="~{fragments :: social}"></div>
+    <div class="social-icons-top-right d-none d-sm-block float-right" th:insert="~{fragments :: social}"></div>
 </div>
 
 <div th:fragment="social">
@@ -284,7 +284,7 @@
 </div>
 
 <div th:fragment="search-form (search, count)" th:remove="tag">
-    <form th:action="@{__${#request.requestURI}__}" method="get">
+    <form th:action="@{__${request.requestURI}__}" method="get">
         <div class="form-row justify-content-between align-items-center" th:classappend="${#strings.isEmpty(search)} ? 'flex-row-reverse'">
             <div class="col-auto" th:if="${!#strings.isEmpty(search)}">
                 <h6 th:text="#{info.searchResults} + ': ' + ${count}"></h6>
@@ -295,7 +295,7 @@
                     <input type="text" class="form-control" id="search" name="search" autofocus th:placeholder="#{button.search}" th:value="${search}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search fa-fw"></i></button>
-                        <a th:href="@{__${#request.requestURI}__}" class="btn btn-danger"><i class="fas fa-times-circle fa-fw"></i></a>
+                        <a th:href="@{__${request.requestURI}__}" class="btn btn-danger"><i class="fas fa-times-circle fa-fw"></i></a>
                     </div>
                 </div>
             </div>
@@ -306,20 +306,20 @@
 <nav th:if="${result.totalPages > 1}" th:fragment="pagination (result, search)">
     <ul class="pagination justify-content-center">
         <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#request.requestURI}__(page=0,size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.first}"></a>
+            <a th:href="@{__${request.requestURI}__(page=0,size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.first}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == 0} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#request.requestURI}__(page=${result.pageable.pageNumber - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.previous}"></a>
+            <a th:href="@{__${request.requestURI}__(page=${result.pageable.pageNumber - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.previous}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == i} ? 'active'" th:each="i : ${#numbers.sequence(0, result.totalPages - 1)}" class="page-item">
             <span th:if="${result.pageable.pageNumber == i}" class="page-link" th:text="${i + 1}"></span>
-            <a th:unless="${result.pageable.pageNumber == i}" th:href="@{__${#request.requestURI}__(page=${i},size=${result.pageable.pageSize},search=${search})}" th:text="${i + 1}" class="page-link"></a>
+            <a th:unless="${result.pageable.pageNumber == i}" th:href="@{__${request.requestURI}__(page=${i},size=${result.pageable.pageSize},search=${search})}" th:text="${i + 1}" class="page-link"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#request.requestURI}__(page=${result.pageable.pageNumber + 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.next}"></a>
+            <a th:href="@{__${request.requestURI}__(page=${result.pageable.pageNumber + 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.next}"></a>
         </li>
         <li th:classappend="${result.pageable.pageNumber == result.totalPages - 1} ? 'disabled'" class="page-item">
-            <a th:href="@{__${#request.requestURI}__(page=${result.totalPages - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.last}"></a>
+            <a th:href="@{__${request.requestURI}__(page=${result.totalPages - 1},size=${result.pageable.pageSize},search=${search})}" class="page-link" th:text="#{button.last}"></a>
         </li>
     </ul>
 </nav>

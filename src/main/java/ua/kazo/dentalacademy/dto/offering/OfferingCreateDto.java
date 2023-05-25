@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

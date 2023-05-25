@@ -10,7 +10,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-12">
-            <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}" class="alert alert-danger">
+            <div th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(response.status)}" class="alert alert-danger">
                 <strong th:text="|${httpStatus.value()} - ${httpStatus.reasonPhrase}|"></strong>
                 <div th:utext="${message}"></div>
             </div>

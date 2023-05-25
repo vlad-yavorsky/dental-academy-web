@@ -6,8 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import ua.kazo.dentalacademy.constants.Graph;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,10 +33,8 @@ public class Event extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    @Lob
     private String shortDescription;
 
-    @Lob
     private String fullDescription;
 
     private String image;

@@ -15,7 +15,7 @@ import ua.kazo.dentalacademy.repository.UserRepository;
 import ua.kazo.dentalacademy.service.EmailService;
 import ua.kazo.dentalacademy.service.UserService;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.Locale;
 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>3.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -17,29 +17,28 @@
     <description>Dental Academy</description>
 
     <properties>
-        <java.version>11</java.version>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <java.version>19</java.version>
+        <spring-boot.version>3.0.6</spring-boot.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <liqpay-sdk.version>0.7-SNAPSHOT</liqpay-sdk.version>
-        <aws-sdk.version>2.16.43</aws-sdk.version>
-        <jackson-dataformat-yaml.version>2.11.4</jackson-dataformat-yaml.version>
-        <apache-commons-codec.version>1.15</apache-commons-codec.version>
+        <aws-sdk.version>2.20.72</aws-sdk.version>
+        <commons-io.version>2.12.0</commons-io.version>
 
         <!-- webjars -->
-        <jquery.version>3.6.0</jquery.version>
+        <jquery.version>3.6.3</jquery.version>
         <bootstrap.version>4.6.0</bootstrap.version>
         <bootstrap-custom-file-input.version>1.3.4</bootstrap-custom-file-input.version>
         <bootstrap-select.version>1.13.11</bootstrap-select.version>
         <popper-js.version>1.16.1</popper-js.version>
         <bootswatch.version>4.6.0</bootswatch.version>
         <font-awesome.version>5.15.2</font-awesome.version>
-        <tinymce.version>5.7.0</tinymce.version>
-        <sortablejs.version>1.10.1</sortablejs.version>
+        <tinymce.version>5.10.7</tinymce.version>
+        <sortablejs.version>1.15.0</sortablejs.version>
         <flag-icon-css.version>3.4.6</flag-icon-css.version>
 
         <!-- plugins -->
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <spring-boot-configuration-processor.version>2.4.5</spring-boot-configuration-processor.version>
-        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -117,7 +116,7 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
         <dependency>
             <groupId>com.liqpay</groupId>
@@ -127,7 +126,11 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>${apache-commons-codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
@@ -137,7 +140,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson-dataformat-yaml.version}</version>
         </dependency>
 
         <!-- webjars -->
@@ -223,14 +225,6 @@
                     <outputChangeLogFile>db/output/db.output-changelog.yaml</outputChangeLogFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -253,7 +247,7 @@
                         <path>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
-                            <version>${spring-boot-configuration-processor.version}</version>
+                            <version>${spring-boot.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <compilerArgs>

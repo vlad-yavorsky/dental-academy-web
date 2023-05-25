@@ -5,12 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ua.kazo.dentalacademy.controller.rest.RestApi;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.exception.RestError;
 
 @Slf4j
-@RestControllerAdvice(basePackageClasses = RestApi.class)
+@RestControllerAdvice
 public class RestControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)

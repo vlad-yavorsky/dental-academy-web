@@ -1,9 +1,9 @@
 package ua.kazo.dentalacademy.service;
 
-import liquibase.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import ua.kazo.dentalacademy.repository.UserRepository;
 import ua.kazo.dentalacademy.service.storage.StorageService;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
@@ -177,7 +177,7 @@ public class UserService implements UserDetailsService {
 
     private void handlePhotoChange(MultipartFile newPhoto, boolean isRemoveExistingPhoto, User userFromDb) {
         boolean uploadNewPhoto = !newPhoto.isEmpty();
-        if ((uploadNewPhoto || isRemoveExistingPhoto) && StringUtils.isNotEmpty(userFromDb.getPhotoName())) {
+        if ((uploadNewPhoto || isRemoveExistingPhoto) && StringUtils.isNotBlank(userFromDb.getPhotoName())) {
             storageService.delete(userFromDb.getPhotoName());
             userFromDb.setPhotoName(null);
         }

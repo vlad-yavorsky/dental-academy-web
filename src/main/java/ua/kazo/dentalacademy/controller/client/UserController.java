@@ -21,8 +21,8 @@ import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.UserService;
 
-import javax.mail.MessagingException;
-import javax.validation.Valid;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.Locale;
 

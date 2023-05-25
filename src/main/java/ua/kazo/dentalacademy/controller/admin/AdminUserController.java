@@ -19,7 +19,7 @@ import ua.kazo.dentalacademy.mapper.UserMapper;
 import ua.kazo.dentalacademy.service.OrderService;
 import ua.kazo.dentalacademy.service.UserService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor

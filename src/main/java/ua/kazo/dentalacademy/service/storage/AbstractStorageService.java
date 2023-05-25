@@ -1,7 +1,7 @@
 package ua.kazo.dentalacademy.service.storage;
 
-import liquibase.util.file.FilenameUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,26 +1,36 @@
 package ua.kazo.dentalacademy.exception.handler;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.kazo.dentalacademy.controller.admin.AdminUserController;
-import ua.kazo.dentalacademy.controller.client.UserController;
 import ua.kazo.dentalacademy.exception.ApplicationException;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Slf4j
-@ControllerAdvice(basePackageClasses = {UserController.class, AdminUserController.class})
+@ControllerAdvice
 public class ControllerExceptionHandler {
 
     private static final String ERROR_PAGE = "/error";
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView exceptionHandler(final Exception e, final HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+    @ModelAttribute("request")
+    public HttpServletRequest getRequest(HttpServletRequest request) {
+        return request;
+    }
+
+    @ModelAttribute("response")
+    public HttpServletResponse getRequest(HttpServletResponse response) {
+        return response;
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ModelAndView exceptionHandler(final Exception e, final HttpServletRequest request,
+                                         final HttpServletResponse response, final RedirectAttributes redirectAttributes) {
         log.error("Exception", e);
         ModelAndView modelAndView = new ModelAndView();
         if (e instanceof ApplicationException) {

@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import ua.kazo.dentalacademy.enumerated.Role;
@@ -20,7 +21,7 @@ import ua.kazo.dentalacademy.security.AuthorizationMessagesLocaleFixFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private final MessageSource messageSource;
     private final PasswordEncoder passwordEncoder;
@@ -36,26 +37,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authProvider());
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(authProvider())
+                .build();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // needed for register page, when website opened first time on it
                 .and()
-                .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
-                .antMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/favicon.ico",
-                        "/api/payment/**", "/activate/**", "/article/**").permitAll()
-                .antMatchers("/login", "/register").anonymous()
-                .antMatchers("/**").authenticated()
-                .and().formLogin().loginPage("/login")
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers("/webjars/**", "/css/**", "/js/**", "/vendor/**", "/favicon.ico",
+                                "/api/payment/**", "/activate/**", "/article/**").permitAll()
+                        .requestMatchers("/login", "/register").anonymous()
+                        .requestMatchers("/**").authenticated()
+                )
+                .formLogin().loginPage("/login")
                 .and().logout()
-                .and().csrf().ignoringAntMatchers("/api/**")
+                .and().csrf().ignoringRequestMatchers("/api/**")
                 .and().addFilterBefore(new AuthorizationMessagesLocaleFixFilter(localeResolver), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
 }

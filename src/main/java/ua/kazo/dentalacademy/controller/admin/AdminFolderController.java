@@ -18,8 +18,8 @@ import ua.kazo.dentalacademy.mapper.ProgramMapper;
 import ua.kazo.dentalacademy.service.FolderService;
 import ua.kazo.dentalacademy.service.ProgramService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.Comparator;
 
 @Controller

@@ -8,7 +8,7 @@ import ua.kazo.dentalacademy.constants.Graph;
 import ua.kazo.dentalacademy.enumerated.PaymentProvider;
 import ua.kazo.dentalacademy.enumerated.UnifiedPaymentStatus;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

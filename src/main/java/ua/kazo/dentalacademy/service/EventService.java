@@ -14,7 +14,7 @@ import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.EventRepository;
 import ua.kazo.dentalacademy.repository.EventUserRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 

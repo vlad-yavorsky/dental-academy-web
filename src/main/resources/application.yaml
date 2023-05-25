@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
         default_schema: public
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc.lob.non_contextual_creation: true
         format_sql: false
     hibernate:

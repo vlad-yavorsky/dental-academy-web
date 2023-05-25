@@ -3,8 +3,8 @@ package ua.kazo.dentalacademy.entity;
 import lombok.*;
 import ua.kazo.dentalacademy.enumerated.FolderItemType;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -6,8 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import ua.kazo.dentalacademy.enumerated.OfferingType;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,7 +29,6 @@ public class Offering extends TrackedDateEntity implements Serializable {
     @NotBlank
     private String name;
 
-    @Lob
     private String description;
 
     @Enumerated(EnumType.STRING)

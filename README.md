@@ -2,8 +2,8 @@
 
 **Requirements:**
 
-* Java 11
-* PostgreSQL 12
+* Java 19
+* PostgreSQL 15
 
 **Installing:**
 

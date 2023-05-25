@@ -30,7 +30,7 @@ import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessor;
 import ua.kazo.dentalacademy.service.payment.processor.PaymentProcessorHolder;
 import ua.kazo.dentalacademy.util.AuthUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
