@@ -12,7 +12,7 @@ import java.util.List;
 public class TemplateEngineDecorator {
 
     private final TemplateEngine templateEngine;
-    private final List<String> availableLanguages = List.of("uk", "ru");
+    private final List<String> availableLanguages = List.of("uk");
 
     public final String findAndProcessLocalizedTemplate(final String template, final IContext context) {
         String localizedTemplate = template;

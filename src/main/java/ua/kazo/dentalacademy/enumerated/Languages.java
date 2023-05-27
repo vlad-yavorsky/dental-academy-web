@@ -6,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum Languages {
     EN("us", "en"),
-    UK("ua", "uk"),
-    RU("ru", "ru");
+    UK("ua", "uk");
 
     @Getter
     private final String country;

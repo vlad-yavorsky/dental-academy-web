@@ -38,7 +38,6 @@ class DentalAcademyApplicationTests {
 
     private final Locale localeEN = Locale.US;
     private final Locale localeUK = new Locale("uk", "UA");
-    private final Locale localeRU = new Locale("ru", "RU");
 
     private User createTestUser() {
         UserCreateDto userDto = new UserCreateDto();
