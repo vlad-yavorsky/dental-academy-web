@@ -17,7 +17,6 @@ import ua.kazo.dentalacademy.repository.ProgramRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +57,7 @@ public class ProgramService {
         Program program = findByIdFetchFoldersOrderByFoldersOrdering(id);
         List<Long> folderIds = program.getFolders().stream()
                 .map(Folder::getId)
-                .collect(Collectors.toList());
+                .toList();
         folderIds.forEach(folderService::findByIdFetchItemsAndViewedFolderItems);
         return program;
     }

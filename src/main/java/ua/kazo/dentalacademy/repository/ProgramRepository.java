@@ -43,7 +43,13 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
             "order by p.id desc")
     Page<Program> findAllByNotDeactivatedOfferingsAndName(LocalDateTime dateTime, String name, Pageable pageable);
 
-    @EntityGraph(attributePaths = "folders")
+    @Query("""
+            select p
+            from Program p
+                left join fetch p.folders folder
+            where p.id = :id
+            order by folder.ordering
+            """)
     Optional<Program> findFetchFoldersByIdOrderByFoldersOrdering(Long id);
 
     /**

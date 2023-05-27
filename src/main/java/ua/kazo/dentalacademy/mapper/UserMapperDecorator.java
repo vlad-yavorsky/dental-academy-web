@@ -10,7 +10,6 @@ import ua.kazo.dentalacademy.entity.User;
 import ua.kazo.dentalacademy.service.storage.StorageService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class UserMapperDecorator implements UserMapper {
 
@@ -43,7 +42,7 @@ public abstract class UserMapperDecorator implements UserMapper {
     public List<UserResponseDto> toResponseDto(Page<User> users) {
         return users.stream()
                 .map(this::toResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

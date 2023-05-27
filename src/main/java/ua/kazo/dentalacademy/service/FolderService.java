@@ -13,7 +13,6 @@ import ua.kazo.dentalacademy.exception.ApplicationException;
 import ua.kazo.dentalacademy.repository.FolderRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +43,7 @@ public class FolderService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, id));
         List<Long> folderItemIds = folder.getItems().stream()
                 .map(FolderItem::getId)
-                .collect(Collectors.toList());
+                .toList();
         folderItemService.findAllFetchViewedFolderItemsByIdIn(folderItemIds);
         return folder;
     }
@@ -70,10 +69,10 @@ public class FolderService {
                 .orElseThrow(() -> new ApplicationException(messageSource, ExceptionCode.FOLDER_NOT_FOUND, folderId));
         List<Long> folderItemIds = folder.getItems().stream()
                 .map(FolderItem::getId)
-                .collect(Collectors.toList());
+                .toList();
         List<ViewedFolderItem> viewedFolderItems = folderItemIds.stream()
                 .map(folderItemId -> ViewedFolderItem.of(userId, folderItemId))
-                .collect(Collectors.toList());
+                .toList();
         viewedFolderItemService.deleteAll(viewedFolderItems);
     }
 

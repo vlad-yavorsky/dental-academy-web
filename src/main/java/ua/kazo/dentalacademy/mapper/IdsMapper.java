@@ -6,7 +6,6 @@ import ua.kazo.dentalacademy.entity.Folder;
 import ua.kazo.dentalacademy.entity.Program;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper
 public interface IdsMapper {
@@ -19,14 +18,14 @@ public interface IdsMapper {
                     program.setId(id);
                     return program;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Named("programListToLongList")
     default List<Long> programListToLongList(List<Program> programs) {
         return programs.stream()
                 .map(Program::getId)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Named("longListToFolderList")
@@ -37,14 +36,14 @@ public interface IdsMapper {
                     folder.setId(id);
                     return folder;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Named("folderListToLongList")
     default List<Long> folderListToLongList(List<Folder> folders) {
         return folders.stream()
                 .map(Folder::getId)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

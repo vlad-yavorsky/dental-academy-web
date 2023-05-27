@@ -69,7 +69,7 @@ public class OrderService {
 
     public Page<Order> findAllByUserEmail(String email, Pageable pageable) {
         Page<Order> result = orderRepository.findAllByUserEmail(email, pageable);
-        List<Long> ids = result.stream().map(Order::getId).collect(Collectors.toList());
+        List<Long> ids = result.stream().map(Order::getId).toList();
         orderRepository.findAllByIdIn(ids);
         Set<Long> offeringIds = new HashSet<>();
         result.forEach(order -> order.getPurchaseData().forEach(purchaseData -> offeringIds.add(purchaseData.getOffering().getId())));
