@@ -90,8 +90,8 @@ public class AdminOfferingController {
 
     private String loadOfferingAddPage(final OfferingCreateDto offeringCreateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringCreateDto);
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.STANDARD)));
-        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.BONUS)));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryFetchFolders(ProgramCategory.STANDARD)));
+        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryFetchFolders(ProgramCategory.BONUS)));
         return "admin/offering/offering-add";
     }
 
@@ -125,8 +125,8 @@ public class AdminOfferingController {
 
     private String loadOfferingEditPage(final OfferingUpdateDto offeringUpdateDto, final ModelMap model) {
         model.addAttribute(ModelMapConstants.OFFERING, offeringUpdateDto);
-        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.STANDARD)));
-        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryJoinFolders(ProgramCategory.BONUS)));
+        model.addAttribute(ModelMapConstants.PROGRAMS, programMapper.toResponseDto(programService.findAllByCategoryFetchFolders(ProgramCategory.STANDARD)));
+        model.addAttribute(ModelMapConstants.BONUSES, programMapper.toResponseDto(programService.findAllByCategoryFetchFolders(ProgramCategory.BONUS)));
         return "admin/offering/offering-edit";
     }
 

@@ -36,8 +36,8 @@ public class ProgramService {
         return programRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
-    public List<Program> findAllByCategoryJoinFolders(ProgramCategory category) {
-        return programRepository.findAllJoinFoldersByCategoryOrderByName(category);
+    public List<Program> findAllByCategoryFetchFolders(ProgramCategory category) {
+        return programRepository.findAllFetchFoldersByCategoryOrderByName(category);
     }
 
     public Page<Program> findAllByNotDeactivatedOfferings(String search, Pageable pageable) {

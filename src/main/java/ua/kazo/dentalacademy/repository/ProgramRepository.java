@@ -25,7 +25,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
      * Admin / Offering Add; Offering Edit
      */
     @EntityGraph(attributePaths = "folders")
-    List<Program> findAllJoinFoldersByCategoryOrderByName(ProgramCategory category);
+    List<Program> findAllFetchFoldersByCategoryOrderByName(ProgramCategory category);
 
     /**
      * Admin / Programs; Bonuses

@@ -12,12 +12,12 @@
     <groupId>ua.kazo</groupId>
     <artifactId>dental-academy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>dental-academy</name>
     <description>Dental Academy</description>
 
     <properties>
-        <java.version>19</java.version>
+        <java.version>17</java.version>
         <spring-boot.version>3.0.6</spring-boot.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <liqpay-sdk.version>0.7-SNAPSHOT</liqpay-sdk.version>
