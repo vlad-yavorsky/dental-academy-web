@@ -2,7 +2,7 @@
 
 ### Requirements:
 
-* Java 19
+* Java 17
 * PostgreSQL 15
 
 ### Default users:
@@ -46,14 +46,6 @@ Set next environment variables:
 <tr>
     <td>JDBC_DATABASE_PASSWORD</td>
     <td>Database password.<br/>Default: postgres</td>
-    <td></td>
-</tr>
-<tr>
-    <td colspan="3" align="center"><strong>Database - Heroku Test Environment</strong></td>
-</tr>
-<tr>
-    <td>DATABASE_URL</td>
-    <td>(Usually added automatically)<br/>Database url in format:<br/>postgres://user:pass@host:port/dbname</td>
     <td></td>
 </tr>
 <tr>
